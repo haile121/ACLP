@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { query } from '../../db/connection';
 import type { Quiz, QuizQuestion } from '../../db/types';
-import { awardCoins, awardXP } from '../gamification/gamification.service';
+import { awardCoins, awardXP, checkAndAwardBadges, mergeEarnedBadges } from '../gamification/gamification.service';
 
 export async function getQuiz(quizId: string): Promise<{ quiz: Quiz; questions: Omit<QuizQuestion, 'correct_answer'>[] }> {
   const quizRows = await query<Quiz[]>('SELECT * FROM quizzes WHERE id = ?', [quizId]);
@@ -19,7 +19,13 @@ export async function submitQuiz(
   quizId: string,
   userId: string,
   answers: Record<string, string>
-): Promise<{ score: number; passed: boolean; xpAwarded: number; coinsAwarded: number }> {
+): Promise<{
+  score: number;
+  passed: boolean;
+  xpAwarded: number;
+  coinsAwarded: number;
+  new_badges: import('../gamification/gamification.service').EarnedBadgeAlert[];
+}> {
   const quizRows = await query<Quiz[]>('SELECT * FROM quizzes WHERE id = ?', [quizId]);
   if (quizRows.length === 0) throw { code: 'QUIZ_NOT_FOUND', message: 'Quiz not found' };
   const quiz = quizRows[0];
@@ -56,12 +62,21 @@ export async function submitQuiz(
     const firstPass = (passRows[0]?.c ?? 0) === 1;
 
     if (firstPass) {
-      await awardXP(userId, quiz.xp_reward);
-      await awardCoins(userId, quiz.coin_reward);
+      const fromXp = await awardXP(userId, quiz.xp_reward);
+      const fromCoins = await awardCoins(userId, quiz.coin_reward);
       xpAwarded = quiz.xp_reward;
       coinsAwarded = quiz.coin_reward;
+      const extra = await checkAndAwardBadges(userId).catch(() => [] as Awaited<ReturnType<typeof checkAndAwardBadges>>);
+      return {
+        score,
+        passed,
+        xpAwarded,
+        coinsAwarded,
+        new_badges: mergeEarnedBadges(fromXp, fromCoins, extra),
+      };
     }
   }
 
-  return { score, passed, xpAwarded, coinsAwarded };
+  const extra = await checkAndAwardBadges(userId).catch(() => [] as Awaited<ReturnType<typeof checkAndAwardBadges>>);
+  return { score, passed, xpAwarded, coinsAwarded, new_badges: extra };
 }
