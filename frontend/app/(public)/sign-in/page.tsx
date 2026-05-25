@@ -48,7 +48,7 @@ export default function SignInPage() {
         if (!user.primary_track) {
           router.push('/assessment/track');
         } else {
-          router.push(`/assessment?track=${user.primary_track}`);
+          router.push('/assessment?track=cpp');
         }
       } else {
         router.push('/dashboard');
@@ -99,6 +99,15 @@ export default function SignInPage() {
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
+            </div>
+
+            <div className="flex justify-end -mt-1">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-accent dark:text-accent-dark font-medium hover:underline"
+              >
+                Forgot password?
+              </Link>
             </div>
 
             <Button type="submit" variant="primary" size="lg" loading={loading} className="mt-2 w-full">

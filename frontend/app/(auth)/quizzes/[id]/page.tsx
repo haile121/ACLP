@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { quizzesApi, type QuizData, type SubmitResult } from '@/lib/api';
-import { requestGamificationRefresh } from '@/lib/gamificationRefresh';
+import { applyGamificationRewards } from '@/lib/gamificationAlerts';
 import { getLanguage } from '@/lib/i18n';
 import { useDialog } from '@/components/ui/DialogProvider';
+import { showQuizPassedDialog } from '@/lib/achievementDialogs';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
@@ -35,7 +36,8 @@ export default function QuizPage() {
     try {
       const res = await quizzesApi.submit(id, answers);
       setResult(res.data);
-      requestGamificationRefresh();
+      showQuizPassedDialog(show, res.data);
+      applyGamificationRewards(show, res.data.new_badges);
     } catch {
       show({ variant: 'error', title: 'Submit Failed', message: 'Could not submit quiz.' });
     } finally {

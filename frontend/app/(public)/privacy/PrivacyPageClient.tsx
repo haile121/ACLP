@@ -9,7 +9,7 @@ const sections: { title: string; paragraphs?: string[]; bullets?: string[] }[] =
   {
     title: 'Who we are',
     paragraphs: [
-      'AlphaX Programming (“we”, “us”) operates the learning platform available at this website and related services. This policy explains what we collect, why we collect it, and the choices you have.',
+      'ACLP (“we”, “us”) operates the learning platform available at this website and related services. This policy explains what we collect, why we collect it, and the choices you have.',
     ],
   },
   {

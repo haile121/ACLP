@@ -1,19 +1,19 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { authApi, gamificationApi } from '@/lib/api';
 import { useGamificationRefresh } from '@/lib/gamificationRefresh';
 import { XPBar } from '@/components/shared/XPBar';
 import { StreakIndicator } from '@/components/shared/StreakIndicator';
 import { Spinner } from '@/components/ui/Spinner';
 import type { User } from '@/types';
-import { User as UserIcon, Mail, Shield, Coins, Trophy, Award } from 'lucide-react';
+import { User as UserIcon, Mail, Shield, Coins, Trophy, Award, ChevronRight, Medal } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<{ xp: number; coins: number; streak: number; level: string | null } | null>(null);
-  const [badges, setBadges] = useState<{ id: string; name_en: string; name_am: string; icon_url: string; earned_at: string }[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadProfile = useCallback(async (showSpinner: boolean) => {
@@ -35,12 +35,6 @@ export default function ProfilePage() {
         });
       }
 
-      try {
-        const badgesRes = await gamificationApi.badges();
-        setBadges(badgesRes.data.badges);
-      } catch {
-        setBadges([]);
-      }
     } catch {
       if (showSpinner) {
         setUser(null);
@@ -172,33 +166,32 @@ export default function ProfilePage() {
             </div>
           </motion.div>
 
-          {/* Badges */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm"
           >
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Your Badges</h3>
-            {badges.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {badges.map((badge) => (
-                  <div key={badge.id} className="flex flex-col items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
-                    <img src={badge.icon_url} alt={badge.name_en} className="w-12 h-12 mb-2 drop-shadow-md" />
-                    <span className="text-xs font-semibold text-gray-900 dark:text-white">{badge.name_en}</span>
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">{new Date(badge.earned_at).toLocaleDateString()}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
-                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Award size={24} className="text-gray-400 dark:text-gray-500" />
+            <Link
+              href="/badges"
+              className="group flex items-center justify-between gap-4 rounded-xl border border-amber-200/60 dark:border-amber-500/25 bg-gradient-to-r from-amber-50/90 to-orange-50/40 dark:from-amber-950/35 dark:to-orange-950/20 p-4 transition-colors hover:border-amber-300/80 dark:hover:border-amber-500/40"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/80 dark:bg-gray-900/50 text-amber-700 dark:text-amber-300">
+                  <Medal className="h-5 w-5" aria-hidden />
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">No badges yet.</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Complete lessons to earn badges!</p>
+                <div className="min-w-0 text-left">
+                  <h3 className="text-base font-bold text-gray-900 dark:text-white">Badges</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+                    View everything you have earned on your badges page.
+                  </p>
+                </div>
               </div>
-            )}
+              <ChevronRight
+                className="h-5 w-5 shrink-0 text-amber-700/70 dark:text-amber-300/80 group-hover:translate-x-0.5 transition-transform"
+                aria-hidden
+              />
+            </Link>
           </motion.div>
         </div>
       </div>

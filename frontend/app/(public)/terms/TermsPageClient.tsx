@@ -9,7 +9,7 @@ const sections: { title: string; paragraphs?: string[]; bullets?: string[] }[] =
   {
     title: 'Agreement',
     paragraphs: [
-      'By creating an account or using AlphaX Programming, you agree to these terms. If you do not agree, do not use the service.',
+      'By creating an account or using ACLP, you agree to these terms. If you do not agree, do not use the service.',
     ],
   },
   {
@@ -99,7 +99,7 @@ export default function TermsPageClient() {
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">Terms of service</h1>
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">Last updated: April 3, 2026</p>
             <p className="mt-8 text-gray-600 dark:text-gray-400 leading-relaxed">
-              These terms govern your use of AlphaX Programming. They are a practical summary; where required, statutory rights still apply.
+              These terms govern your use of ACLP. They are a practical summary; where required, statutory rights still apply.
             </p>
           </motion.div>
 

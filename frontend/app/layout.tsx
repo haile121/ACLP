@@ -1,42 +1,45 @@
-import type { Metadata } from 'next';
-import Script from 'next/script';
-import { Inter, Geist } from 'next/font/google';
-import { DialogProvider } from '@/components/ui/DialogProvider';
-import { SITE_LOGO_PATH } from '@/lib/siteAssets';
-import './globals.css';
+import type { Metadata } from "next";
+import Script from "next/script";
+import { Inter, Geist } from "next/font/google";
+import { DialogProvider } from "@/components/ui/DialogProvider";
+import { SITE_LOGO_PATH } from "@/lib/siteAssets";
+import { STRIP_EXTENSION_HYDRATION_ATTRS_SCRIPT } from "@/lib/stripExtensionHydrationAttrs";
+import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 const geist = Geist({
-  subsets: ['latin'],
-  variable: '--font-geist',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'AlphaX Programming Learning Platform',
-  description: 'Learn C++, HTML, CSS, JavaScript, and more in Amharic and English',
+  title: "ACLP - Amharic C++ Learning Platform",
+  description: "Learn C++ in Amharic and English",
   icons: {
     icon: SITE_LOGO_PATH,
     apple: SITE_LOGO_PATH,
     shortcut: SITE_LOGO_PATH,
   },
   openGraph: {
-    title: 'AlphaX Programming Learning Platform',
-    description: 'Learn C++, HTML, CSS, JavaScript, and more in Amharic and English',
-    images: [{ url: SITE_LOGO_PATH, alt: 'AlphaX Programming' }],
+    title: "ACLP - Amharic C++ Learning Platform",
+    description:
+      "Learn C++, C++ in Amharic and English",
+    images: [{ url: SITE_LOGO_PATH, alt: "ACLP" }],
   },
   twitter: {
-    card: 'summary',
-    title: 'AlphaX Programming Learning Platform',
-    description: 'Learn C++, HTML, CSS, JavaScript, and more in Amharic and English',
+    card: "summary",
+    title: "ACLP - Amharic C++ Learning Platform",
+    description:
+      "Learn C++, C++ in Amharic and English",
     images: [SITE_LOGO_PATH],
   },
 };
@@ -50,11 +53,19 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${geist.variable}`} suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${geist.variable}`}
+        suppressHydrationWarning
+      >
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInit}
         </Script>
-        <DialogProvider>{children}</DialogProvider>
+        <Script id="strip-extension-hydration-attrs" strategy="beforeInteractive">
+          {STRIP_EXTENSION_HYDRATION_ATTRS_SCRIPT}
+        </Script>
+        <div id="app-root" suppressHydrationWarning>
+          <DialogProvider>{children}</DialogProvider>
+        </div>
       </body>
     </html>
   );

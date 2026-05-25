@@ -3,7 +3,7 @@ import ContactPageClient from './ContactPageClient';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Get in touch with the AlphaX Programming team.',
+  description: 'Get in touch with the ACLP team.',
 };
 
 export default function ContactPage() {

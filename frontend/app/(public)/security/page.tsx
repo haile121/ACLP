@@ -3,7 +3,7 @@ import SecurityPageClient from './SecurityPageClient';
 
 export const metadata: Metadata = {
   title: 'Security',
-  description: 'How AlphaX Programming approaches account safety, compiler isolation, and data protection.',
+  description: 'How ACLP approaches account safety, compiler isolation, and data protection.',
 };
 
 export default function SecurityPage() {

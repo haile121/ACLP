@@ -13,7 +13,7 @@ export default function LessonsPage() {
           <div>
             <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Lessons</h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-              C++ chapters and Web fundamentals (HTML, CSS & JavaScript) — unlock each track with a placement quiz when you&apos;re signed in.
+              C++ chapters — unlock the track with a placement quiz when you&apos;re signed in.
             </p>
           </div>
         </div>
@@ -25,6 +25,6 @@ export default function LessonsPage() {
 }
 
 export const metadata = {
-  title: 'Lessons | AlphaX Programming',
+  title: 'Lessons | ACLP',
   description: CHAPTER_1.descriptionEn,
 };

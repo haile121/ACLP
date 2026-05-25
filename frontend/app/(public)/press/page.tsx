@@ -3,7 +3,7 @@ import PressPageClient from './PressPageClient';
 
 export const metadata: Metadata = {
   title: 'Press',
-  description: 'Press and media resources for AlphaX Programming.',
+  description: 'Press and media resources for ACLP.',
 };
 
 export default function PressPage() {

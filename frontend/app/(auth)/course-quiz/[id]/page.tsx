@@ -8,9 +8,10 @@ import {
   type CourseTrackQuizData,
   type SubmitResult,
 } from '@/lib/api';
-import { requestGamificationRefresh } from '@/lib/gamificationRefresh';
+import { applyGamificationRewards } from '@/lib/gamificationAlerts';
 import { getLanguage } from '@/lib/i18n';
 import { useDialog } from '@/components/ui/DialogProvider';
+import { showQuizPassedDialog } from '@/lib/achievementDialogs';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
@@ -55,7 +56,8 @@ export default function CourseTrackQuizPage() {
     try {
       const res = await courseTrackQuizzesApi.submit(id, answers);
       setResult(res.data);
-      requestGamificationRefresh();
+      showQuizPassedDialog(show, res.data, data.quiz.is_final ? 'Final exam' : 'Quiz');
+      applyGamificationRewards(show, res.data.new_badges);
     } catch {
       show({ variant: 'error', title: 'Submit failed', message: 'Could not submit quiz.' });
     } finally {
@@ -121,7 +123,7 @@ export default function CourseTrackQuizPage() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">
         {data.quiz.is_final ? 'Module final' : 'Chapter quiz'} ·{' '}
-        {data.quiz.track === 'cpp' ? 'C++' : 'Web'}
+        C++
       </p>
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">{title}</h1>
 
@@ -134,10 +136,20 @@ export default function CourseTrackQuizPage() {
           <p className="mt-1.5 text-amber-900/90 dark:text-amber-100/85">
             <strong>To get a certificate,</strong> take the <strong>module final</strong> using the &quot;Take final
             exam&quot; card at the bottom of this track on the Lessons page—we use your best score on that exam only.
-            Chapter quiz scores (HTML / CSS / JavaScript) do not count toward the certificate.
           </p>
         </div>
-      ) : null}
+      ) : (
+        <div
+          className="mb-6 rounded-xl border border-blue-200/90 bg-blue-50/90 dark:border-blue-900/50 dark:bg-blue-950/25 px-4 py-3 text-sm text-blue-950 dark:text-blue-100/95 leading-relaxed"
+          role="status"
+        >
+          <p className="font-semibold">Comprehensive final — all chapters</p>
+          <p className="mt-1.5 text-blue-900/90 dark:text-blue-100/85">
+            {data.questions.length} questions covering Chapters 1–5. Your best score counts toward the certificate
+            (90%+ required, along with 85% reading progress).
+          </p>
+        </div>
+      )}
 
       <div className="space-y-6">
         {data.questions.map((q, idx) => (

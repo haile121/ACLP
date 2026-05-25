@@ -69,7 +69,7 @@ const helpCards = [
   {
     href: '/about',
     title: 'About us',
-    desc: 'Mission, values, and why we built AlphaX Programming.',
+    desc: 'Mission, values, and why we built ACLP.',
     icon: Building2,
     color: 'bg-sky-50 dark:bg-sky-500/10 border-sky-100 dark:border-sky-500/20 text-sky-600 dark:text-sky-400',
   },

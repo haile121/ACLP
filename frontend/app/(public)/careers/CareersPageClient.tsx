@@ -61,7 +61,7 @@ export default function CareersPageClient() {
           >
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Open roles</h2>
             <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 leading-relaxed pr-4">
-              We do not list generic postings yet. Send your portfolio, CV, and a short note about why AlphaX Programming matters to you—we
+              We do not list generic postings yet. Send your portfolio, CV, and a short note about why ACLP matters to you—we
               read every message.
             </p>
             <Link

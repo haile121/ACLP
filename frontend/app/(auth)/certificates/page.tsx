@@ -91,7 +91,7 @@ export default function CertificatesPage() {
             >
               <div>
                 <p className="font-medium text-gray-900 dark:text-white">
-                  Reading module · {cert.track === 'cpp' ? 'C++' : 'Web fundamentals'}
+                  Reading module · {cert.track === 'cpp' ? 'C++' : 'C++'}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                   Issued {formatIssuedDate(cert.issued_at)}

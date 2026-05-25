@@ -3,7 +3,7 @@ import AccessibilityPageClient from './AccessibilityPageClient';
 
 export const metadata: Metadata = {
   title: 'Accessibility',
-  description: 'Accessibility commitment for the AlphaX Programming learning platform.',
+  description: 'Accessibility commitment for the ACLP learning platform.',
 };
 
 export default function AccessibilityPage() {

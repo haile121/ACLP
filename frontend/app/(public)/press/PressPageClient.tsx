@@ -43,7 +43,7 @@ export default function PressPageClient() {
                     For interviews, data requests, or fact-checking, email us. We typically respond within a few business days.
                   </p>
                   <a
-                    href={`mailto:${PRESS_EMAIL}?subject=${encodeURIComponent('Press inquiry — AlphaX Programming')}`}
+                    href={`mailto:${PRESS_EMAIL}?subject=${encodeURIComponent('Press inquiry — ACLP')}`}
                     className="mt-4 inline-block text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline break-all"
                   >
                     {PRESS_EMAIL}
@@ -80,8 +80,8 @@ export default function PressPageClient() {
             >
               <Newspaper className="h-6 w-6 text-gray-400 flex-shrink-0 mt-0.5" strokeWidth={1.5} />
               <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                <span className="font-semibold text-gray-700 dark:text-gray-300">Boilerplate:</span> AlphaX Programming is a free bilingual
-                platform for learning C++, HTML, CSS, and JavaScript in Amharic and English, with lessons, a cloud compiler, and an AI tutor—built for Ethiopian
+                <span className="font-semibold text-gray-700 dark:text-gray-300">Boilerplate:</span> ACLP is a free bilingual
+                platform for learning C++ in Amharic and English, with lessons, a cloud compiler, and an AI tutor—built for Ethiopian
                 students and anyone who prefers learning in Amharic.
               </p>
             </motion.section>

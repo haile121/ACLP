@@ -38,7 +38,7 @@ export default function CookiesPageClient() {
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">Cookie policy</h1>
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">Last updated: April 3, 2026</p>
             <p className="mt-8 text-gray-600 dark:text-gray-400 leading-relaxed">
-              Similar to cookie notices on GitHub, Google, and European SaaS sites—this page summarizes how AlphaX Programming uses cookies
+              Similar to cookie notices on GitHub, Google, and European SaaS sites—this page summarizes how ACLP uses cookies
               and similar technologies. For broader data practices, see our{' '}
               <Link href="/privacy" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                 Privacy policy

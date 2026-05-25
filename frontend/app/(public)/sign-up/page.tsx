@@ -52,7 +52,7 @@ export default function SignUpPage() {
     setLoading(true);
     try {
       await authApi.register(emailTrimmed, displayTrimmed, password);
-      router.push('/assessment/track');
+      router.push('/assessment?track=cpp');
     } catch (err: unknown) {
       const message =
         (err as { response?: { data?: { error?: string } } })?.response?.data?.error ??

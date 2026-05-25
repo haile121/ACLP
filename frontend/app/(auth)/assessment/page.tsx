@@ -14,6 +14,7 @@ import { authApi } from '@/lib/api';
 import { requestGamificationRefresh } from '@/lib/gamificationRefresh';
 import { getLanguage, setLanguage } from '@/lib/i18n';
 import { useDialog } from '@/components/ui/DialogProvider';
+import { showAssessmentCompleteDialog } from '@/lib/achievementDialogs';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
@@ -85,16 +86,14 @@ function AssessmentClient() {
         if (cancelled) return;
 
         const param = searchParams.get('track');
-        let resolved: AssessmentTrack;
+        let resolved: AssessmentTrack = 'cpp';
 
         const secondaryCpp =
           user.assessment_completed && param === 'cpp' && !user.cpp_assessment_completed;
-        const secondaryWeb =
-          user.assessment_completed && param === 'web' && !user.web_assessment_completed;
 
         if (user.assessment_completed) {
-          if (secondaryCpp || secondaryWeb) {
-            resolved = param as AssessmentTrack;
+          if (secondaryCpp) {
+            resolved = 'cpp';
             setWasSecondary(true);
           } else {
             router.replace('/lessons');
@@ -105,9 +104,8 @@ function AssessmentClient() {
             router.replace('/assessment/track');
             return;
           }
-          resolved = param === 'cpp' || param === 'web' ? param : user.primary_track;
-          if (resolved !== user.primary_track) {
-            router.replace(`/assessment?track=${user.primary_track}`);
+          if (param && param !== 'cpp') {
+            router.replace('/assessment?track=cpp');
             return;
           }
         }
@@ -163,6 +161,8 @@ function AssessmentClient() {
       }));
       const res = await assessmentApi.submit(track, payload);
       setResult(res.data);
+      const trackName = track === 'cpp' ? 'C++' : 'Web';
+      showAssessmentCompleteDialog(show, levelLabel[res.data.level] ?? res.data.level, trackName);
       requestGamificationRefresh();
     } catch {
       show({
@@ -232,7 +232,7 @@ function AssessmentClient() {
   }
 
   const pct = totalQs > 0 ? (answeredCount / totalQs) * 100 : 0;
-  const trackTitle = track === 'web' ? 'Web fundamentals' : 'C++';
+  const trackTitle = 'C++';
 
   return (
     <div

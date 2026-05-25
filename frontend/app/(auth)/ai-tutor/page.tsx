@@ -28,6 +28,27 @@ export default function AiTutorPage() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await aiTutorApi.history();
+        const rows = res.data.history ?? [];
+        const msgs: Message[] = [];
+        for (const h of rows) {
+          msgs.push({ role: 'user', content: h.question });
+          msgs.push({ role: 'assistant', content: h.response });
+        }
+        if (!cancelled) setMessages(msgs);
+      } catch {
+        /* not signed in or network — keep empty */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!loading) {
       setLoadingSeconds(0);
       return;
@@ -86,8 +107,8 @@ export default function AiTutorPage() {
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {lang === 'am'
-              ? 'ስለ C++ ወይም የ ድር መሠረቶች (HTML፣ CSS፣ JS) ጥያቄዎን ይጠይቁ — ምክሮች እንጂ ተዘርዝሮ መልስ አይደለም'
-              : 'Ask questions about C++ or Web fundamentals (HTML, CSS, JS) — get hints, not answers'}
+              ? 'ስለ C++ ጥያቄዎን ይጠይቁ — ምክሮች እንጂ ተዘርዝሮ መልስ አይደለም'
+              : 'Ask questions about C++ — get hints, not full solutions'}
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
             {lang === 'am'
@@ -110,8 +131,8 @@ export default function AiTutorPage() {
             <span className="text-4xl">🤖</span>
             <p className="text-sm">
               {lang === 'am'
-                ? 'ስለ C++ ወይም የ ድር (HTML፣ CSS፣ JavaScript) ማንኛውም ጥያቄ ይጠይቁ — በምክር እመራዎታለሁ።'
-                : 'Ask me anything about C++ or web topics (HTML, CSS, JavaScript). I’ll guide you with hints.'}
+                ? 'ስለ C++ ማንኛውም ጥያቄ ይጠይቁ — በምክር እመራዎታለሁ።'
+                : 'Ask me anything about C++. I’ll guide you with hints.'}
             </p>
           </div>
         )}
@@ -162,8 +183,8 @@ export default function AiTutorPage() {
           onKeyDown={handleKeyDown}
           placeholder={
             lang === 'am'
-              ? 'ስለ C++ ወይም ድር ጥያቄዎን ይጻፉ… (Enter ለመላክ)'
-              : 'Ask about C++ or web (HTML/CSS/JS)… (Enter to send)'
+              ? 'ስለ C++  ጥያቄዎን ይጻፉ… (Enter ለመላክ)'
+              : 'Ask about C++… (Enter to send)'
           }
           rows={2}
           className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent"

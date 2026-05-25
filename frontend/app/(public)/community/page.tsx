@@ -3,7 +3,7 @@ import CommunityPageClient from './CommunityPageClient';
 
 export const metadata: Metadata = {
   title: 'Community',
-  description: 'Join the AlphaX Programming community — Discord and social channels.',
+  description: 'Join the ACLP community — Discord and social channels.',
 };
 
 export default function CommunityPage() {

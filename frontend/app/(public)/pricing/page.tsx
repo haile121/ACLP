@@ -3,7 +3,7 @@ import PricingPageClient from './PricingPageClient';
 
 export const metadata: Metadata = {
   title: 'Pricing',
-  description: 'AlphaX Programming is free forever—full lessons, compiler, AI tutor, and certificates.',
+  description: 'ACLP is free forever—full lessons, compiler, AI tutor, and certificates.',
 };
 
 export default function PricingPage() {

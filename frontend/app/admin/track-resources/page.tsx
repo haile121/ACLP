@@ -10,10 +10,17 @@ import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { useDialog } from '@/components/ui/DialogProvider';
 import { cn } from '@/lib/cn';
+import { Plus } from 'lucide-react';
 
-type Track = 'cpp' | 'web';
+type Track = 'cpp';
 
-const emptyForm = { youtube_url: '', title: '', description: '', thumbnail_url: '' };
+const emptyForm = {
+  youtube_url: '',
+  title: '',
+  description: '',
+  thumbnail_url: '',
+  sort_order: '' as string,
+};
 
 function TrackForm({
   track,
@@ -21,12 +28,14 @@ function TrackForm({
   accent,
   initial,
   onSaved,
+  onRemoved,
 }: {
   track: Track;
   label: string;
   accent: 'blue' | 'teal';
   initial: TrackCompletionVideo | undefined;
-  onSaved: (v: TrackCompletionVideo | null) => void;
+  onSaved: (v: TrackCompletionVideo) => void;
+  onRemoved: () => void;
 }) {
   const { show } = useDialog();
   const [form, setForm] = useState(emptyForm);
@@ -39,6 +48,7 @@ function TrackForm({
         title: initial.title,
         description: initial.description ?? '',
         thumbnail_url: initial.thumbnail_url ?? '',
+        sort_order: String(initial.sort_order ?? 0),
       });
     } else {
       setForm(emptyForm);
@@ -52,17 +62,35 @@ function TrackForm({
     return id ? youtubeDefaultThumbnail(id) : null;
   }, [form.youtube_url, form.thumbnail_url]);
 
+  const parsedSortOrder = (): number | undefined => {
+    const t = form.sort_order.trim();
+    if (!t) return undefined;
+    const n = Number(t);
+    return Number.isFinite(n) ? Math.trunc(n) : undefined;
+  };
+
   async function save() {
     setSaving(true);
     try {
-      const r = await trackCompletionVideosApi.upsert(track, {
+      const sort_order = parsedSortOrder();
+      const payload = {
         youtube_url: form.youtube_url,
         title: form.title,
         description: form.description.trim() || null,
         thumbnail_url: form.thumbnail_url.trim() || null,
-      });
+        ...(sort_order !== undefined ? { sort_order } : {}),
+      };
+
+      const r = initial?.id
+        ? await trackCompletionVideosApi.update(initial.id, payload)
+        : await trackCompletionVideosApi.create({ track, ...payload });
+
       onSaved(r.data.video);
-      show({ variant: 'success', title: 'Saved', message: `${label} optional resource updated.` });
+      show({
+        variant: 'success',
+        title: 'Saved',
+        message: initial?.id ? `${label} resource updated.` : `${label} resource added.`,
+      });
     } catch (err: unknown) {
       const ax = err as {
         response?: { status?: number; data?: { error?: string; code?: string } };
@@ -73,14 +101,15 @@ function TrackForm({
       let message =
         code === 'INVALID_YOUTUBE_URL'
           ? 'Enter a valid YouTube link (watch, youtu.be, embed, or shorts).'
-          : code === 'TABLE_MISSING'
-            ? serverMsg ??
-              'Run database migration: in the backend folder, npm run migrate:006 — then try again.'
-            : status === 403
-              ? 'Your session does not have admin access. Sign out and sign in again after being granted admin.'
-              : serverMsg && status && status >= 400
-                ? serverMsg
-                : 'Try again or check that you are signed in as admin.';
+          : code === 'SCHEMA_MULTIPLE_RESOURCES'
+            ? 'Only one resource can be saved right now. Remove the existing one first, or contact support to enable multiple resources.'
+            : code === 'TABLE_MISSING'
+              ? 'Resources are not available yet. Please try again later or contact support.'
+              : status === 403
+                ? 'Your session does not have admin access. Sign out and sign in again after being granted admin.'
+                : serverMsg && status && status >= 400
+                  ? serverMsg
+                  : 'Try again or check that you are signed in as admin.';
       show({
         variant: 'error',
         title: 'Could not save',
@@ -92,18 +121,21 @@ function TrackForm({
   }
 
   async function clear() {
+    if (!initial?.id) {
+      onRemoved();
+      return;
+    }
     show({
       variant: 'confirm',
-      title: 'Remove optional resource?',
+      title: 'Remove this resource?',
       message: `Learners will no longer see this extra video for ${label}.`,
       primaryAction: {
         label: 'Remove',
         onClick: async () => {
           try {
-            await trackCompletionVideosApi.delete(track);
-            setForm(emptyForm);
-            onSaved(null);
-            show({ variant: 'success', title: 'Removed', message: 'Optional resource cleared for this track.' });
+            await trackCompletionVideosApi.delete(initial.id);
+            onRemoved();
+            show({ variant: 'success', title: 'Removed', message: 'Resource deleted.' });
           } catch {
             show({ variant: 'error', title: 'Error', message: 'Could not remove. Try again.' });
           }
@@ -121,7 +153,9 @@ function TrackForm({
           : 'border-teal-200/90 dark:border-teal-900/50'
       )}
     >
-      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{label}</h2>
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        {initial?.id ? 'Edit resource' : 'New resource'} · {label}
+      </h2>
       <div className="space-y-4 max-w-xl">
         <div>
           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">YouTube URL</label>
@@ -161,6 +195,18 @@ function TrackForm({
             placeholder="Leave empty to use YouTube default"
           />
         </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            Order <span className="font-normal text-gray-400">(optional)</span>
+          </label>
+          <input
+            type="number"
+            className="w-full max-w-[200px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
+            value={form.sort_order}
+            onChange={(e) => setForm((f) => ({ ...f, sort_order: e.target.value }))}
+            placeholder="0, 1, 2…"
+          />
+        </div>
       </div>
 
       {previewThumb ? (
@@ -181,18 +227,17 @@ function TrackForm({
         <Button onClick={() => void save()} loading={saving}>
           Save
         </Button>
-        {initial?.id ? (
-          <Button variant="outline" onClick={() => void clear()}>
-            Remove
-          </Button>
-        ) : null}
+        <Button variant="outline" onClick={() => void clear()}>
+          {initial?.id ? 'Remove' : 'Discard'}
+        </Button>
       </div>
     </div>
   );
 }
 
 export default function AdminTrackResourcesPage() {
-  const [byTrack, setByTrack] = useState<Partial<Record<Track, TrackCompletionVideo>>>({});
+  const [cppVideos, setCppVideos] = useState<TrackCompletionVideo[]>([]);
+  const [draftIds, setDraftIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(() => {
@@ -200,13 +245,11 @@ export default function AdminTrackResourcesPage() {
     trackCompletionVideosApi
       .list()
       .then((r) => {
-        const next: Partial<Record<Track, TrackCompletionVideo>> = {};
-        for (const v of r.data.videos) {
-          next[v.track] = v;
-        }
-        setByTrack(next);
+        const cpp = r.data.videos.filter((v) => v.track === 'cpp');
+        cpp.sort((a, b) => (a.sort_order !== b.sort_order ? a.sort_order - b.sort_order : a.id.localeCompare(b.id)));
+        setCppVideos(cpp);
       })
-      .catch(() => setByTrack({}))
+      .catch(() => setCppVideos([]))
       .finally(() => setLoading(false));
   }, []);
 
@@ -214,16 +257,15 @@ export default function AdminTrackResourcesPage() {
     load();
   }, [load]);
 
-  function handleSaved(track: Track, video: TrackCompletionVideo | null) {
-    if (!video) {
-      setByTrack((prev) => {
-        const n = { ...prev };
-        delete n[track];
-        return n;
-      });
-      return;
-    }
-    setByTrack((prev) => ({ ...prev, [track]: video }));
+  function replaceVideo(v: TrackCompletionVideo) {
+    setCppVideos((prev) => {
+      const others = prev.filter((x) => x.id !== v.id);
+      const next = [...others, v];
+      next.sort((a, b) =>
+        a.sort_order !== b.sort_order ? a.sort_order - b.sort_order : a.id.localeCompare(b.id)
+      );
+      return next;
+    });
   }
 
   if (loading) {
@@ -237,26 +279,51 @@ export default function AdminTrackResourcesPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Optional track resources</h1>
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed">
-        Add an extra YouTube link per track (C++ or Web fundamentals) for learners who want more material after they
-        finish the readings. Watching is optional — it is not required for progress or certificates. Thumbnail preview
-        uses your custom URL if set; otherwise the standard YouTube preview image is used.
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-2xl leading-relaxed">
+        Optional YouTube videos shown after learners finish the readings. They do not affect progress or certificates.
+        Lower order numbers appear first on the lessons page.
       </p>
-      <div className="grid gap-8 md:grid-cols-2">
-        <TrackForm
-          track="cpp"
-          label="C++ track"
-          accent="blue"
-          initial={byTrack.cpp}
-          onSaved={(v) => handleSaved('cpp', v)}
-        />
-        <TrackForm
-          track="web"
-          label="Web fundamentals"
-          accent="teal"
-          initial={byTrack.web}
-          onSaved={(v) => handleSaved('web', v)}
-        />
+
+      <div className="mb-6">
+        <Button
+          type="button"
+          variant="outline"
+          className="gap-2"
+          onClick={() =>
+            setDraftIds((d) => [...d, typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `d-${Date.now()}`])
+          }
+        >
+          <Plus size={18} aria-hidden />
+          Add resource
+        </Button>
+      </div>
+
+      <div className="grid gap-8 md:grid-cols-1 max-w-xl">
+        {cppVideos.map((v) => (
+          <TrackForm
+            key={v.id}
+            track="cpp"
+            label="C++ curriculum"
+            accent="blue"
+            initial={v}
+            onSaved={replaceVideo}
+            onRemoved={() => setCppVideos((prev) => prev.filter((x) => x.id !== v.id))}
+          />
+        ))}
+        {draftIds.map((tempId) => (
+          <TrackForm
+            key={tempId}
+            track="cpp"
+            label="C++ curriculum"
+            accent="blue"
+            initial={undefined}
+            onSaved={(video) => {
+              setDraftIds((d) => d.filter((x) => x !== tempId));
+              replaceVideo(video);
+            }}
+            onRemoved={() => setDraftIds((d) => d.filter((x) => x !== tempId))}
+          />
+        ))}
       </div>
     </div>
   );

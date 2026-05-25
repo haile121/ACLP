@@ -3,7 +3,7 @@ import StatusPageClient from './StatusPageClient';
 
 export const metadata: Metadata = {
   title: 'Status',
-  description: 'AlphaX Programming platform and service status.',
+  description: 'ACLP platform and service status.',
 };
 
 export default function StatusPage() {
