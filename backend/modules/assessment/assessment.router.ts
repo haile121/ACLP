@@ -55,19 +55,15 @@ function normalizeQuestionForClient(q: AssessmentQuestion) {
   };
 }
 
-// GET /api/assessment/questions?track=cpp|web
+// GET /api/assessment/questions?track=cpp
 // Returns 5 beginner + 5 intermediate + 5 advanced = 15 questions, interleaved.
 router.get('/questions', authenticate, async (req: Request, res: Response): Promise<void> => {
   try {
-    const track = req.query.track === 'web' ? 'web' : 'cpp';
+    const track = 'cpp';
     const user = await getMe(req.user!.sub);
 
-    if (track === 'cpp' && user.cpp_assessment_completed) {
+    if (user.cpp_assessment_completed) {
       res.status(400).json({ error: 'You already completed the C++ placement test.' });
-      return;
-    }
-    if (track === 'web' && user.web_assessment_completed) {
-      res.status(400).json({ error: 'You already completed the Web fundamentals placement test.' });
       return;
     }
 
@@ -117,7 +113,7 @@ router.get('/questions', authenticate, async (req: Request, res: Response): Prom
 
 // POST /api/assessment/submit
 const submitSchema = z.object({
-  track: z.enum(['cpp', 'web']),
+  track: z.literal('cpp'),
   answers: z
     .array(z.object({ questionId: z.string(), answer: z.string() }))
     .length(15),
@@ -136,26 +132,9 @@ router.post('/submit', authenticate, async (req: Request, res: Response): Promis
   try {
     const user = await getMe(req.user!.sub);
 
-    if (!user.assessment_completed) {
-      if (!user.primary_track) {
-        res.status(400).json({ error: 'Choose a learning path before taking the placement test.' });
-        return;
-      }
-      if (user.primary_track !== track) {
-        res
-          .status(400)
-          .json({ error: 'This placement test does not match your selected learning path.' });
-        return;
-      }
-    } else {
-      if (track === 'cpp' && user.cpp_assessment_completed) {
-        res.status(400).json({ error: 'C++ placement was already completed.' });
-        return;
-      }
-      if (track === 'web' && user.web_assessment_completed) {
-        res.status(400).json({ error: 'Web fundamentals placement was already completed.' });
-        return;
-      }
+    if (user.assessment_completed && user.cpp_assessment_completed) {
+      res.status(400).json({ error: 'C++ placement was already completed.' });
+      return;
     }
 
     const placeholders = questionIds.map(() => '?').join(', ');
@@ -202,36 +181,18 @@ router.post('/submit', authenticate, async (req: Request, res: Response): Promis
     const uid = req.user!.sub;
 
     if (!user.assessment_completed) {
-      if (track === 'cpp') {
-        await query(
-          `UPDATE users SET cpp_level = ?, cpp_assessment_completed = 1, level = ?, assessment_completed = 1 WHERE id = ?`,
-          [level, level, uid]
-        );
-      } else {
-        await query(
-          `UPDATE users SET web_level = ?, web_assessment_completed = 1, level = ?, assessment_completed = 1 WHERE id = ?`,
-          [level, level, uid]
-        );
-      }
-    } else if (track === 'cpp') {
-      await query(`UPDATE users SET cpp_level = ?, cpp_assessment_completed = 1 WHERE id = ?`, [level, uid]);
+      await query(
+        `UPDATE users SET cpp_level = ?, cpp_assessment_completed = 1, level = ?, assessment_completed = 1 WHERE id = ?`,
+        [level, level, uid]
+      );
     } else {
-      await query(`UPDATE users SET web_level = ?, web_assessment_completed = 1 WHERE id = ?`, [level, uid]);
+      await query(`UPDATE users SET cpp_level = ?, cpp_assessment_completed = 1 WHERE id = ?`, [level, uid]);
     }
 
     const messages: Record<typeof level, string> = {
-      beginner:
-        track === 'cpp'
-          ? "Great start! You're placed at Beginner level for C++. Let's build your foundation."
-          : "Great start! You're placed at Beginner level for Web fundamentals. Let's build your foundation.",
-      intermediate:
-        track === 'cpp'
-          ? 'Nice work! You have a solid C++ base — you start at Intermediate level.'
-          : 'Nice work! You have a solid Web base — you start at Intermediate level.',
-      advanced:
-        track === 'cpp'
-          ? 'Impressive! You have strong C++ knowledge. You start at Advanced level.'
-          : 'Impressive! You have strong Web fundamentals. You start at Advanced level.',
+      beginner: "Great start! You're placed at Beginner level for C++. Let's build your foundation.",
+      intermediate: 'Nice work! You have a solid C++ base — you start at Intermediate level.',
+      advanced: 'Impressive! You have strong C++ knowledge. You start at Advanced level.',
     };
 
     res.json({ score: totalScore, level, message: messages[level], breakdown: scores, track });
