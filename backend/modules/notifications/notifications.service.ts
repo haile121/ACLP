@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { query } from '../../db/connection';
+import { isMissingTableError, warnMissingMigrationOnce } from '../../db/mysqlErrors';
 import type { Notification } from '../../db/types';
 
 type NotificationType = Notification['type'];
@@ -14,19 +15,30 @@ interface NotificationPayload {
 }
 
 export async function createNotification(payload: NotificationPayload): Promise<void> {
-  await query(
-    `INSERT INTO notifications (id, user_id, type, title_en, title_am, body_en, body_am, is_read)
-     VALUES (?, ?, ?, ?, ?, ?, ?, false)`,
-    [
-      randomUUID(),
-      payload.userId,
-      payload.type,
-      payload.title_en,
-      payload.title_am,
-      payload.body_en,
-      payload.body_am,
-    ]
-  );
+  try {
+    await query(
+      `INSERT INTO notifications (id, user_id, type, title_en, title_am, body_en, body_am, is_read)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 0)`,
+      [
+        randomUUID(),
+        payload.userId,
+        payload.type,
+        payload.title_en,
+        payload.title_am,
+        payload.body_en,
+        payload.body_am,
+      ]
+    );
+  } catch (err: unknown) {
+    if (isMissingTableError(err)) {
+      warnMissingMigrationOnce(
+        'notifications',
+        '[notifications] table missing — run: npm run migrate:011 (from backend/)'
+      );
+      return;
+    }
+    throw err;
+  }
 }
 
 export async function notifyBadgeEarned(userId: string, badgeName: string, badgeNameAm: string): Promise<void> {

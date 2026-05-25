@@ -49,7 +49,7 @@ export async function runReEngagementCron(): Promise<void> {
               Resume Learning
             </a>
             <p style="margin-top:24px;color:#6b7280;font-size:12px;">
-              You're receiving this because you have an account on the AlphaX Programming Learning Platform.
+              You're receiving this because you have an account on the ACLP Learning Platform.
             </p>
           </div>
         `,
