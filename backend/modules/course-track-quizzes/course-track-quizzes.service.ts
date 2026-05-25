@@ -6,18 +6,16 @@ import {
   isMissingMigration005TableError,
   warnMissingMigrationOnce,
 } from '../../db/mysqlErrors';
-import { awardCoins, awardXP } from '../gamification/gamification.service';
+import { awardCoins, awardXP, checkAndAwardBadges, mergeEarnedBadges } from '../gamification/gamification.service';
 import {
   CPP_LESSON_IDS,
-  WEB_LESSON_IDS,
   CPP_CHAPTER_TO_LESSONS,
-  WEB_CHAPTER_TO_LESSONS,
   LESSON_PROGRESS_MIN_FOR_CERT,
   FINAL_SCORE_MIN_FOR_CERT,
-  TRACK_FINAL_QUIZ_ID,
+  CPP_TRACK_FINAL_QUIZ_ID,
 } from './courseReadingLessonIds';
 
-export type CourseTrack = 'cpp' | 'web';
+export type CourseTrack = 'cpp';
 
 export interface CourseTrackQuizRow {
   id: string;
@@ -53,35 +51,37 @@ export async function getCompletedReadingLessonIds(userId: string): Promise<Set<
   return new Set(rows.map((r) => r.lesson_id));
 }
 
-export function readingProgressFraction(track: CourseTrack, completed: Set<string>): number {
-  const ids = track === 'cpp' ? CPP_LESSON_IDS : WEB_LESSON_IDS;
+export function readingProgressFraction(_track: CourseTrack, completed: Set<string>): number {
+  const ids = CPP_LESSON_IDS;
   const done = ids.filter((id) => completed.has(id)).length;
   return ids.length ? done / ids.length : 0;
 }
 
 export function chapterLessonsComplete(
-  track: CourseTrack,
+  _track: CourseTrack,
   chapterSlug: string,
   completed: Set<string>
 ): boolean {
-  const map = track === 'cpp' ? CPP_CHAPTER_TO_LESSONS : WEB_CHAPTER_TO_LESSONS;
-  const lessons = map[chapterSlug];
+  const lessons = CPP_CHAPTER_TO_LESSONS[chapterSlug];
   if (!lessons) return false;
   return lessons.every((lid) => completed.has(lid));
 }
 
-export function trackLessonsComplete(track: CourseTrack, completed: Set<string>): boolean {
-  const ids = track === 'cpp' ? CPP_LESSON_IDS : WEB_LESSON_IDS;
-  return ids.every((id) => completed.has(id));
+export function trackLessonsComplete(_track: CourseTrack, completed: Set<string>): boolean {
+  return CPP_LESSON_IDS.every((id) => completed.has(id));
 }
 
 async function assertQuizAccess(quiz: CourseTrackQuizRow, userId: string): Promise<void> {
+  const completed = await getCompletedReadingLessonIds(userId);
   if (Number(quiz.is_final) === 1) {
-    // Module finals: always allow load + submit so every attempt is stored for MAX(score).
-    // Certificate eligibility still requires reading progress + final % (getTrackCertificateEligibility).
+    if (!trackLessonsComplete(quiz.track, completed)) {
+      throw {
+        code: 'TRACK_NOT_COMPLETE',
+        message: 'Complete every reading session in all chapters before taking the final exam.',
+      };
+    }
     return;
   }
-  const completed = await getCompletedReadingLessonIds(userId);
   if (!chapterLessonsComplete(quiz.track, quiz.chapter_slug, completed)) {
     throw {
       code: 'CHAPTER_NOT_COMPLETE',
@@ -152,7 +152,13 @@ export async function submitCourseTrackQuiz(
   quizId: string,
   userId: string,
   answers: Record<string, string>
-): Promise<{ score: number; passed: boolean; xpAwarded: number; coinsAwarded: number }> {
+): Promise<{
+  score: number;
+  passed: boolean;
+  xpAwarded: number;
+  coinsAwarded: number;
+  new_badges: import('../gamification/gamification.service').EarnedBadgeAlert[];
+}> {
   try {
     const quizRows = await query<CourseTrackQuizRow[]>(
       'SELECT * FROM course_track_quizzes WHERE id = ?',
@@ -196,17 +202,30 @@ export async function submitCourseTrackQuiz(
 
       if (firstPass) {
         try {
-          await awardXP(userId, quiz.xp_reward);
-          await awardCoins(userId, quiz.coin_reward);
+          const fromXp = await awardXP(userId, quiz.xp_reward);
+          const fromCoins = await awardCoins(userId, quiz.coin_reward);
           xpAwarded = quiz.xp_reward;
           coinsAwarded = quiz.coin_reward;
+          const extra = await checkAndAwardBadges(userId).catch(
+            () => [] as Awaited<ReturnType<typeof checkAndAwardBadges>>
+          );
+          return {
+            score,
+            passed,
+            xpAwarded,
+            coinsAwarded,
+            new_badges: mergeEarnedBadges(fromXp, fromCoins, extra),
+          };
         } catch (e) {
           console.error('[submitCourseTrackQuiz] XP/coins/badges after pass — attempt still saved:', e);
         }
       }
     }
 
-    return { score, passed, xpAwarded, coinsAwarded };
+    const extra = await checkAndAwardBadges(userId).catch(
+      () => [] as Awaited<ReturnType<typeof checkAndAwardBadges>>
+    );
+    return { score, passed, xpAwarded, coinsAwarded, new_badges: extra };
   } catch (err: unknown) {
     if (isMissingCourseTrackQuizTableError(err)) {
       throw {
@@ -239,9 +258,9 @@ function parseFinalScore(raw: unknown): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-/** Best score on the track’s module final — keyed by quiz id (seed: web-final / cpp-final). */
-export async function getBestFinalScore(userId: string, track: CourseTrack): Promise<number | null> {
-  const quizId = TRACK_FINAL_QUIZ_ID[track];
+/** Best score on the C++ module final (seed: cpp-final). */
+export async function getBestFinalScore(userId: string, _track: CourseTrack): Promise<number | null> {
+  const quizId = CPP_TRACK_FINAL_QUIZ_ID;
   try {
     const rows = await query<{ best: unknown }[]>(
       `SELECT score AS best
@@ -271,7 +290,7 @@ export async function getTrackCertificateEligibility(userId: string, track: Cour
   const completed = await getCompletedReadingLessonIds(userId);
   const frac = readingProgressFraction(track, completed);
   const readingProgressPct = Math.round(frac * 10000) / 100;
-  const finalQuizId = TRACK_FINAL_QUIZ_ID[track];
+  const finalQuizId = CPP_TRACK_FINAL_QUIZ_ID;
   const countRows = await query<{ c: number }[]>(
     `SELECT COUNT(*) AS c FROM course_track_quiz_attempts WHERE user_id = ? AND quiz_id = ?`,
     [userId, finalQuizId]

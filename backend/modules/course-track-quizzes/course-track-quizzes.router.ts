@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-const trackSchema = z.enum(['cpp', 'web']);
+const trackSchema = z.literal('cpp');
 
 router.get('/track/:track/summary', authenticate, async (req: Request, res: Response) => {
   const parsed = trackSchema.safeParse(req.params.track);
