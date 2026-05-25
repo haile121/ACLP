@@ -7,7 +7,7 @@ export interface User {
   level: string;
   assessment_completed: boolean;
   /** First chosen learning path before the placement test. */
-  primary_track: 'cpp' | 'web' | null;
+  primary_track: 'cpp' | null;
   cpp_level: string | null;
   web_level: string | null;
   cpp_assessment_completed: boolean;
@@ -52,8 +52,8 @@ export interface AssessmentQuestion {
   options_am_json?: string | string[] | null;
   correct_answer: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
-  /** Placement bank: cpp (default) or web fundamentals. */
-  track?: 'cpp' | 'web';
+  /** Placement bank (C++ only). */
+  track?: 'cpp';
 }
 
 export interface Quiz {
@@ -103,9 +103,15 @@ export interface ExamAttempt {
 export interface Badge {
   id: string;
   name_en?: string;
-  description_en?: string;
-  criteria_type?: 'xp' | 'streak' | string;
-  criteria_value?: number;
+  name_am?: string;
+  description_en?: string | null;
+  description_am?: string | null;
+  icon_url?: string;
+  icon_emoji?: string | null;
+  /** e.g. xp_milestone, streak, coins_milestone, exam_score_max, course_track_final_score, quiz_pass_any, lessons_completed */
+  criteria_type?: string;
+  criteria_value?: number | null;
+  sort_order?: number;
 }
 
 export interface Notification {
