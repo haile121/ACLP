@@ -16,8 +16,13 @@ router.get('/profile', authenticate, async (req: Request, res: Response) => {
 });
 
 router.get('/badges', authenticate, async (req: Request, res: Response) => {
-  const badges = await getBadges(req.user!.sub);
-  return res.json({ badges });
+  try {
+    const { badges, new_badges } = await getBadges(req.user!.sub);
+    return res.json({ badges, new_badges });
+  } catch (err: unknown) {
+    console.error('[gamification/badges]', err);
+    return res.status(500).json({ error: 'Failed to load badges' });
+  }
 });
 
 export default router;
