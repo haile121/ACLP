@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { authenticate } from '../../middleware/authenticate';
 import { query } from '../../db/connection';
+import { isMissingTableError, warnMissingMigrationOnce } from '../../db/mysqlErrors';
 import type { User, Notification } from '../../db/types';
 
 const router = Router();
@@ -65,44 +66,91 @@ router.get('/', authenticate, async (req: Request, res: Response) => {
     })
   );
 
-  const [badgeCount] = await query<{ count: number }[]>(
-    'SELECT COUNT(*) AS count FROM user_badges WHERE user_id = ?',
-    [userId]
-  );
+  let badgeCountNum = 0;
+  try {
+    const [badgeCount] = await query<{ count: number }[]>(
+      'SELECT COUNT(*) AS count FROM user_badges WHERE user_id = ?',
+      [userId]
+    );
+    badgeCountNum = badgeCount.count || 0;
+  } catch (err: unknown) {
+    if (!isMissingTableError(err)) throw err;
+  }
 
   return res.json({
     xp: user.xp,
     coins: user.coins,
     streak: user.streak,
     level: user.level,
-    badge_count: badgeCount.count || 0,
+    badge_count: badgeCountNum,
     levels: levelProgress,
   });
 });
 
+router.get('/notifications/unread-count', authenticate, async (req: Request, res: Response) => {
+  const userId = req.user!.sub;
+  try {
+    const rows = await query<{ unread: number }[]>(
+      `SELECT COUNT(*) AS unread FROM notifications WHERE user_id = ? AND is_read = 0`,
+      [userId]
+    );
+    return res.json({ unread: Number(rows[0]?.unread ?? 0) });
+  } catch (err: unknown) {
+    if (isMissingTableError(err)) {
+      warnMissingMigrationOnce(
+        'notifications',
+        '[progress] notifications table missing — run: npm run migrate:011 (from backend/)'
+      );
+      return res.json({ unread: 0 });
+    }
+    throw err;
+  }
+});
+
 router.get('/notifications', authenticate, async (req: Request, res: Response) => {
   const userId = req.user!.sub;
-  const notifications = await query<Notification[]>(
-    `SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 30`,
-    [userId]
-  );
-  return res.json({ notifications });
+  try {
+    const notifications = await query<Notification[]>(
+      `SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 30`,
+      [userId]
+    );
+    return res.json({ notifications });
+  } catch (err: unknown) {
+    if (isMissingTableError(err)) {
+      warnMissingMigrationOnce(
+        'notifications',
+        '[progress] notifications table missing — run: npm run migrate:011 (from backend/)'
+      );
+      return res.json({ notifications: [] });
+    }
+    throw err;
+  }
 });
 
 router.patch('/notifications/:id/read', authenticate, async (req: Request, res: Response) => {
-  await query(
-    'UPDATE notifications SET is_read = true WHERE id = ? AND user_id = ?',
-    [req.params.id, req.user!.sub]
-  );
-  return res.json({ success: true });
+  try {
+    await query(
+      'UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?',
+      [req.params.id, req.user!.sub]
+    );
+    return res.json({ success: true });
+  } catch (err: unknown) {
+    if (isMissingTableError(err)) return res.json({ success: true });
+    throw err;
+  }
 });
 
 router.patch('/notifications/read-all', authenticate, async (req: Request, res: Response) => {
-  await query(
-    'UPDATE notifications SET is_read = true WHERE user_id = ?',
-    [req.user!.sub]
-  );
-  return res.json({ success: true });
+  try {
+    await query(
+      'UPDATE notifications SET is_read = 1 WHERE user_id = ?',
+      [req.user!.sub]
+    );
+    return res.json({ success: true });
+  } catch (err: unknown) {
+    if (isMissingTableError(err)) return res.json({ success: true });
+    throw err;
+  }
 });
 
 export default router;
