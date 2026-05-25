@@ -11,8 +11,8 @@ export interface User {
   role: UserRole;
   level: Level | null;
   assessment_completed: boolean;
-  /** Learning path chosen before the first placement test (required for onboarding). */
-  primary_track?: 'cpp' | 'web' | null;
+  /** Defaults to C++ on registration; optional for legacy accounts. */
+  primary_track?: 'cpp' | null;
   cpp_level?: Level | null;
   web_level?: Level | null;
   cpp_assessment_completed?: boolean;
@@ -32,6 +32,10 @@ export interface DialogConfig {
   message: string;
   primaryAction?: { label: string; onClick: () => void };
   secondaryAction?: { label: string; onClick: () => void };
+  /** Override auto-close for success dialogs (default 3000ms). Set 0 to disable. */
+  autoDismissMs?: number;
+  /** Called when the dialog closes (dismiss, backdrop, ESC, or auto-dismiss). */
+  onDismiss?: () => void;
 }
 
 export interface ApiResponse<T> {
