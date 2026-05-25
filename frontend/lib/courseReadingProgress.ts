@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { courseReadingsApi } from '@/lib/api';
+import { courseReadingsApi, type EarnedBadgeAlert } from '@/lib/api';
 import { ALL_LESSON_IDS, normalizeLegacyLessonId } from '@/lib/courseCurriculum';
 import { readCompletedLessonIds, writeCompletedLessonIds } from '@/lib/lessonProgressClient';
 
@@ -71,6 +71,7 @@ export type MarkLessonCompleteResult = {
   coins_awarded: number;
   /** True when the server accepted the completion (including duplicate idempotent calls). */
   synced: boolean;
+  new_badges?: EarnedBadgeAlert[];
 };
 
 /** Rewards are only non-zero when the server records a first-time completion for this lesson (signed in). */
@@ -95,6 +96,7 @@ export async function markLessonCompleteSynced(lessonId: string): Promise<MarkLe
       xp_awarded: data.xp_awarded ?? 0,
       coins_awarded: data.coins_awarded ?? 0,
       synced: true,
+      new_badges: data.new_badges,
     };
   } catch {
     // Offline or server error — local cache already updated; sync will retry on next load.

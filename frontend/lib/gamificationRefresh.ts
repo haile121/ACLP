@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { requestNotificationRefresh } from '@/lib/notificationUnread';
 
 /** Dispatched after XP/coins/streak/badges may have changed server-side. */
 export const GAMIFICATION_UPDATED_EVENT = 'gamification:updated';
@@ -8,6 +9,7 @@ export const GAMIFICATION_UPDATED_EVENT = 'gamification:updated';
 export function requestGamificationRefresh(): void {
   if (typeof window === 'undefined') return;
   window.dispatchEvent(new CustomEvent(GAMIFICATION_UPDATED_EVENT));
+  requestNotificationRefresh();
 }
 
 /**

@@ -8,10 +8,6 @@ export {
   CHAPTER_3,
   CHAPTER_4,
   CPP_CHAPTERS,
-  WEB_HTML,
-  WEB_CSS,
-  WEB_JS,
-  WEB_CHAPTERS,
   CHAPTERS,
   ALL_LESSONS,
   ALL_LESSON_IDS,
@@ -28,10 +24,10 @@ export {
   type ChapterInfo,
   type ContentDir,
   type Chapter1LessonMeta,
-} from './courseCurriculum';
+} from "./courseCurriculum";
 
 /** @deprecated use ALL_LESSON_IDS from courseCurriculum */
-export { ALL_LESSON_IDS as CHAPTER1_LESSON_IDS } from './courseCurriculum';
+export { ALL_LESSON_IDS as CHAPTER1_LESSON_IDS } from "./courseCurriculum";
 
 /** @deprecated use STORAGE_KEY_PROGRESS */
-export { STORAGE_KEY_PROGRESS as STORAGE_KEY_CH1 } from './courseCurriculum';
+export { STORAGE_KEY_PROGRESS as STORAGE_KEY_CH1 } from "./courseCurriculum";

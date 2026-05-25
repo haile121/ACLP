@@ -8,7 +8,7 @@ export interface AssessmentQuestion {
   options_json: string[];
   /** Amharic choices; same order as options_json; scoring uses English options_json. */
   options_am_json?: string[];
-  track?: 'cpp' | 'web';
+  track?: 'cpp';
 }
 
 export interface AssessmentAnswer {
@@ -34,7 +34,9 @@ function isAuthCredentialRequest(url: string | undefined): boolean {
   return (
     url.includes('/api/auth/login') ||
     url.includes('/api/auth/register') ||
-    url.includes('/api/auth/logout')
+    url.includes('/api/auth/logout') ||
+    url.includes('/api/auth/forgot-password') ||
+    url.includes('/api/auth/reset-password')
   );
 }
 
@@ -60,6 +62,12 @@ export const authApi = {
   login(email: string, password: string) {
     return api.post<{ user: User }>('/api/auth/login', { email, password });
   },
+  forgotPassword(email: string) {
+    return api.post<{ message: string }>('/api/auth/forgot-password', { email });
+  },
+  resetPassword(token: string, password: string) {
+    return api.post<{ message: string }>('/api/auth/reset-password', { token, password });
+  },
   logout() {
     return api.post('/api/auth/logout');
   },
@@ -71,12 +79,12 @@ export const authApi = {
     return api.get<{ user: User }>('/api/auth/me');
   },
   /** Call once after sign-up, before the first placement test. */
-  setPrimaryTrack(primary_track: 'cpp' | 'web') {
+  setPrimaryTrack(primary_track: 'cpp') {
     return api.patch<{ user: User }>('/api/auth/primary-track', { primary_track });
   },
 };
 
-export type AssessmentTrack = 'cpp' | 'web';
+export type AssessmentTrack = 'cpp';
 
 export const assessmentApi = {
   getQuestions(track: AssessmentTrack = 'cpp') {
@@ -111,7 +119,7 @@ export interface LessonDetail extends LessonSummary {
   content_am: string;
 }
 
-export type CompilerLanguage = 'cpp' | 'html' | 'css' | 'javascript';
+export type CompilerLanguage = 'cpp';
 
 export interface CompilerResult {
   stdout: string;
@@ -140,11 +148,20 @@ export interface QuizData {
   questions: QuizQuestion[];
 }
 
+export interface EarnedBadgeAlert {
+  id: string;
+  name_en: string;
+  name_am?: string;
+  description_en?: string | null;
+  icon_emoji?: string | null;
+}
+
 export interface SubmitResult {
   score: number;
   passed: boolean;
   xpAwarded: number;
   coinsAwarded: number;
+  new_badges?: EarnedBadgeAlert[];
 }
 
 export const quizzesApi = {
@@ -159,7 +176,7 @@ export const quizzesApi = {
 export interface CourseTrackQuizData {
   quiz: {
     id: string;
-    track: 'cpp' | 'web';
+    track: 'cpp';
     chapter_slug: string;
     is_final: boolean;
     title_en: string;
@@ -174,7 +191,7 @@ export interface TrackCertificateSummary {
   eligible: boolean;
   readingProgressPct: number;
   finalBestScore: number | null;
-  /** Submissions recorded for this track’s module final (web-final / cpp-final). */
+  /** Submissions recorded for the module final (cpp-final). */
   finalExamAttemptsCount: number;
   reasons: string[];
   certificateIssued: boolean;
@@ -188,7 +205,7 @@ export const courseTrackQuizzesApi = {
   submit(id: string, answers: Record<string, string>) {
     return api.post<SubmitResult>(`/api/course-track-quizzes/${id}/submit`, { answers });
   },
-  trackSummary(track: 'cpp' | 'web') {
+  trackSummary(track: 'cpp' = 'cpp') {
     return api.get<TrackCertificateSummary>(`/api/course-track-quizzes/track/${track}/summary`, {
       headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
     });
@@ -293,7 +310,7 @@ export const certificatesApi = {
   generate(levelId: string) {
     return api.post<{ certificate: { id: string; pdf_url: string; verification_code: string } }>(`/api/certificates/${levelId}/generate`);
   },
-  generateTrack(track: 'cpp' | 'web') {
+  generateTrack(track: 'cpp' = 'cpp') {
     return api.post<{ certificate: { id: string; pdf_url: string; verification_code: string; track: string } }>(
       `/api/certificates/track/${track}/generate`
     );
@@ -308,6 +325,7 @@ export interface CourseReadingCompleteResult {
   completed_lesson_ids: string[];
   xp_awarded: number;
   coins_awarded: number;
+  new_badges?: EarnedBadgeAlert[];
 }
 
 export const courseReadingsApi = {
@@ -330,6 +348,9 @@ export const progressApi = {
   get() {
     return api.get<ProgressData>('/api/progress');
   },
+  unreadNotificationCount() {
+    return api.get<{ unread: number }>('/api/progress/notifications/unread-count');
+  },
   notifications() {
     return api.get<{ notifications: NotificationItem[] }>('/api/progress/notifications');
   },
@@ -346,7 +367,19 @@ export const gamificationApi = {
     return api.get<{ profile: { xp: number; coins: number; streak: number; level: string | null } }>('/api/gamification/profile');
   },
   badges() {
-    return api.get<{ badges: { id: string; name_en: string; name_am: string; icon_url: string; earned_at: string }[] }>('/api/gamification/badges');
+    return api.get<{
+      badges: {
+        id: string;
+        name_en: string;
+        name_am: string;
+        description_en?: string | null;
+        description_am?: string | null;
+        icon_url: string;
+        icon_emoji?: string | null;
+        earned_at: string;
+      }[];
+      new_badges?: EarnedBadgeAlert[];
+    }>('/api/gamification/badges');
   },
 };
 
@@ -362,14 +395,15 @@ export const lessonsApi = {
   },
 };
 
-/** Optional per-track YouTube resource (admin); not required for progress. */
+/** Optional per-track YouTube resources (admin); not required for progress. */
 export interface TrackCompletionVideo {
   id: string;
-  track: 'cpp' | 'web';
+  track: 'cpp';
   youtube_url: string;
   title: string;
   description: string | null;
   thumbnail_url: string | null;
+  sort_order: number;
   video_id: string;
   embed_url: string;
   preview_thumbnail_url: string;
@@ -379,19 +413,30 @@ export const trackCompletionVideosApi = {
   list() {
     return api.get<{ videos: TrackCompletionVideo[] }>('/api/track-completion-videos');
   },
-  upsert(
-    track: 'cpp' | 'web',
+  create(body: {
+    track: 'cpp';
+    youtube_url: string;
+    title: string;
+    description?: string | null;
+    thumbnail_url?: string | null;
+    sort_order?: number;
+  }) {
+    return api.post<{ video: TrackCompletionVideo }>('/api/track-completion-videos', body);
+  },
+  update(
+    id: string,
     body: {
       youtube_url: string;
       title: string;
       description?: string | null;
       thumbnail_url?: string | null;
+      sort_order?: number;
     }
   ) {
-    return api.put<{ video: TrackCompletionVideo }>(`/api/track-completion-videos/${track}`, body);
+    return api.put<{ video: TrackCompletionVideo }>(`/api/track-completion-videos/${id}`, body);
   },
-  delete(track: 'cpp' | 'web') {
-    return api.delete<{ removed: boolean }>(`/api/track-completion-videos/${track}`);
+  delete(id: string) {
+    return api.delete<{ removed: boolean }>(`/api/track-completion-videos/${id}`);
   },
 };
 
