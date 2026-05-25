@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useRef, ReactNode } from 'react';
 import { Dialog } from './Dialog';
 import type { DialogConfig } from '@/types';
 
@@ -14,13 +14,17 @@ const DialogContext = createContext<DialogContextValue | null>(null);
 export function DialogProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState<DialogConfig | null>(null);
+  const onDismissRef = useRef<(() => void) | undefined>(undefined);
 
   const show = useCallback((cfg: DialogConfig) => {
+    onDismissRef.current = cfg.onDismiss;
     setConfig(cfg);
     setOpen(true);
   }, []);
 
   const hide = useCallback(() => {
+    onDismissRef.current?.();
+    onDismissRef.current = undefined;
     setOpen(false);
   }, []);
 
@@ -35,6 +39,7 @@ export function DialogProvider({ children }: { children: ReactNode }) {
           message={config.message}
           primaryAction={config.primaryAction}
           secondaryAction={config.secondaryAction}
+          autoDismissMs={config.autoDismissMs}
           onClose={hide}
         />
       )}

@@ -5,27 +5,16 @@ import { Play } from 'lucide-react';
 import type { TrackCompletionVideo } from '@/lib/api';
 import { cn } from '@/lib/cn';
 
-/** Optional YouTube resource for a track (admin-configured); learners may ignore it. */
-export function TrackAdditionalResource({
-  track,
-  unlocked,
-  video,
-}: {
-  track: 'cpp' | 'web';
-  unlocked: boolean;
-  video: TrackCompletionVideo | undefined;
-}) {
+function SingleOptionalVideo({ video }: { video: TrackCompletionVideo }) {
   const [playing, setPlaying] = useState(false);
 
-  if (!unlocked || !video?.embed_url) return null;
+  if (!video.embed_url) return null;
 
   return (
     <div
       className={cn(
         'rounded-2xl border p-5 mt-4 overflow-hidden',
-        track === 'cpp'
-          ? 'border-blue-200/90 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/80 to-white dark:from-blue-950/25 dark:to-gray-900/40'
-          : 'border-teal-200/90 dark:border-teal-900/50 bg-gradient-to-br from-teal-50/80 to-white dark:from-teal-950/25 dark:to-gray-900/40'
+        'border-blue-200/90 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/80 to-white dark:from-blue-950/25 dark:to-gray-900/40'
       )}
     >
       <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
@@ -50,18 +39,12 @@ export function TrackAdditionalResource({
             aria-label="Play optional additional resource video"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={video.preview_thumbnail_url}
-              alt=""
-              className="w-full h-full object-cover"
-            />
+            <img src={video.preview_thumbnail_url} alt="" className="w-full h-full object-cover" />
             <span className="absolute inset-0 flex items-center justify-center bg-black/35 group-hover:bg-black/45 transition-colors">
               <span
                 className={cn(
                   'flex h-16 w-16 items-center justify-center rounded-full shadow-lg',
-                  track === 'cpp'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-teal-600 text-white'
+                  'bg-blue-600 text-white'
                 )}
               >
                 <Play className="h-8 w-8 ml-1" fill="currentColor" aria-hidden />
@@ -78,6 +61,25 @@ export function TrackAdditionalResource({
           />
         )}
       </div>
+    </div>
+  );
+}
+
+/** Optional YouTube resources for a track (admin-configured); learners may ignore them. */
+export function TrackAdditionalResource({
+  unlocked,
+  videos,
+}: {
+  unlocked: boolean;
+  videos: TrackCompletionVideo[];
+}) {
+  if (!unlocked || videos.length === 0) return null;
+
+  return (
+    <div className="space-y-0">
+      {videos.map((video) => (
+        <SingleOptionalVideo key={video.id} video={video} />
+      ))}
     </div>
   );
 }

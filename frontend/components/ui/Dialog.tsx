@@ -21,6 +21,7 @@ export interface DialogProps {
   message: string;
   primaryAction?: { label: string; onClick: () => void };
   secondaryAction?: { label: string; onClick: () => void };
+  autoDismissMs?: number;
   onClose: () => void;
 }
 
@@ -67,19 +68,21 @@ export function Dialog({
   message,
   primaryAction,
   secondaryAction,
+  autoDismissMs,
   onClose,
 }: DialogProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const config = variantConfig[variant];
   const Icon = config.icon;
 
-  // Auto-dismiss for success after 3s
+  // Auto-dismiss for success (default 3s; override or disable via autoDismissMs)
   useEffect(() => {
-    if (open && variant === 'success') {
-      const timer = setTimeout(onClose, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [open, variant, onClose]);
+    if (!open || variant !== 'success') return;
+    const ms = autoDismissMs ?? 3000;
+    if (ms <= 0) return;
+    const timer = setTimeout(onClose, ms);
+    return () => clearTimeout(timer);
+  }, [open, variant, autoDismissMs, onClose]);
 
   // ESC key closes dialog
   const handleKeyDown = useCallback(

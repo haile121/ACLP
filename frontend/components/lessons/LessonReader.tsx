@@ -15,11 +15,11 @@ import {
   type Chapter1LessonMeta,
 } from '@/lib/chapter1Curriculum';
 import { useAuthSyncHint, markLessonCompleteSynced, syncCourseReadingProgressWithServer } from '@/lib/courseReadingProgress';
-import { requestGamificationRefresh } from '@/lib/gamificationRefresh';
+import { applyGamificationRewards } from '@/lib/gamificationAlerts';
 import { useDialog } from '@/components/ui/DialogProvider';
 import { Spinner } from '@/components/ui/Spinner';
 import { authApi } from '@/lib/api';
-import { canAccessLessonTrack, isWebLessonId } from '@/lib/trackAccess';
+import { canAccessLessonTrack } from '@/lib/trackAccess';
 import type { User } from '@/types';
 import { cn } from '@/lib/cn';
 
@@ -111,18 +111,24 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
   }, [lessonId]);
 
   async function markComplete() {
-    const { xp_awarded, coins_awarded, synced } = await markLessonCompleteSynced(lessonId);
+    const { xp_awarded, coins_awarded, synced, new_badges } = await markLessonCompleteSynced(lessonId);
     setCompleted(true);
-    if (synced) requestGamificationRefresh();
-    if (xp_awarded > 0 || coins_awarded > 0) {
+    if (synced) {
       const parts: string[] = [];
       if (xp_awarded > 0) parts.push(`+${xp_awarded} XP`);
       if (coins_awarded > 0) parts.push(`+${coins_awarded} coins`);
-      show({
-        variant: 'success',
-        title: 'Lesson marked as read',
-        message: `${parts.join(' · ')} added to your progress.`,
-      });
+      const hasBadges = (new_badges?.length ?? 0) > 0;
+      if (!hasBadges) {
+        show({
+          variant: 'success',
+          title: 'Lesson complete',
+          message: parts.length
+            ? `${parts.join(' · ')} added to your progress.`
+            : 'Nice work — this reading counts toward your track progress.',
+          autoDismissMs: 4000,
+        });
+      }
+      applyGamificationRewards(show, new_badges);
     }
   }
 
@@ -135,8 +141,8 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
   }
 
   if (gateUser && !canAccessLessonTrack(gateUser, lessonId)) {
-    const track = isWebLessonId(lessonId) ? 'web' : 'cpp';
-    const label = track === 'web' ? 'Web fundamentals' : 'C++';
+    const track = 'cpp' as const;
+    const label = 'C++';
     return (
       <div className="max-w-lg mx-auto px-4 py-20 text-center">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-500 mb-6 ring-1 ring-black/5 dark:ring-white/10">
@@ -235,9 +241,9 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
             <header className="mb-8 space-y-3 scroll-mt-28">
               <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-950/50 px-2.5 py-0.5 font-semibold text-blue-700 dark:text-blue-300">
-                  {chapter.track === 'web'
-                    ? `Web fundamentals · Session ${sessionInChapter}/${sessionTotal}`
-                    : `Chapter ${chapter.chapterNumber} · Session ${sessionInChapter}/${sessionTotal}`}
+                  {chapter.chapterNumber != null
+                    ? `Chapter ${chapter.chapterNumber} · Session ${sessionInChapter}/${sessionTotal}`
+                    : `Session ${sessionInChapter}/${sessionTotal}`}
                 </span>
                 <span className="text-gray-400 dark:text-gray-500">·</span>
                 <span>~{readMin} min read</span>
@@ -248,7 +254,7 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
               <p
                 className={cn(
                   'text-base text-gray-600 dark:text-gray-400 leading-relaxed border-l-2 border-blue-200 dark:border-blue-800 pl-4',
-                  chapter.track === 'web' && notoEthiopic.className
+                  notoEthiopic.className
                 )}
               >
                 {meta.titleAm}
@@ -265,7 +271,7 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                     'whitespace-pre-wrap text-[16px] sm:text-[17px] leading-[1.75] sm:leading-[1.8]',
                     'text-gray-800 dark:text-gray-200 break-words selection:bg-blue-200/80 dark:selection:bg-blue-900/50',
                     'max-w-[65ch]',
-                    chapter.track === 'web' ? notoEthiopic.className : 'font-sans'
+                    notoEthiopic.className
                   )}
                 >
                   {body}
