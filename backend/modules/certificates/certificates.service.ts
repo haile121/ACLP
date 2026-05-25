@@ -7,7 +7,7 @@ import { isMissingTableError, warnMissingMigrationOnce } from '../../db/mysqlErr
 import type { Certificate, User } from '../../db/types';
 import { getTrackCertificateEligibility } from '../course-track-quizzes/course-track-quizzes.service';
 
-export type TrackKind = 'cpp' | 'web';
+export type TrackKind = 'cpp';
 
 export interface TrackCompletionCertificate {
   id: string;
@@ -85,7 +85,7 @@ function generatePDF(displayName: string, levelLabel: string, verificationCode: 
 
     // Subtitle
     doc.fillColor('#64748b').fontSize(16).font('Helvetica')
-      .text('AlphaX Programming Learning Platform', 0, 130, { align: 'center' });
+      .text('ACLP Learning Platform', 0, 130, { align: 'center' });
 
     // Divider
     doc.moveTo(100, 165).lineTo(doc.page.width - 100, 165).stroke('#2563EB');
@@ -156,13 +156,13 @@ export async function getCertificates(userId: string): Promise<Certificate[]> {
   );
 }
 
-function trackCertificateLabel(track: TrackKind): string {
-  return track === 'cpp' ? 'C++ Fundamentals (Reading Module)' : 'Web Fundamentals (Reading Module)';
+function trackCertificateLabel(_track: TrackKind): string {
+  return 'C++ Fundamentals (Reading Module)';
 }
 
-function generateTrackPDF(displayName: string, track: TrackKind, verificationCode: string): Promise<string> {
-  const accent = track === 'cpp' ? '#2563EB' : '#7c3aed';
-  const moduleLine = trackCertificateLabel(track);
+function generateTrackPDF(displayName: string, _track: TrackKind, verificationCode: string): Promise<string> {
+  const accent = '#2563EB';
+  const moduleLine = trackCertificateLabel('cpp');
   return new Promise((resolve, reject) => {
     ensureCertsDir();
     const filename = `${verificationCode}.pdf`;
@@ -179,7 +179,7 @@ function generateTrackPDF(displayName: string, track: TrackKind, verificationCod
       .text('Certificate of Completion', 0, 80, { align: 'center' });
 
     doc.fillColor('#64748b').fontSize(16).font('Helvetica')
-      .text('AlphaX Programming Learning Platform', 0, 130, { align: 'center' });
+      .text('ACLP Learning Platform', 0, 130, { align: 'center' });
 
     doc.moveTo(100, 165).lineTo(doc.page.width - 100, 165).stroke(accent);
 

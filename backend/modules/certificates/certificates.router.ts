@@ -19,7 +19,7 @@ router.get('/', authenticate, async (req: Request, res: Response) => {
 
 router.post('/track/:track/generate', authenticate, async (req: Request, res: Response) => {
   const track = req.params.track as TrackKind;
-  if (track !== 'cpp' && track !== 'web') {
+  if (track !== 'cpp') {
     return res.status(400).json({ error: 'Invalid track' });
   }
   try {
