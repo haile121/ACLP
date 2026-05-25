@@ -91,6 +91,51 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+const GENERIC_RESET_MESSAGE =
+  'If an account exists for that email, we sent password reset instructions.';
+
+// POST /forgot-password
+router.post('/forgot-password', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const email = typeof req.body?.email === 'string' ? req.body.email.trim() : '';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      res.status(400).json({ error: 'A valid email address is required.' });
+      return;
+    }
+    await authService.requestPasswordReset(email);
+    res.json({ message: GENERIC_RESET_MESSAGE });
+  } catch (err: unknown) {
+    console.error('[auth/forgot-password]', err);
+    res.status(500).json({ error: 'Could not process reset request. Please try again later.' });
+  }
+});
+
+// POST /reset-password
+router.post('/reset-password', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const token = typeof req.body?.token === 'string' ? req.body.token : '';
+    const password = typeof req.body?.password === 'string' ? req.body.password : '';
+    if (!token) {
+      res.status(400).json({ error: 'Reset token is required.' });
+      return;
+    }
+    await authService.resetPasswordWithToken(token, password);
+    res.json({ message: 'Your password has been updated. You can sign in now.' });
+  } catch (err: unknown) {
+    const e = err as { code?: string; message?: string };
+    if (e.code === 'WEAK_PASSWORD' || e.code === 'INVALID_TOKEN' || e.code === 'TOKEN_EXPIRED') {
+      res.status(400).json({ error: e.message, code: e.code });
+      return;
+    }
+    if (e.code === 'RESET_UNAVAILABLE') {
+      res.status(503).json({ error: e.message, code: e.code });
+      return;
+    }
+    console.error('[auth/reset-password]', err);
+    res.status(500).json({ error: 'Could not reset password. Please try again.' });
+  }
+});
+
 // POST /logout
 router.post('/logout', (_req: Request, res: Response): void => {
   // Clear with matching attributes to maximize cross-browser reliability.
@@ -143,14 +188,14 @@ router.get('/me', authenticate, async (req: Request, res: Response): Promise<voi
 });
 
 const primaryTrackSchema = z.object({
-  primary_track: z.enum(['cpp', 'web']),
+  primary_track: z.literal('cpp'),
 });
 
-// PATCH /primary-track — choose Web fundamentals vs C++ before the first placement test
+// PATCH /primary-track — legacy hook; new accounts default to C++ on registration.
 router.patch('/primary-track', authenticate, async (req: Request, res: Response): Promise<void> => {
   const parsed = primaryTrackSchema.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: 'primary_track must be cpp or web' });
+    res.status(400).json({ error: 'primary_track must be cpp' });
     return;
   }
   try {
