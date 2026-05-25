@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { z } from 'zod';
 import { authenticate } from '../../middleware/authenticate';
-import { awardCoins, awardXP } from '../gamification/gamification.service';
+import { awardCoins, awardXP, mergeEarnedBadges } from '../gamification/gamification.service';
 import {
   COURSE_READING_COIN_REWARD,
   COURSE_READING_XP_REWARD,
@@ -69,14 +69,21 @@ router.post('/progress/complete', authenticate, async (req: Request, res: Respon
     const { wasNew } = await addCourseReadingComplete(req.user!.sub, parsed.data.lesson_id);
     let xpAwarded = 0;
     let coinsAwarded = 0;
+    let new_badges: import('../gamification/gamification.service').EarnedBadgeAlert[] = [];
     if (wasNew) {
-      await awardXP(req.user!.sub, COURSE_READING_XP_REWARD);
-      await awardCoins(req.user!.sub, COURSE_READING_COIN_REWARD);
+      const fromXp = await awardXP(req.user!.sub, COURSE_READING_XP_REWARD);
+      const fromCoins = await awardCoins(req.user!.sub, COURSE_READING_COIN_REWARD);
+      new_badges = mergeEarnedBadges(fromXp, fromCoins);
       xpAwarded = COURSE_READING_XP_REWARD;
       coinsAwarded = COURSE_READING_COIN_REWARD;
     }
     const ids = await getCourseReadingProgress(req.user!.sub);
-    return res.json({ completed_lesson_ids: ids, xp_awarded: xpAwarded, coins_awarded: coinsAwarded });
+    return res.json({
+      completed_lesson_ids: ids,
+      xp_awarded: xpAwarded,
+      coins_awarded: coinsAwarded,
+      new_badges,
+    });
   } catch (err: unknown) {
     const e = err as { code?: string };
     if (e.code === 'INVALID_LESSON_ID') {

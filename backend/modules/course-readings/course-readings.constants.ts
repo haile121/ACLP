@@ -25,22 +25,23 @@ export const COURSE_READING_LESSON_IDS: readonly string[] = [
   'ch4-p4',
   'ch4-p5',
   'ch4-p6',
-  'web-p1',
-  'web-p2',
-  'web-p3',
-  'web-p4',
-  'web-p5',
-  'web-p6',
+  'ch5-p1',
+  'ch5-p2',
+  'ch5-p3',
+  'ch5-p4',
 ];
 
 const ALLOWED = new Set(COURSE_READING_LESSON_IDS);
 const ORDER = new Map(COURSE_READING_LESSON_IDS.map((id, i) => [id, i]));
 
-/** Renamed from ch5-p* — migrate stored rows to web-p*. */
+/** Legacy ids from an older curriculum split — normalize into current lesson ids. */
 const LEGACY_LESSON_ID_MAP: Record<string, string> = {
-  'ch5-p1': 'web-p1',
-  'ch5-p2': 'web-p2',
-  'ch5-p3': 'web-p3',
+  'web-p1': 'ch1-p1',
+  'web-p2': 'ch1-p2',
+  'web-p3': 'ch1-p3',
+  'web-p4': 'ch1-p4',
+  'web-p5': 'ch2-p1',
+  'web-p6': 'ch2-p2',
 };
 
 export function normalizeLessonId(id: string): string {
