@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { query } from '../../db/connection';
 import type { Exam } from '../../db/types';
-import { awardCoins, awardXP } from '../gamification/gamification.service';
+import { awardCoins, awardXP, checkAndAwardBadges, mergeEarnedBadges } from '../gamification/gamification.service';
 
 interface ExamGateCheck {
   met: boolean;
@@ -57,7 +57,13 @@ export async function submitExam(
   examId: string,
   userId: string,
   answers: Record<string, string>
-): Promise<{ score: number; passed: boolean; xpAwarded: number; coinsAwarded: number }> {
+): Promise<{
+  score: number;
+  passed: boolean;
+  xpAwarded: number;
+  coinsAwarded: number;
+  new_badges: import('../gamification/gamification.service').EarnedBadgeAlert[];
+}> {
   const examRows = await query<Exam[]>('SELECT * FROM exams WHERE id = ?', [examId]);
   if (examRows.length === 0) throw { code: 'EXAM_NOT_FOUND', message: 'Exam not found' };
   const exam = examRows[0];
@@ -94,12 +100,21 @@ export async function submitExam(
     const firstPass = (passRows[0]?.c ?? 0) === 1;
 
     if (firstPass) {
-      await awardXP(userId, exam.xp_reward);
-      await awardCoins(userId, exam.coin_reward);
+      const fromXp = await awardXP(userId, exam.xp_reward);
+      const fromCoins = await awardCoins(userId, exam.coin_reward);
       xpAwarded = exam.xp_reward;
       coinsAwarded = exam.coin_reward;
+      const extra = await checkAndAwardBadges(userId).catch(() => [] as Awaited<ReturnType<typeof checkAndAwardBadges>>);
+      return {
+        score,
+        passed,
+        xpAwarded,
+        coinsAwarded,
+        new_badges: mergeEarnedBadges(fromXp, fromCoins, extra),
+      };
     }
   }
 
-  return { score, passed, xpAwarded, coinsAwarded };
+  const extra = await checkAndAwardBadges(userId).catch(() => [] as Awaited<ReturnType<typeof checkAndAwardBadges>>);
+  return { score, passed, xpAwarded, coinsAwarded, new_badges: extra };
 }
