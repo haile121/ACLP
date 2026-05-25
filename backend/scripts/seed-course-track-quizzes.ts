@@ -8,7 +8,7 @@ loadBackendEnv();
 
 type QuizMeta = {
   id: string;
-  track: 'cpp' | 'web';
+  track: 'cpp';
   chapter_slug: string;
   title_en: string;
   title_am: string;
@@ -33,12 +33,20 @@ const QUIZZES: QuizMeta[] = [
   { id: 'cpp-ch1', track: 'cpp', chapter_slug: 'chapter-1', title_en: 'Chapter 1 quiz: Getting started', title_am: 'ምዕራፍ 1 ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
   { id: 'cpp-ch2', track: 'cpp', chapter_slug: 'chapter-2', title_en: 'Chapter 2 quiz: Control flow', title_am: 'ምዕራፍ 2 ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
   { id: 'cpp-ch3', track: 'cpp', chapter_slug: 'chapter-3', title_en: 'Chapter 3 quiz: Functions & data', title_am: 'ምዕራፍ 3 ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
-  { id: 'cpp-ch4', track: 'cpp', chapter_slug: 'chapter-4', title_en: 'Chapter 4 quiz: Pointers & OOP basics', title_am: 'ምዕራፍ 4 ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
-  { id: 'cpp-final', track: 'cpp', chapter_slug: 'cpp-final', title_en: 'C++ module final exam', title_am: 'C++ ሞዱል የመጨረሻ ፈተና', xp_reward: 40, coin_reward: 15, is_final: 1, pass_threshold: 70, cert_min_score: 90 },
-  { id: 'web-html', track: 'web', chapter_slug: 'web-html', title_en: 'HTML fundamentals quiz', title_am: 'HTML መሰረት ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
-  { id: 'web-css', track: 'web', chapter_slug: 'web-css', title_en: 'CSS fundamentals quiz', title_am: 'CSS መሰረት ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
-  { id: 'web-js', track: 'web', chapter_slug: 'web-js', title_en: 'JavaScript fundamentals quiz', title_am: 'JavaScript መሰረት ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
-  { id: 'web-final', track: 'web', chapter_slug: 'web-final', title_en: 'Web fundamentals module final exam', title_am: 'የድር መሰረቶች ሞዱል የመጨረሻ ፈተና', xp_reward: 40, coin_reward: 15, is_final: 1, pass_threshold: 70, cert_min_score: 90 },
+  { id: 'cpp-ch4', track: 'cpp', chapter_slug: 'chapter-4', title_en: 'Chapter 4 quiz: Functions', title_am: 'ምዕራፍ 4 ፈተና: ተግባራት', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
+  { id: 'cpp-ch5', track: 'cpp', chapter_slug: 'chapter-5', title_en: 'Chapter 5 quiz: Arrays', title_am: 'ምዕራፍ 5 ፈተና', xp_reward: 15, coin_reward: 5, is_final: 0, pass_threshold: 70, cert_min_score: null },
+  {
+    id: 'cpp-final',
+    track: 'cpp',
+    chapter_slug: 'cpp-final',
+    title_en: 'C++ final exam — all chapters',
+    title_am: 'C++ የመጨረሻ ፈተና — ሁሉም ምዕራፎች',
+    xp_reward: 40,
+    coin_reward: 15,
+    is_final: 1,
+    pass_threshold: 70,
+    cert_min_score: 90,
+  },
 ];
 
 function mc(
@@ -60,7 +68,59 @@ function mc(
   };
 }
 
-const QUESTIONS: QRow[] = [
+/** Comprehensive final: 4 questions per chapter (Ch.1–5), 20 total. Replaced on each seed run. */
+const FINAL_EXAM_QUESTIONS: QRow[] = [
+  mc('cpp-final', 1, 'Which function is the conventional entry point of a C++ program?', 'የC++ ፕሮግራም መደበኛ መግቢያ ነጥብ የትኛው ነው?', ['main()', 'start()', 'init()', 'program()'], 'main()'),
+  mc('cpp-final', 2, 'Which type is most appropriate for storing a whole number like 42?', '42 ያለ አካል ቁጥር ለማከማቸት የትኛው ዓይነት ተስማሚ ነው?', ['int', 'float', 'char', 'bool'], 'int'),
+  mc('cpp-final', 3, 'Which header is commonly included to use std::cout?', 'std::cout ለመጠቀም ብዙውን ጊዜ የትኛውን ራስጌ ያካትታሉ?', ['<iostream>', '<fstream>', '<vector>', '<string>'], '<iostream>'),
+  mc(
+    'cpp-final',
+    4,
+    'A compiler differs from an interpreter mainly because a compiler…',
+    'ኮምፓይለር ከኢንተርፕሪተር የተለየው በዋናው ምክንያት ኮምፓይለር…',
+    ['Translates the whole program before execution', 'Runs line-by-line only at runtime', 'Never produces machine code', 'Only works with Python'],
+    'Translates the whole program before execution'
+  ),
+  mc('cpp-final', 5, 'What is the purpose of #include in a C++ source file?', '#include በC++ ምንጭ ፋይል ውስጥ ዓላማው ምንድን ነው?', ['Bring in declarations from a header', 'Start the program', 'Declare main only', 'End the program'], 'Bring in declarations from a header'),
+  mc('cpp-final', 6, 'In C++, the stream insertion operator used with std::cout is…', 'በC++ ከ std::cout ጋር የሚጠቀመው የማስገባት ኦፕሬተር…', ['<<', '>>', '==', '&&'], '<<'),
+  mc('cpp-final', 7, 'Single-line comments in C++ begin with…', 'በC++ አንድ-መስመር አስተያየቶች ይጀምራሉ በ…', ['//', '/*', '#', '--'], '//'),
+  mc('cpp-final', 8, 'A function in C++ is best described as…', 'በC++ ውስጥ ተግባር በጥሩ ሁኔታ ይገለጻል እንደ…', ['A named block of code you can call', 'A type of variable only', 'A preprocessor directive', 'A comment style'], 'A named block of code you can call'),
+  mc('cpp-final', 9, 'Which keyword starts a conditional block in C++?', 'በC++ ውስጥ የ Konditional ብሎክ የሚጀመረው በየትኛው ቁልፍ ቃል ነው?', ['if', 'loop', 'switching', 'check'], 'if'),
+  mc('cpp-final', 10, 'A for loop is most often used when…', 'የfor ዙረት ብዙውን ጊዜ ያገለግላል ሲ…', ['You know how many iterations you need', 'You never need to iterate', 'You only read files', 'You avoid variables'], 'You know how many iterations you need'),
+  mc('cpp-final', 11, 'What does break; do inside a switch statement?', 'ከswitch ውስጥ break; ምን ያደርጋል?', ['Exits the switch (or loop if applicable)', 'Starts the next case always', 'Repeats the case', 'Deletes variables'], 'Exits the switch (or loop if applicable)'),
+  mc('cpp-final', 12, 'Which loop checks the condition at the bottom at least once?', 'የትኛው ዙረት ኮንዲሽኑን ቢያንስ አንድ ጊዜ በታች ያረጋግጣል?', ['do-while', 'for', 'while', 'foreach'], 'do-while'),
+  mc('cpp-final', 13, 'What is a function prototype?', 'የተግባር ፕሮቶታይፕ ምንድን ነው?', ['A declaration showing name, parameters, and return type', 'The compiled binary', 'A comment only', 'A type of loop'], 'A declaration showing name, parameters, and return type'),
+  mc(
+    'cpp-final',
+    14,
+    'Passing a large object by reference avoids…',
+    'ትልቅ ነገር በሪፈረንስ ማስተላለፍ ያስወግዳል…',
+    ['Copying the whole object by default', 'All errors', 'The need for functions', 'Using headers'],
+    'Copying the whole object by default'
+  ),
+  mc('cpp-final', 15, 'If a function is declared void f(), what does void mean here?', 'void f() ከተዘጋጀ void እዚህ ምን ያመለክታል?', ['No return value to the caller', 'Returns any type', 'Returns only int', 'Undefined behavior'], 'No return value to the caller'),
+  mc(
+    'cpp-final',
+    16,
+    'Default function arguments in C++ must be specified from…',
+    'በC++ ነባሪ የተግባር ክርክሮች መቀመጥ አለባቸው ከ…',
+    ['The rightmost parameter toward the left', 'Any parameter in any order', 'Only the first parameter', 'Global variables only'],
+    'The rightmost parameter toward the left'
+  ),
+  mc('cpp-final', 17, 'What is an array in C++?', 'በ C++ ውስጥ አሬይ (array) ምንድን ነው?', ['A list of values of the same type', 'A single value only', 'A pointer to any type', 'A loop statement'], 'A list of values of the same type'),
+  mc('cpp-final', 18, 'If an array has N elements, what is the last valid index?', 'አሬይ ውስጥ N ኤለመንቶች ካሉ የመጨረሻ ትክክለኛ ኢንዴክስ ምንድን ነው?', ['N - 1', 'N', '1', '0 always'], 'N - 1'),
+  mc('cpp-final', 19, 'To sum all elements of an int array, you typically use…', 'የ int አሬይ ሁሉንም ኤለመንቶች ለመድምር በተለምዶ ምን ይጠቀሙ?', ['A loop over indices', 'A single assignment', 'Only input/output', 'A break statement'], 'A loop over indices'),
+  mc(
+    'cpp-final',
+    20,
+    'A multidimensional array like int m[R][C] is best thought of as…',
+    'int m[R][C] ያለ ባለብዙ ልኬት አሬይ እንደምን ነው?',
+    ['An array of arrays (a grid/table)', 'A single linear list only', 'A function', 'A pointer type alone'],
+    'An array of arrays (a grid/table)'
+  ),
+];
+
+const CHAPTER_QUESTIONS: QRow[] = [
   ...[
     mc('cpp-ch1', 1, 'Which function is the conventional entry point of a C++ program?', 'የC++ ፕሮግራም መደበኛ መግቢያ ነጥብ የትኛው ነው?', ['main()', 'start()', 'init()', 'program()'], 'main()'),
     mc('cpp-ch1', 2, 'Which type is most appropriate for storing a whole number like 42?', '42 ያለ አካል ቁጥር ለማከማቸት የትኛው ዓይነት ተስማሚ ነው?', ['int', 'float', 'char', 'bool'], 'int'),
@@ -86,44 +146,14 @@ const QUESTIONS: QRow[] = [
     mc('cpp-ch4', 4, 'A class member function is also called a…', 'የክላስ አባል ተግባር ደግሞ ይባላል…', ['Method', 'Macro', 'Header', 'Literal'], 'Method'),
   ],
   ...[
-    mc('cpp-final', 1, 'Which of the following is a valid C++ integer literal?', 'የሚከተለው ውስጥ የሚሰራ C++ አካል ቁጥር ሊተረጉም ነው?', ['42', '4.2.1', '"42"', '4e2.3'], '42'),
-    mc('cpp-final', 2, 'What is the purpose of #include?', '#include ዓላማው ምንድን ነው?', ['Pull in declarations from a header', 'Run the program faster', 'Create a new OS', 'Compile without source'], 'Pull in declarations from a header'),
-    mc('cpp-final', 3, 'If a function is declared void f(), what does void mean here?', 'void f() ከተዘጋጀ void እዚህ ምን ያመለክታል?', ['No return value to the caller', 'Returns any type', 'Returns only int', 'Undefined behavior'], 'No return value to the caller'),
-    mc('cpp-final', 4, 'Which statement best describes a reference in C++?', 'በC++ ሪፈረንስን በጥሩ ሁኔታ የሚገልጽው የትኛው ነው?', ['An alias for an existing object', 'A copy that cannot be changed', 'A pointer that is always null', 'A new heap allocation'], 'An alias for an existing object'),
-    mc('cpp-final', 5, 'What does new typically do in C++?', 'በC++ new ብዙውን ጊዜ ምን ያደርጋል?', ['Allocates dynamic storage', 'Frees memory', 'Opens a file', 'Starts a thread'], 'Allocates dynamic storage'),
-    mc('cpp-final', 6, 'Which access specifier hides members from outside the class?', 'ከክላስ ውጭ አባላትን የሚደብቀው የትኛው የመዳረሻ ምድብ ነው?', ['private', 'public', 'static', 'inline'], 'private'),
-    mc('cpp-final', 7, 'A compile-time error is detected by…', 'የኮምፓይል ጊዜ ስህተት ይገኛል በ…', ['The compiler before running', 'Only at runtime always', 'The user manually', 'The CPU fan speed'], 'The compiler before running'),
-    mc('cpp-final', 8, 'std::string is safer than fixed char[] for many text tasks because it…', 'std::string ለብዙ ጽሑፍ ስራዎች ከተወሰነ char[] ይደህን ምክንያቱ…', ['Tracks length and manages memory', 'Cannot grow', 'Ignores null terminators always', 'Only stores numbers'], 'Tracks length and manages memory'),
-  ],
-  ...[
-    mc('web-html', 1, 'Which element is most appropriate for the main unique content of a page?', 'ለገጽ ዋና ልዩ ይዘት የትኛው አካል ተስማሚ ነው?', ['<main>', '<div> only', '<meta>', '<br>'], '<main>'),
-    mc('web-html', 2, 'What does <!DOCTYPE html> declare?', '<!DOCTYPE html> ምን ያስታውቃል?', ['That the document is HTML5', 'That CSS is disabled', 'That JavaScript runs on server only', 'That the page has no text'], 'That the document is HTML5'),
-    mc('web-html', 3, 'Which attribute provides alternative text for images?', 'ለምስሎች አማራጭ ጽሑፍ የሚሰጠው ባህሪ የትኛው ነው?', ['alt', 'src', 'href', 'title'], 'alt'),
-    mc('web-html', 4, 'Semantic HTML helps with…', 'ስማንቲክ HTML ይረዳል በ…', ['Accessibility and meaning', 'Making images heavier', 'Disabling links', 'Removing CSS'], 'Accessibility and meaning'),
-  ],
-  ...[
-    mc('web-css', 1, 'Which property controls spacing outside an element’s border?', 'ከአካል ድንበር ውጭ ክፍተት የሚቆጣጠረው ባህሪ የትኛው ነው?', ['margin', 'padding', 'color', 'font-size'], 'margin'),
-    mc('web-css', 2, 'display: flex on a container enables…', 'display: flex በኮንቴነር ላይ ያንቃል…', ['Flexbox layout along axes', 'Only tables', 'Only fixed pixels', 'Server-side rendering'], 'Flexbox layout along axes'),
-    mc('web-css', 3, 'Which selector targets an element with id="nav"?', 'id="nav" ያለውን አካል የሚመለከተው ሴሌክተር የትኛው ነው?', ['#nav', '.nav', 'nav()', '*nav'], '#nav'),
-    mc('web-css', 4, 'Media queries are primarily used for…', 'ሚዲያ ጥያቄዎች በዋናነት ያገለግላሉ ለ…', ['Responsive design', 'Database access', 'C++ compilation', 'Email sending'], 'Responsive design'),
-  ],
-  ...[
-    mc('web-js', 1, 'Which keyword declares a block-scoped variable that can be reassigned?', 'የብሎክ ወሰን ተለዋዋጭ የሚገለጽበት ቁልፍ ቃል የትኛው ነው?', ['let', 'const', 'var only in strict blocks', 'static'], 'let'),
-    mc('web-js', 2, 'document.querySelector() returns…', 'document.querySelector() ይመልሳል…', ['The first matching element or null', 'Always an array', 'Always a number', 'A CSS file'], 'The first matching element or null'),
-    mc('web-js', 3, 'addEventListener is used to…', 'addEventListener ያገለግላል ለ…', ['React to user or browser events', 'Compile TypeScript', 'Style elements only', 'Create databases'], 'React to user or browser events'),
-    mc('web-js', 4, 'JSON.stringify converts…', 'JSON.stringify ይቀይራል…', ['A JavaScript value to a JSON string', 'HTML to PDF', 'CSS to JS', 'Images to text'], 'A JavaScript value to a JSON string'),
-  ],
-  ...[
-    mc('web-final', 1, 'Which HTTP method is idempotent and commonly used to fetch a resource?', 'የትኛው HTTP ዘዴ ኢዴምፖቴንት ነው እና ሀብት ለማምጣት ይጠቀማል?', ['GET', 'POST', 'PATCH', 'CONNECT'], 'GET'),
-    mc('web-final', 2, 'In the box model, padding is…', 'በbox ሞዴል ውስጥ ፓዲንግ ነው…', ['Space between content and border', 'Space outside the border', 'The border width only', 'The viewport size'], 'Space between content and border'),
-    mc('web-final', 3, 'What does DOM stand for?', 'DOM ምን ያመለክታል?', ['Document Object Model', 'Data Object Memory', 'Dynamic Output Method', 'Domain Origin Map'], 'Document Object Model'),
-    mc('web-final', 4, 'Which tag is used for the largest heading by default?', 'በነባሪ ትልቁን ርዕስ የሚያስቀምጠው መሰረት የትኛው ነው?', ['<h1>', '<h6>', '<head>', '<header>'], '<h1>'),
-    mc('web-final', 5, 'CSS specificity: an ID selector generally beats…', 'የCSS ስፔሲፊስቲ ከID ሴሌክተር በአጠቃላይ ያሸንፋል…', ['A single class selector', 'Inline styles', '!important on everything', 'The browser'], 'A single class selector'),
-    mc('web-final', 6, 'const in JavaScript means the binding…', 'በJavaScript const ማለት ግንኙነቱ…', ['Cannot be reassigned', 'Is always deep-frozen', 'Is hoisted differently than let', 'Only works in browsers'], 'Cannot be reassigned'),
-    mc('web-final', 7, 'A <form> submit can be prevented with…', 'የ<form> ማስረከብ ሊከለከል ይችላል በ…', ['event.preventDefault() in a handler', 'Deleting the form tag', 'Using only CSS', 'Setting method="none"'], 'event.preventDefault() in a handler'),
-    mc('web-final', 8, 'Progressive enhancement means…', 'ፕሮግረሲቭ ኢንሃንስመንት ማለት…', ['Start with a baseline that works, then add features', 'Only support the newest browsers', 'Remove HTML', 'Disable JavaScript always'], 'Start with a baseline that works, then add features'),
+    mc('cpp-ch5', 1, 'What is an array in C++?', 'በ C++ ውስጥ አሬይ (array) ምንድን ነው?', ['A list of values of the same type', 'A single value only', 'A pointer to any type', 'A loop statement'], 'A list of values of the same type'),
+    mc('cpp-ch5', 2, 'If an array has N elements, what is the last valid index?', 'አሬይ ውስጥ N ኤለመንቶች ካሉ የመጨረሻ ትክክለኛ ኢንዴክስ ምንድን ነው?', ['N - 1', 'N', '1', '0 always'], 'N - 1'),
+    mc('cpp-ch5', 3, 'To sum all elements of an int array, you typically use…', 'የ int አሬይ ሁሉንም ኤለመንቶች ለመድምር በተለምዶ ምን ይጠቀሙ?', ['A loop over indices', 'A single assignment', 'Only input/output', 'A break statement'], 'A loop over indices'),
+    mc('cpp-ch5', 4, 'A multidimensional array like int m[R][C] is best thought of as…', 'int m[R][C] ያለ ባለብዙ ልኬት አሬይ እንደምን ነው?', ['An array of arrays (a grid/table)', 'A single linear list only', 'A function', 'A pointer type alone'], 'An array of arrays (a grid/table)'),
   ],
 ];
+
+const QUESTIONS: QRow[] = [...CHAPTER_QUESTIONS, ...FINAL_EXAM_QUESTIONS];
 
 async function main() {
   const conn = await mysql.createConnection({
@@ -136,21 +166,11 @@ async function main() {
   });
 
   try {
-    const [countRows] = await conn.query<RowDataPacket[]>(
-      'SELECT COUNT(*) AS c FROM course_track_quizzes WHERE id = ?',
-      ['cpp-ch1']
-    );
-    const count = Number((countRows[0] as { c: number }).c ?? 0);
-    if (count > 0) {
-      console.log('Course track quizzes already seeded (cpp-ch1 exists). Skipping.');
-      return;
-    }
-
     await conn.beginTransaction();
 
     for (const q of QUIZZES) {
       await conn.query(
-        `INSERT INTO course_track_quizzes
+        `INSERT IGNORE INTO course_track_quizzes
          (id, track, chapter_slug, title_en, title_am, xp_reward, coin_reward, is_final, pass_threshold, cert_min_score)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -168,7 +188,42 @@ async function main() {
       );
     }
 
-    for (const row of QUESTIONS) {
+    for (const row of CHAPTER_QUESTIONS) {
+      await conn.query(
+        `INSERT IGNORE INTO course_track_quiz_questions
+         (id, quiz_id, sort_order, question_en, question_am, options_json, correct_answer)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          row.id,
+          row.quiz_id,
+          row.sort_order,
+          row.question_en,
+          row.question_am,
+          JSON.stringify(row.options),
+          row.correct_answer,
+        ]
+      );
+    }
+
+    const finalMeta = QUIZZES.find((q) => q.id === 'cpp-final');
+    if (finalMeta) {
+      await conn.query(
+        `UPDATE course_track_quizzes
+         SET title_en = ?, title_am = ?, xp_reward = ?, coin_reward = ?, pass_threshold = ?, cert_min_score = ?
+         WHERE id = 'cpp-final'`,
+        [
+          finalMeta.title_en,
+          finalMeta.title_am,
+          finalMeta.xp_reward,
+          finalMeta.coin_reward,
+          finalMeta.pass_threshold,
+          finalMeta.cert_min_score,
+        ]
+      );
+    }
+
+    await conn.query('DELETE FROM course_track_quiz_questions WHERE quiz_id = ?', ['cpp-final']);
+    for (const row of FINAL_EXAM_QUESTIONS) {
       await conn.query(
         `INSERT INTO course_track_quiz_questions
          (id, quiz_id, sort_order, question_en, question_am, options_json, correct_answer)
@@ -186,7 +241,9 @@ async function main() {
     }
 
     await conn.commit();
-    console.log(`Seeded ${QUIZZES.length} quizzes and ${QUESTIONS.length} questions.`);
+    console.log(
+      `Seeded ${QUIZZES.length} quizzes, ${CHAPTER_QUESTIONS.length} chapter questions, and ${FINAL_EXAM_QUESTIONS.length} final exam questions.`
+    );
   } catch (e) {
     await conn.rollback();
     throw e;

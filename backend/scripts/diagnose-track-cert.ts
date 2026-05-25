@@ -47,13 +47,13 @@ async function main() {
     console.log('By quiz_id:', byQuiz);
 
     const [finals] = await conn.query<mysql.RowDataPacket[]>(
-      `SELECT id, track, is_final FROM course_track_quizzes WHERE id IN ('web-final','cpp-final')`
+      `SELECT id, track, is_final FROM course_track_quizzes WHERE id = 'cpp-final'`
     );
     console.log('Final quiz rows:', finals);
 
     const [sample] = await conn.query<mysql.RowDataPacket[]>(
       `SELECT user_id, quiz_id, score, passed FROM course_track_quiz_attempts
-       WHERE quiz_id IN ('web-final','cpp-final') ORDER BY created_at DESC LIMIT 8`
+       WHERE quiz_id = 'cpp-final' ORDER BY created_at DESC LIMIT 8`
     );
     console.log('Recent final attempts:', sample);
 
