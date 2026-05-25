@@ -1,0 +1,41 @@
+{
+  "hero": {
+    "badge": "ለኢትዮጵያ ተማሪዎች የተገነባ የፕሮግራም መማሪያ",
+    "title_main": "ፕሮግራሚንግ ባለሙያ ይሁኑ",
+    "title_highlight": "በአማርኛ",
+    "subtitle": "በሁለት ቋንቋ፣ C++ ትምህርት፣ ላይቭ ኮምፓይለር እና AI አስጠኚ። ሁሉም በአንድ ቦታ። ሁልጊዜም ነፃ።",
+    "cta_start": "ትምህርት ይጀምሩ፣ ነፃ ነው",
+    "cta_login": "ይግቡ እዚህ",
+    "students_learning": "ተማሪዎች እየተማሩ ነው",
+    "no_credit_card": "ክሬዲት ካርድ አያስፈልግም",
+    "no_setup": "ምንም ኮንፊግሬሽን የለም"
+  },
+  "curriculum": {
+    "sectionLabel": "የትምህርት አቅጣጫ",
+    "title": "ከ መሰረት እስከ ከፍተኛ በተደራጅ መንገድ",
+    "intro": "የመጀመሪያ ፈተና ደረጃዎን ይወስናል። እያንዳንዱ ካርድ ሶስቱን ደረጃዎች በ C++ ያሳያል።",
+    "cta": "የመጀመሪያ ፈተና ይውሰዱ →"
+  },
+  "levels": {
+    "beginner": "ጀማሪ",
+    "intermediate": "መካከለኛ",
+    "advanced": "ከፍተኛ"
+  },
+  "topics": {
+    "variables": "ተለዋዋጮች እና ዓይነቶች",
+    "control_flow": "Control flow (Loop, If/Else)",
+    "functions": "Functions",
+    "memory_intro": "የማስታወሻ (Memory) መሰረቶች",
+    "arrays": "Arrays እና Strings",
+    "pointers": "Pointers እና Memory",
+    "structs": "Structs እና Enums",
+    "oop_basics": "የነገር ተኮር ፕሮግራሚንግ መሰረቶች",
+    "recursion": "Recursion እና ችግር መፍታት",
+    "templates": "ቴምፕሌቶች (Templates)",
+    "stl": "STL (መደበኛ ቤተ-መጽሐፍት)",
+    "file_io": "File I/O (ፋይል አጠቃቀም)",
+    "algorithms": "አልጎሪዝሞች",
+    "design_patterns": "ዲዛይን ፓተርኖች",
+    "move_semantics": "Move semantics እና smart pointers"
+  }
+}

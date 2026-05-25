@@ -1,0 +1,41 @@
+{
+  "hero": {
+    "badge": "The programming platform built for Ethiopian students",
+    "title_main": "Master Programming",
+    "title_highlight": "in Amharic",
+    "subtitle": "Bilingual lessons, C++ track, a live compiler, and an AI tutor. All in one platform. Free forever.",
+    "cta_start": "Start learning, it's free",
+    "cta_login": "Sign in",
+    "students_learning": "students learning",
+    "no_credit_card": "No credit card",
+    "no_setup": "No setup"
+  },
+  "curriculum": {
+    "sectionLabel": "Curriculum",
+    "title": "A structured path from zero to advanced",
+    "intro": "The diagnostic places you at the right level. Each card shows beginner, intermediate, and advanced focus areas so you always know what comes next.",
+    "cta": "Take the diagnostic test →"
+  },
+  "levels": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "topics": {
+    "variables": "Variables & types",
+    "control_flow": "Control flow",
+    "functions": "Functions",
+    "memory_intro": "Memory basics",
+    "arrays": "Arrays & strings",
+    "pointers": "Pointers memory",
+    "structs": "Structs & enums",
+    "oop_basics": "OOP basics",
+    "recursion": "Recursion & problem solving",
+    "templates": "Templates",
+    "stl": "STL (Standard Library)",
+    "file_io": "File I/O",
+    "algorithms": "Algorithms",
+    "design_patterns": "Design patterns",
+    "move_semantics": "Move semantics & smart pointers"
+  }
+}
