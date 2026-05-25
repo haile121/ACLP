@@ -1,0 +1,482 @@
+﻿Chapter Six
+File Operations (File I/O)
+
+6.1 Introduction
+The data created by the user and assigned to variables with an assignment
+statement is sufficient for some applications. With large volume of data
+most real-world applications use a better way of storing that data. For this,
+disk files offer the solution.
+When working with disk files, C++ does not have to access much RAM
+because C++ reads data from your disk drive and processes the data only
+parts at a time.
+
+ምዕራፍ ስድስት
+​የፋይል ስራዎች (File I/O)
+​6.1 መግቢያ
+​አንዳንድ ጊዜ በፕሮግራማችን ውስጥ ለቫሪያብል (variable) የምንሰጠው ዳታ ለምንሰራው ስራ በቂ ሊሆን ይችላል። ነገር ግን፣ ዳታው በጣም ብዙ በሚሆንበት ጊዜ አብዛኞቹ ትክክለኛ የሶፍትዌር ስራዎች ዳታውን ለማስቀመጥ የተሻለ መንገድ ይፈልጋሉ። ለዚህ ደግሞ የኮምፒውተር ፋይሎች (disk files) ፍቱን መፍትሄ ናቸው።
+​በፋይሎች ላይ ስንሰራ C++ ብዙ የራም (RAM) አቅም መጠቀም አያስፈልገውም። ምክንያቱም C++ ዳታውን በቀጥታ ከዲስኩ ላይ እያነበበ በየጥቂቱ ፕሮሰስ ስለሚያደርገው ነው።
+
+6.2 Stream
+Stream is a general name given to flow of data. In C++, there are different
+types of streams. Each stream is associated with a particular class, which
+contains member function and definition for dealing with file. Lets have a
+look at the figure:
+
+​6.2 ስትሪም (Stream)
+​ስትሪም (Stream) ማለት በአጭሩ የዳታ ፍሰት ማለት ነው። በ C++ ውስጥ የተለያዩ የስትሪም አይነቶች አሉ። እያንዳንዱ ስትሪም ከአንድ የተወሰነ ክላስ (class) ጋር የተያያዘ ሲሆን፣ ያ ክላስ ደግሞ ከፋይሎች ጋር እንዴት መስራት እንዳለብን የሚያሳዩ ዝርዝር መመሪያዎችንና ተግባራትን (member functions) ይዟል።
+
+
+According to the above hierarchy, the class iostream is derived from the two classes’ istream and ostream and both istream and ostream are derived from ios. Similarly the class fstream is derived from iostream.
+Generally two main header files are used iostream.h and fstream.h. The
+classes used for input and output to the video display and key board are
+declared in the header file iostream.h and the classes used for disk file
+input output are declared in fstream.h.
+Note that when we include the header file fstream.h in our program then
+there is no need to include iostream.h header file. Because all the classes
+which are in fstream.h they are derived from classes which are in
+iostream.h therefore, we can use all the functions of iostream class.
+ከላይ ባየነው ተዋረድ (hierarchy) መሰረት፣ iostream የሚባለው ክላስ የመጣው (derived የሆነው) ከሁለቱ istream እና ostream ክላሶች ነው። እነዚህ ሁለቱ ደግሞ በተራቸው ከ ios ክላስ የተገኙ ናቸው። በተመሳሳይ ሁኔታ fstream የሚባለው ክላስ ደግሞ ከ iostream የተገኘ ነው።
+​በአጠቃላይ ለስራችን ሁለት ዋና ዋና የሄደር ፋይሎችን (header files) እንጠቀማለን፦ iostream.h እና fstream.h።
+​iostream.h: በኮምፒውተራችን ስክሪን ላይ መረጃ ለማሳየት እና ከኪቦርድ ዳታ ለመቀበል የሚያስችሉንን ክላሶች ይዟል።
+​fstream.h: በዲስክ ፋይሎች (disk files) ላይ ዳታ ለመጻፍና ለማንበብ የምንጠቀምባቸው ክላሶች የሚገኙት እዚህ ውስጥ ነው።
+​ልብ በል፦ በፕሮግራማችን ውስጥ fstream.hን ከተጠቀምን፣ iostream.hን ደግመን መጨመር (include ማድረግ) አያስፈልገንም። ለምን ቢባል? በ fstream.h ውስጥ ያሉ ፋይሎች በሙሉ ከ iostream.h ክላሶች የመጡ ስለሆነ፣ በ iostream ውስጥ ያሉትን ፋንክሽኖች በሙሉ በዛው መጠቀም እንችላለን።
+
+
+6.3: Operation With File
+First we will see how files are opened and closed. A file can be defined by
+following class ifstream, ofstream, fstream, all these are defined in
+fstream.h header file.
+if a file object is declared by ifstream class, then that object can be
+used for reading from a file.
+if a file object is declared by ofstream class, then that object can
+be used for writing onto a file.
+If a file object is declared by fstream class then, that object can be
+used for both reading from and writing to a file.
+​6.3 የፋይል ኦፕሬሽኖች (Operations With File)
+​በመጀመሪያ ፋይሎች እንዴት እንደሚከፈቱና እንደሚዘጉ እንይ። አንድን ፋይል በፕሮግራማችን ለመጠቀም በ fstream.h ውስጥ የሚገኙትን እነዚህን ሶስት ክላሶች እንጠቀማለን፡
+​ifstream: የዚህ ክላስ ኦብጀክት (object) ከፈጠርክ፣ ፋይሉን ለማንበብ ብቻ ነው የምትጠቀመው (Input)።
+​ofstream: የዚህ ክላስ ኦብጀክት ደግሞ በፋይሉ ላይ መረጃ ለመጻፍ ይጠቅማል (Output)።
+​fstream: ይሄኛው ደግሞ ሁለቱንም በአንድ ላይ ያደርጋል፤ ማለትም ከፋይሉ ለማንበብም ሆነ በፋይሉ ላይ ለመጻፍ ያስችልሃል።
+6.4: Types of Disk File Access
+Your program can access files either in sequential manner or random
+manner. The access mode of a file determines how one can read, write,
+change, add and delete data from a file.
+A sequential file has to be accessed in the same order as the file was
+written. This is analogues to cassette tapes: you play music in the same
+order as it was recorded.
+Unlike the sequential files, you can have random-access to files in any
+order you want. Think of data in a random-access file as being similar to
+songs on compact disc (CD): you can go directly to any song you want to
+play without having to play or fast-forward through the other songs.
+6.4.1: Sequential File Concepts
+You can perform three operations on sequential disk files. You can create
+disk files, add to disk files, and read from disk files.
+6.4.1.1: Opening and Closing Sequential Files
+When you open a disk file, you only have to inform C++, the file name
+and what you want to do with it. C++ and your operating system work
+together to make sure that the disk is ready, and they create an entry in
+your file directory for the filename (if you are creating a file). When you close a file, C++ writes any remaining data to the file, releases the file from
+the program, and updates the file directory to reflect the file’s new size.
+You can use either of the two methods to open a file in C++:
+using a Constructor or
+using the open function
+The following C++ statement will create an object with the name fout of
+ofstream class and this object will be associated with file name “hello.txt”.
+
+ofstream fout (“hello.txt”) //create hello.txt in your directory file
+This statement uses the constructor method.
+The following C++ statement will create an object with the name fout of
+ofstream class and this object will be associated with file name “hello.txt”.
+ofstream fout
+fout.open(“hello.txt”) //create hello.txt in your current directory
+The code will create hello text file as shown below
+
+If you open a file for writing (out access mode), C++ creates the file. If a
+file by that name already exists, C++ overwrite the old file with no
+warning. You must be careful when opening files not to overwrite existing
+data that you want.
+If an error occurs during opening of a file, C++ does not create a valid file
+pointer (file object). Instead, C++ creates a file pointer (object) equal to
+zero. For example if you open a file for output, but use an invalid disk
+name, C++ can’t open the file and therefore makes the file object equal to
+zero.
+You can also determine the file access mode when creating a file in C++. If
+you want to use the open function to open a file then the syntax is:
+fileobject.open(filename,accessmode)
+File name is a string containing a valid file name for your computer.
+Accessmode is the sought operation to be taken on the file and must be one of the values in the following table.
+
+6.4 የፋይል አጠቃቀም አይነቶች (Types of Disk File Access)
+​ፕሮግራማችን ፋይሎችን በሁለት መንገድ ሊያገኛቸው ይችላል፡
+​ሰርተህ ተከተል (Sequential Access): ዳታው በተቀመጠበት ቅደም ተከተል ብቻ ማንበብ። ልክ እንደ ካሴት ማለት ነው፤ መጀመሪያ የተቀዳውን ሳትሰማ መሃል ላይ ያለውን መስማት አትችልም።
+​የፈለጉበት ጋር መዝለል (Random Access): ዳታውን በፈለግከው ቅደም ተከተል ማግኘት። ይሄ ደግሞ እንደ ሲዲ (CD) ነው፤ የፈለግከውን ዘፈን መርጠህ በቀጥታ ማጫወት ትችላለህ።
+​6.4.1 ሰርተህ ተከተል ፋይሎች (Sequential File Concepts)
+​በእነዚህ ፋይሎች ላይ ሶስት ነገሮችን ማድረግ ትችላለህ፡ አዲስ ፋይል መፍጠር፣ ዳታ መጨመር እና ከፋይሉ ላይ ዳታ ማንበብ።
+​6.4.1.1 ፋይሎችን መክፈትና መዝጋት
+​አንድን ፋይል ስትከፍት ለ C++ የምትነግረው ሁለት ነገር ብቻ ነው፡ የፋይሉን ስም እና ምን ማድረግ እንደፈለግክ። ፋይሉን ስትዘጋው ደግሞ C++ የቀረ ዳታ ካለ ፋይሉ ላይ ጽፎ ያጠናቅቃል፣ እንዲሁም ፋይሉን ከፕሮግራሙ ጋር ያላቅቀዋል።
+​ፋይል ለመክፈት ሁለት መንገዶች አሉ፦
+1, በኮንስትራክተር (Constructor) መጠቀም፦
+ofstream fout ("hello.txt") // ፋይሉን ወዲያውኑ ይፈጥረዋል
+የ open() ፋንክሽንን መጠቀም፦
+ofstream fout
+fout.open("hello.txt") // መጀመሪያ ኦብጀክቱን ፈጥሮ በኋላ ፋይሉን ይከፍታል
+ጥንቃቄ ማድረግ ያለባችሁ ነገሮች፦
+​Overwrite: ፋይል ለመጻፍ (out mode) ስትከፍት፣ በዚያ ስም ሌላ ፋይል ቀድሞ ካለ C++ ያለምንም ማስጠንቀቂያ አጥፍቶ በአዲሱ ይተካዋል። ስለዚህ ጥንቃቄ አድርግ!
+​Error Handling: ፋይሉ ሳይከፈት ቢቀር (ለምሳሌ የዲስክ ስም ከተሳሳተ)፣ የፈጠርከው ኦብጀክት ዋጋው 0 (zero) ይሆናል። ይሄ ፋይሉ አልተከፈተም ማለት ነው።
+​የፋይሉን አጠቃቀም አይነት (Access mode) ለመወሰን የምንጠቀምበት ሲንታክስ (Syntax) እንዲህ ነው፦
+​fileobject.open(filename, accessmode)
+
+
+
+outdata.open(“c:\\names.txt”,ios::app)
+outdata.open(“c:\\names.txt”,ios::in)
+outdata.open(“c:\\names.txt”,ios::out)
+You should always check for the successful opening of a file before
+starting file manipulation on it. You use the fail() function to do the task:
+Lets have an example here:
+ifstream indata
+indata.open(“c:\\myfile.txt”,ios::in)
+if(indata.fail())
+{
+//error description here
+}
+In this case, the open operation will fail (i.e the fail function will return
+true), if there is no file named myfile.txt in the directory C:\
+After you are done with your file manipulations, you should use the close
+function to release any resources that were consumed by the file
+operation. 
+Here is an example
+indata.close()
+The above close() statement will terminate the relationship between the
+ifstream object indata and the file name “c:\myfile.txt”, hence releasing
+any resource needed by the system.
+የፋይል አከፋፈት አይነቶች (Access Modes)
+​እነዚህን ምሳሌዎች ተመልከት፡
+​outdata.open("c:\\names.txt", ios::app)
+​ios::app (Append): ፋይሉ ካለ መጨረሻው ላይ አዲስ መረጃ ለመጨመር ይጠቅማል። የቆየውን ዳታ አያጠፋብህም።
+​outdata.open("c:\\names.txt", ios::in)
+​ios::in (Input): ከፋይሉ ላይ መረጃ ለማንበብ ብቻ ስትፈልግ።
+​outdata.open("c:\\names.txt", ios::out)
+​ios::out (Output): በፋይሉ ላይ መረጃ ለመጻፍ። ፋይሉ ቀድሞ ካለ ግን ያጠፋውና በአዲስ ይተካዋል።
+​ፋይሉ በትክክል መከፈቱን ማረጋገጥ
+​ፋይል ላይ ማንኛውንም ስራ ከመስራትህ በፊት፣ ፋይሉ በትክክል መከፈቱን ማረጋገጥ በጣም አስፈላጊ ነው። ለዚህ ደግሞ fail() የምትባል ፋንክሽን እንጠቀማለን።
+​ለምሳሌ፡
+ifstream indata
+indata.open("c:\\myfile.txt", ios::in)
+
+if(indata.fail())
+{
+// ፋይሉ ካልተገኘ ወይም መከፈት ካልቻለ እዚህ ጋር ማሳሰቢያ መጻፍ ትችላለህ
+cout << "Error: ፋይሉ ሊገኝ አልቻለም!" << endl
+}
+እዚህ ጋር ፋይሉ (myfile.txt) በሲ-ድራይቭ (C:) ውስጥ ከሌለ፣ fail() ፋንክሽኑ true (እውነት) የሚል መልስ ይሰጠናል። ይህም ስህተት መኖሩን ያሳውቀናል።
+​ፋይልን መዝጋት (Closing a File)
+​የፈለግከውን ስራ ሰርተህ ስትጨርስ፣ የከፈትከውን ፋይል መዝጋት አለብህ። ይሄም ኮምፒውተሩ ለዛ ፋይል የተጠቀመውን ሜሞሪ (resources) እንዲለቅ ይረዳዋል።
+​ምሳሌ፡
+indata.close()
+ይህንን ስታደርግ በ indata ኦብጀክት እና በ myfile.txt መካከል የነበረው ግንኙነት ያበቃል።
+
+6.4.1.2: Writing to a sequential File
+The most common file I/O functions are
+get() and put() to read from a file and write to file respectively
+You can also use the output redirection operator (<<) to write to a file.
+The following program creates a file called names.txt and saves the
+name of five persons in it:
+#include<fstream>
+#include<conio>
+#include<stdlib>
+void main()
+{
+ofstream fp
+fp.open("hello.txt")
+if(fp.fail())
+{
+cout<< "\nError opening file"
+getch()
+exit(1)
+}
+fp<< "Abebe Alemu"<<endl
+fp<< "Lemelem Berhanu"<<endl
+fp<< "Tesfaye Mulugeta"<<endl
+fp<< "Mahlet Kebede"<<endl
+fp<< "Assefa Bogale"<<endl
+fp.close()
+cout<<" Writing to file is successful press any key to exit"
+}
+Writing characters to sequential files:
+A character can be written onto a file using the put() function. See the following code:
+
+#include<fstream>
+#include<conio>
+#include<stdlib>// for exit() function
+void main()
+{
+char c
+ofstream outfile
+outfile.open("D:\\test.txt",ios::out)
+if(outfile.fail())
+{
+cout<<"\nError opening test.txt"
+}
+for(int i1i<15i++)
+{
+cout<<"\nEnter a character : "
+cin>>c
+outfile.put(c)// used to write a line or string to the output
+}
+outfile.close()
+}//end main
+
+Output….assume you entered A B C …..15 characters 
+A
+B
+C
+….
+The above program reads 15 characters and stores in D:\ with file test.txt.
+You can easily add data to an existing file, or create new files, by opening
+the file in append access mode.
+Files you open for append access mode (using ios::app) do not have to exist.
+If the file exists, C++ appends data to the end of the file (as is done when
+you open a file for write access).
+The following program adds three more names to the names.txt file
+created in the earlier program.
+#include<fstream.h>
+#include<stdlib.h>
+…
+void main()
+{
+ofstream outdata
+outdata.open(“c:\\names.txt”,ios::app)//append data
+if(outdata.fail())
+{
+cerr<< “\nError opening names.txt”
+}
+outdata<< “Berhanu Teka”<<endl
+outdata<< “Zelalem Assefa”<<endl
+outdata<< “Dagim Sheferaw”<<endl
+outdata.close()
+}//end main
+The above code will add or append three names from the existing file text at the end.
+If the file names.txt does not exist, C++ creates it and stores the three names
+to the file.
+Basically, you have to change only the open() function’s access mode to
+turn a file-creation program into a file-appending program.
+
+6.4.1.2 ወደ ፋይል መጻፍ (Writing to a sequential File)
+​ወደ ፋይል ለመጻፍ የምንጠቀምባቸው ዋና ዋና መንገዶች፦
+​put(): አንድን ካራክተር (character) ብቻ ፋይል ውስጥ ለመጻፍ ይጠቅማል።
+​<< (Output redirection operator): ልክ ስክሪን ላይ በ cout እንደምንጽፈው ሁሉ ወደ ፋይል ጽሁፎችን ለመላክ ይጠቅማል።
+​ምሳሌ 1፦ በ << በመጠቀም ስሞችን መጻፍ
+​ይህ ፕሮግራም "hello.txt" የሚባል ፋይል ፈጥሮ የአምስት ሰዎችን ስም ያስቀምጣል፡
+#include<fstream>
+#include<conio>
+#include<stdlib>
+
+void main()
+{
+ofstream fp // ፋይሉን መክፈት
+
+if(fp.fail()) // ፋይሉ መከፈቱን ማረጋገጥ
+{
+cout<< "\nError opening file"
+}
+
+// ወደ ፋይሉ መጻፍ
+fp<< "Abebe Alemu"<<endl
+
+fp.close() // ፋይሉን መዝጋት
+cout<<" Writing to file is successful press any key to exit"
+}
+ምሳሌ 2፦ በ put() ካራክተሮችን መጻፍ
+​ይህ ፕሮግራም ደግሞ 15 ፊደላትን ተቀብሎ በ "test.txt" ውስጥ አንድ በአንድ ያስቀምጣቸዋል፡
+#include<fstream>
+#include<conio>
+#include<stdlib>
+
+void main()
+{
+char c
+outfile.open("D:\\test.txt", ios::out)
+
+if(outfile.fail())
+{
+cout<<"\nError opening test.txt"
+}
+
+for(int i1 i<15 i++)
+{
+cout<<"\nEnter a character : " // አንድ ካራክተር ፋይሉ ውስጥ ይጽፋል
+}
+outfile.close()
+}
+ዳታ መጨመር (Appending Data)
+​አንድ ፋይል ላይ ያለውን መረጃ ሳታጠፋ አዲስ መረጃ መጨመር ከፈለግክ ios::app (append mode) ትጠቀማለህ። ፋይሉ ከሌለ አዲስ ይፈጥራል፣ ካለ ደግሞ መጨረሻው ላይ ይቀጥላል።
+outdata.open("c:\\names.txt", ios::app) // መጨረሻው ላይ ለመጨመር
+ጠቃሚ ነጥብ፦ ፋይል ከመፍጠር ወደ ፋይል ላይ መረጃ መጨመር ለመቀየር የምትቀይረው የ open() ፋንክሽን ውስጥ ያለችውን ios::app ብቻ ነው።
+
+
+6.4.1.3: Reading from a File
+Files you open for read access (using ios::in) must exist already, or C++
+gives you an error message. You can’t read a file that does not exist.
+Open() returns zero if the file does not exist when you open it for read
+access.
+Another event happens when you read files. Eventually, you read all the
+data. Subsequently reading produces error because there is no more data to
+read. C++ provides a solution to the end-of-file occurrence.
+If you attempt to read a file that you have completely read the data from,
+C++ returns the value zero. To find the end-of-file condition, be sure to
+check for zero when reading information from files.
+The following code asks the user for a file name and displays the content
+of the file to the screen.
+#include<fstream.h>
+#include<conio.h>
+#include<stdlib.h>
+void main( )
+{
+clrscr()
+char name[20],filename[15]
+ifstream indata
+cout<<"\nEnter the file name : "
+cin.getline(filename,15)
+indata.open(filename,ios::in)
+if(indata.fail())
+{
+cout<<"\nError opening file : "<<filename
+}
+while(!indata.eof())// checks for the end-of-file
+{
+indata>>name
+cout<<name<<endl
+}
+indata.close()
+}
+
+
+Reading characters from a sequential file
+You can read a characters from a file using get() function. The following
+program asks for a file name and displays each character of the file to the
+screen. NB. A space among characters is considered as a character and
+hence, the exact replica of the file will be shown in the screen.
+
+#include<fstream.h>
+#include<conio.h>
+#include<stdlib.h>
+void main()
+{
+char c,filename[15]
+if(indata.fail())// check id open succeeded
+{
+cerr<<"\nError opening file : "<<filename
+}
+while(!indata.eof())// check for eof
+{
+indata.get(c)
+cout<<c
+}
+6.4.1.3 ከፋይል ላይ ማንበብ (Reading from a File)
+​ከፋይል ላይ መረጃ ስታነብ ማስታወስ ያለብህ ዋና ዋና ነገሮች፦
+​ፋይሉ መኖር አለበት፦ ለማንበብ የምትከፍተው ፋይል (ios::in) አስቀድሞ በኮምፒውተርህ ላይ መኖር አለበት። ከሌለ C++ ስህተት (error) ይሰጥሃል።
+​የፋይል መጨረሻ (End-of-File - EOF)፦ በፋይል ውስጥ ያለውን ዳታ አንብበህ ስትጨርስ "መጨረሻ ላይ ደርሻለሁ" የሚል ምልክት ያስፈልጋል። ለዚህ ደግሞ eof() የምትባለውን ፋንክሽን እንጠቀማለን።
+​ምሳሌ 1፦ ቃላትን/ስሞችን ከፋይል ማንበብ
+​ይህ ፕሮግራም ተጠቃሚው የፋይል ስም እንዲያስገባ ይጠይቃል፣ ከዚያም በፋይሉ ውስጥ ያሉትን ስሞች አንድ በአንድ እያነበበ ስክሪን ላይ ያሳያል።
+#include<fstream.h>
+#include<conio.h>
+#include<stdlib.h>
+
+void main()
+{
+char name[20], filename[15]
+
+cout<<"\nEnter the file name : "
+cin.getline(filename, 15)
+
+indata.open(filename, ios::in) // ፋይሉን ለማንበብ መክፈት
+
+if(indata.fail()) // ፋይሉ መኖሩን ማረጋገጥ
+{
+cout<<"\nError opening file : "<<filename
+}
+
+// የፋይሉ መጨረሻ ላይ እስክንደርስ ድረስ እያነበብክ አውጣ (while loop)
+while(!indata.eof()) 
+{
+indata >> name // ከፋይሉ አንብበህ 'name' ውስጥ ክተተው
+cout << name << endl // ስክሪን ላይ አሳየው
+}
+
+indata.close()
+}
+ምሳሌ 2፦ ፊደላትን (Characters) አንድ በአንድ ማንበብ
+​አንዳንድ ጊዜ በቃላት ፋንታ እያንዳንዱን ፊደል (space ወይም ነጥብን ጨምሮ) ማንበብ እንፈልጋለን። ለዚህ ደግሞ get() የምትባለውን ፋንክሽን እንጠቀማለን። ይህ ፋንክሽን በፋይሉ ውስጥ ያለውን ክፍት ቦታ (space) እንደ አንድ ፊደል ስለሚቆጥረው ፋይሉ ያለውን ይዘት ልክ እንዳለ (exact replica) ያሳየናል።
+#include<fstream.h>
+#include<conio.h>
+#include<stdlib.h>
+
+void main()
+{
+char c, filename[15]
+
+if(indata.fail())
+{
+cerr<<"\nError opening file : "<<filename
+}
+
+while(!indata.eof())
+{
+indata.get(c) // አንድ ፊደል ከፋይሉ ማንበብ
+cout << c // ያነበብነውን ፊደል ስክሪን ላይ ማሳየት
+}
+
+indata.close()
+}
+በአጭሩ፦
+​>> ስንጠቀም ቃላትን (ቃላትን የሚለየው ክፍት ቦታ ወይም space ነው) ያነብልናል።
+​get(c) ስንጠቀም ግን ክፍት ቦታዎችንም ጭምር አንድ በአንድ ያነብልናል።
+
+​seekp(): መጻፊያ (put) ፖይንተሩን ወደ ፈለግነው ቦታ ያንቀሳቅሰዋል።
+​tellg(): ማንበቢያ ፖይንተሩ አሁን የት ቦታ ላይ እንዳለ ቁጥሩን ይነግረናል።
+​tellp(): መጻፊያ ፖይንተሩ ያለበትን ቦታ (index) ይነግረናል።
+​ጠቃሚ ማስታወሻ: ለምሳሌ አንድን ፋይል በ ios::app ከፍተህ tellp() ብትል፣ የፋይሉን ጠቅላላ ርዝመት (Size) ይነግርሃል። ምክንያቱም ፖይንተሩ ያለው ፋይሉ መጨረሻ ላይ ስለሆነ።
+​የ seekg() አጠቃቀም በምሳሌ
+​ይህ ፕሮግራም ከአልፋቤት A እስከ Z ፋይል ውስጥ ይጽፍና፣ በፈለግነው ቁጥር ላይ ያለውን ፊደል እየዘለለ ያነብልናል።
+// ... header files ...
+void main() {
+fstream fileobj
+char ch
+fileobj.open("d:\\alph.txt", ios::out | ios::in)
+
+for(ch 'A' ch <'Z' ch++) { fileobj << ch } // A-Z ጻፍን
+
+// ከጅምሩ (ios::beg) 8 ቦታዎችን ዝለል
+fileobj.seekg(8, ios::beg) 
+fileobj >> ch
+cout << "\n8ኛው ፊደል : " << ch // 'I' ያወጣል
+
+// ከጅምሩ 16 ቦታዎችን ዝለል
+fileobj.seekg(16L, ios::beg)
+fileobj >> ch
+cout << "\n16ኛው ፊደል : " << ch // 'Q' ያወጣል
+}
+ፋይልን ከኋላ ወደ ፊት ማንበብ (Reverse Reading)
+​አንድን ፋይል ከግርጌ ወደ ላይ ማንበብ ከፈለግክ፣ መጀመሪያ ፖይንተሩን ወደ መጨረሻው መውሰድ አለብህ።
+fileobj.seekg(0L, ios::end) ካልህ "ከፋይሉ መጨረሻ 0 ባይት ራቅ" ማለት ነው፣ ይህም ልክ ፋይሉ ማለቂያ ላይ ያቆምሃል።
+​ከታች ያለው ፕሮግራም ደግሞ አንድን ፋይል ወደ ኋላ እየተጓዘ እንዲያነብ የተሰራ ነው፦
+// ... header files ...
+void main() {
+ifstream indata
+char inchar
+indata.open("c:\\alph.txt", ios::in)
+
+// ወደ መጨረሻው ፊደል ሂድ
+indata.seekg(-1L, ios::end) 
+
+for(int ctr0 ctr<26 ctr++) {
+indata >> inchar // አንድ ፊደል ያነባል (በዚህ ጊዜ ፖይንተሩ ወደ ፊት ይሄዳል)
+indata.seekg(-2L, ios::cur) // ስለዚህ ደግሞ 2 ቦታ ወደ ኋላ እንዲመለስ እናዘዋለን
+cout << inchar
+}
+}
+በአጭሩ ማስታወሻ፡
+​ios::beg - ከፋይሉ መጀመሪያ ጀምሮ።
+​ios::cur - አሁን ካለህበት ቦታ ተነስተህ።
+​ios::end - ከፋይሉ መጨረሻ ጀምሮ።
