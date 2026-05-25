@@ -1,0 +1,74 @@
+5.6 Pointers to Structure
+• A pointer variable can be created not only for native types like (int, float, double etc.) but they can also be created for user defined types like structure. 
+• Here is how you can create pointer for structures:
+#include <iostream>
+struct temp 
+{
+    int i
+    float f
+int main() 
+{
+    temp *ptr
+}
+
+This program creates a pointer ptr of type structure temp. 
+• Example for Pointers to Structure
+#include <iostream>
+#include<conio>
+struct Distance
+{
+    int feet
+    float inch
+int main() 
+{
+    Distance *ptr, d
+    ptr &d
+    cout << "Enter feet: "
+    cin >> (*ptr).feet
+    cout << "Enter inch: "
+    cin >> (*ptr).inch
+    cout << "Displaying information." << endl
+    cout << "Distance " << (*ptr).feet << " feet " << (*ptr).inch << " inches"
+}
+Output
+Enter feet: 4
+Enter inch: 3.5
+Displaying information.
+Distance 4 feet 3.5 inches
+• In this program, a pointer variable ptr and normal variable d of type  structure Distance is defined. The address of variable d is stored to pointer variable, that is, ptr is pointing to variable d. Then, the member function of variable d is accessed using pointer.
+
+ፖይንተር ምንድን ነው?
+ፖይንተር ማለት የማህደረ ትውስታ አድራሻን (memory address) የሚይዝ ተለዋዋጭ ነው። በሌላ አነጋገር፣ ፖይንተር ወደ ሌላ ተለዋዋጭ ይጠቁማል።
+
+የስትራክቸር ፖይንተር እንዴት መፍጠር ይቻላል?
+ልክ እንደ ኢንቲጀር (integer)፣ ፍሎት (float) ወይም ሌላ ቤተኛ ዳታ አይነት (native data type)፣ ለስትራክቸርም ፖይንተር መፍጠር ይቻላል።
+ለምሳሌ:
+```c
+struct temp
+{
+    int i
+int main()
+{
+    temp *ptr // ptr ወደ temp አይነት ስትራክቸር የሚያመለክት ፖይንተር ነው
+    return 0
+}```
+
+የስትራክቸር ፖይንተርን እንዴት መጠቀም ይቻላል?
+የስትራክቸር ፖይንተርን ለመጠቀም በመጀመሪያ ወደ ስትራክቸር መቀናበር (initialize) አለብን። ይህን ለማድረግ የ & ኦፕሬተርን (operator) በመጠቀም የስትራክቸሩን አድራሻ ለፖይንተሩ እንመድባለን።
+ለምሳሌ:
+```cpp
+struct Distance
+{
+    int feet
+int main()
+{
+    Distance *ptr, d // ptr ፖይንተር ነው፣ d ደግሞ Distance አይነት ስትራክቸር ናት
+    ptr &d // ptr ወደ d እየጠቆመ ነው
+    cout << "Enter feet: " // ፖይንተርን በመጠቀም የ d አባላትን መድረስ
+    cout << "Enter inch: "
+}```
+
+በዚህ ኮድ ptr &d የሚለው መስመር ptr ወደ d እንዲጠቁም ያደርጋል። ከዚያ በኋላ (*ptr).feet እና (*ptr).inch በመጠቀም የ d አባላትን መድረስ እንችላለን። (*ptr).feet ማለት "ptr ወደ ሚጠቁመው ስትራክቸር ሂድና የ feet አባሉን ተጠቀም" ማለት ነው።
+
+➛ማጠቃለያ
+የስትራክቸር ፖይንተሮች ስትራክቸሮችን በተለዋዋጭነት (dynamically) ለመጠቀም ያስችላሉ። እንዲሁም ወደ ፋንክሽን ስትራክቸሮችን በፖይንተር ማስተላለፍ የማህደረ ትውስታ አጠቃቀምን ለመቀነስ ይረዳል።

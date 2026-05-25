@@ -1,0 +1,279 @@
+Suppose that we want a program that can read in a list of numbers and sort that list, or find the largest value in that list. To be concrete about it, suppose we have 15 numbers to read in from a file and sort into ascending order. We could declare 15 variables to store the numbers, but then how could we use a loop to compare the variables to each other? The answer is that we cannot. An array is conceptually a linear collection of elements, indexed by subscripts, all of the same type.
+
+
+
+እንግዲህ፣ ቁጥሮችን አንብቦ የሚደረድር ወይም ትልቁን ቁጥር የሚፈልግ ፕሮግራም እንፈልጋለን እንበል። በግልጽ ለመናገር፣ ከአንድ ፋይል 15 ቁጥሮችን አንብበን ወደ ላይ በሚወጣ ቅደም ተከተል እናስተካክላለን እንበል። ለቁጥሮቹ 15 ተለዋዋጮችን (variables) ልናውጅ እንችላለን፣ ነገር ግን ተለዋዋጮችን እርስ በርስ ለማነፃፀር እንዴት ሉፕ (loop) መጠቀም እንችላለን? መልሱ አንችልም ነው።"
+
+አሬይ (Array) ምንድን ነው?
+
+አሬይ ማለት በአንድ አይነት መረጃ የተሞሉ ተከታታይ የሆኑ ነገሮች ስብስብ ነው። እነዚህ ነገሮች በተከታታይ ይቀመጣሉ፣ እና እያንዳንዱን ነገር ለመለየት ኢንዴክስ (index) ወይም ቁጥር እንጠቀማለን።
+
+ምሳሌ
+
+አስቡት አንድ ትልቅ ህንፃ አለ። በዛ ህንፃ ውስጥ ያሉት ክፍሎች በቁጥር ነው የሚታወቁት አይደል? ለምሳሌ "ክፍል 1"፣ "ክፍል 2" እያልን እንጠራቸዋለን። ልክ እንደዚሁ፣ አሬይ ማለት ብዙ ነገሮችን በአንድ ላይ አስቀምጦ ለእያንዳንዱ ነገር ቁጥር መስጠት ማለት ነው።
+
+ለምን ይጠቅማል?
+
+አሁን 15 ቁጥሮችን አስቡ። እነዚህን ቁጥሮች በተለያየ variable ከማስቀመጥ ይልቅ በአንድ አሬይ ውስጥ ማስቀመጥ እንችላለን። ይህም ነገሮችን ቀላል ያደርግልናል፡
+
+ተመሳሳይ ስም፡ ሁሉም ቁጥሮች በአንድ ስም ነው የሚጠሩት (ለምሳሌ numbers)።
+
+ቀላል አያያዝ፡ ሉፕ (loop) በመጠቀም እያንዳንዱን ቁጥር በቀላሉ ማግኘት እና ማነፃፀር እንችላለን።
+
+
+
+
+
+
+
+What is An Array 
+
+􀀹A collection of identical data objects, which are stored in consecutive memory locations under a common heading or a variable name. In other words, an array is a group or a table of values referred to by the same name. The individual values in array are called elements. Array elements are also variables. 
+
+􀀹Set of values of the same type, which have a single name followed by an index. In C++, square brackets appear around the index right after the name 
+
+􀀹A block of memory representing a collection of many simple data variables stored in a separate array element, and the computer stores all the elements of an array consecutively in memory. 
+
+2.1. Properties of arrays: 
+
+􀀹Arrays in C++ are zero-bounded; that is the index of the first element in the array is 0 and the last element is N-1, where N is the size of the array. 
+
+􀀹It is illegal to refer to an element outside of the array bounds, and your program will crash or have unexpected results, depending on the compiler. 
+
+􀀹Array can only hold values of one type 
+
+Things to remember about arrays: 
+
+The starting index of an array is 0, not 1. 
+
+The last index is one less than the size of the array. 
+
+If the array has size elements, the range is 0...size-1. 
+
+Arrays contain data of a single type. 
+
+An array is a sequence of consecutive elements in memory and the start of the array is the address of its first element. 
+
+Because the starting address of the array in memory is the address of its first element, and all elements are the same size and type, the compiler can calculate the locations of the remaining elements
+
+አሬይ ማለት ተመሳሳይ የሆኑ መረጃዎችን በአንድ ላይ በአንድ ስም ወይም ርዕስ ስር በተከታታይ በኮምፒዩተር memory ውስጥ ማስቀመጥ ማለት ነው። በአጭሩ፣ አሬይ ማለት በአንድ ስም የሚጠቀሱ ብዙ እሴቶች ወይም መረጃዎች ስብስብ ነው። በእያንዳንዱ የአሬይ ውስጥ የሚገኝ መረጃ "element" ይባላል። የአሬይ elementዎችም እንደ ተለዋዋጮች (variables) ናቸው።
+
+
+
+በC++ ውስጥ፣ አሬይ ማለት አንድ አይነት የሆኑ እሴቶች ስብስብ ሲሆን እያንዳንዱ እሴት በ"index" ቁጥር የሚታወቅ ነው። Index ቁጥሩ ከአሬይ ስም በኋላ በካሬ ቅንፍ ውስጥ ይታያል።
+
+
+
+አሬይ የብዙ ተለዋዋጮች ስብስብ ሲሆን እያንዳንዱ ተለዋዋጭ በተናጠል በአሬይ ውስጥ ይቀመጣል። ኮምፒዩተሩ የአሬይ elementዎችን በተከታታይ በኮምፒዩተር ማህደረ ትውስታ ውስጥ ያስቀምጣቸዋል።
+
+
+
+የአሬይ ባህሪያት:
+
+
+
+*   በC++ ውስጥ የአሬይ የመጀመሪያው element index ቁጥር 0 ነው። ስለዚህ የመጨረሻው element index ቁጥር N-1 ነው (N ማለት የአሬይው መጠን ማለት ነው)።
+
+*   ከአሬይ ወሰን (bounds) ውጭ ያለ element ለመጥቀስ መሞከር ስህተት ነው፣ እና ፕሮግራምዎ ሊበላሽ ወይም ያልተጠበቀ ውጤት ሊያመጣ ይችላል።
+
+*   አሬይ አንድ አይነት የውሂብ አይነት (data type) ብቻ ነው መያዝ የሚችለው።
+
+
+
+*ስለ አሬይ ማስታወስ ያለብዎት ነገሮች:
+
+
+
+*   የአሬይ መጀመሪያው index 0 ነው፣ 1 አይደለም።
+
+*   የመጨረሻው index ከአሬይው መጠን አንድ ያነሰ ነው።
+
+*   አሬይው `size` ኤለመንቶች ካሉት፣ የindex ክልሉ 0...size-1 ይሆናል።
+
+*   አሬይ አንድ ዓይነት የውሂብ ዓይነት (data type) የያዘ ነው።
+
+*   አሬይ በማህደረ ትውስታ ውስጥ በተከታታይ የሚቀመጡ ኤለመንቶች ቅደም ተከተል ነው፣ እና የአሬይ መጀመሪያው የመጀመሪያው element አድራሻ ነው።
+
+*   በmemory ውስጥ ያለው የአሬይ መነሻ አድራሻ የመጀመሪያው element አድራሻ ስለሆነ፣ እና ሁሉም ኤለመንቶች ተመሳሳይ መጠን እና አይነት ስላላቸው፣ ኮምፕሌተሩ የቀሩትን ኤለመንቶች ቦታዎች ማስላት ይችላል።
+
+
+
+
+
+2.2. Array declaration a (One-Dimensional )
+
+􀀹Declaring the name and type of an array and setting the number of elements in an array is called dimensioning the array. The array must be declared before one uses in like other variables. In the array declaration one must define: 
+
+1. The type of the array (i.e. integer, floating point, char etc.) 
+
+2. Name of the array, 
+
+3. The total number of memory locations to be allocated or the maximum value of each subscript. i.e. the number of elements in the array. 
+
+􀀹So the general syntax for the declaration is: 
+
+DataTypename arrayname [array size]; 
+
+􀀹The expression array size, which is the number of elements, must be a constant such as 10 or a symbolic constant declared before the array declaration, or a constant expression such as 10*sizeof (int), for which the values are known at the time compilation takes place. 
+
+
+
+Note: array size cannot be a variable whose value is set while the program is running. 
+
+􀀹Thus to declare an integer with size of 10 having a name of num is: int num [10]; 
+
+This means: ten consecutive two byte memory location will be reserved with the name num. 
+
+􀀹That means, we can store 10 values of type int without having to declare 10 different variables each one with a different identifier. Instead of that, using an array we can store 10 different values of the same type, int for example, with a unique identifier. 
+
+2 የአሬይ አወቃቀር (One-Dimensional)
+
+አሬይ ማለት ምን እንደሆነ ስሙን መጥቀስ፣ እንዲሁም ምን አይነት መረጃ እንደሚይዝ መግለጽ የአሬይን "dimensioning" ይባላል። ልክ እንደሌሎች ተለዋዋጮች (variables)፣ አሬይ ከመጠቀማችን በፊት መጀመሪያ መታወቅ አለበት። የአሬይ አወቃቀር የሚከተሉትን ነገሮች መያዝ አለበት፡
+
+የአሬይ አይነት (Data Type): ምን አይነት መረጃ እንደሚያዝ መግለጽ (ለምሳሌ፡ integer, floating point, char, ወዘተ)።
+
+የአሬይ ስም (Array Name): አሬዩ በምን ስም እንደሚታወቅ መግለጽ።
+
+የማህደረ ትውስታ መጠን (Memory Locations): ምን ያህል ቦታ (computer memory) እንደሚፈልግ መግለጽ፤ ይህም የአሬዩ መጠን (number of elements) ይሆናል።
+
+የአሬይ አወቃቀር አገባብ (syntax) በአጭሩ እንዲህ ነው፡
+
+DataType arrayName [arraySize];
+
+DataType: አሬዩ ምን አይነት መረጃ እንደሚያዝ ያሳያል። ለምሳሌ int (ለቁጥር), float (ለአስርዮሽ), char (ለፊደል) ሊሆን ይችላል።
+
+arrayName: የአሬዩ ስም ነው። ፕሮግራሙ ውስጥ አሬዩን በዚ ስም ነው የምንጠራው።
+
+arraySize: አሬዩ ውስጥ ስንት መረጃዎች እንደሚቀመጡ የሚገልጽ ቁጥር ነው።
+
+arraySize የሚለው የግድ ቋሚ ቁጥር (constant) መሆን አለበት፤ ለምሳሌ 10, ወይም ደግሞ ከአወቃቀሩ በፊት የተገለጸ ቋሚ (symbolic constant) መሆን አለበት። እንዲሁም፣ 10 * sizeof(int) አይነት ቀመር (constant expression) መጠቀም ይቻላል፤ ነገር ግን ይህ ቀመር በፕሮግራሙ መጀመሪያ ላይ የሚታወቅ መሆን አለበት።
+
+ማሳሰቢያ፡ arraySize ፕሮግራሙ እየሰራ እያለ የሚቀየር ተለዋዋጭ (variable) መሆን የለበትም።
+
+ምሳሌ፡
+
+int num [10];
+
+ይህ ማለት፡ num የሚባል የአስር (10) integer መጠን ያለው አሬይ ተፈጥሯል። ይህ አሬይ 10 ተከታታይ የሆኑ ሁለት ባይት (two-byte) ቦታዎችን በማህደረ ትውስታ (computer memory) ውስጥ ያስይዛል።
+
+ይህም ማለት፡ 10 የተለያዩ int አይነቶች (types) ያላቸውን መረጃዎች ማስቀመጥ እንችላለን፤ ለዚህም 10 የተለያዩ ተለዋዋጮች (variables) ከመጠቀም ይልቅ አንድ አሬይ በመጠቀም ሁሉንም በአንድ ላይ ማስቀመጥ እንችላለን ማለት ነው። በአጭሩ፣ አሬይ ማለት ብዙ መረጃዎችን በአንድ ስም ጠርተን በተከታታይ እንዲቀመጡ ማድረግ የሚያስችል የC++ መሳሪያ ነው ማለት ነው።
+
+ቀለል ባለ አማርኛ ለማስረዳት ያህል፡- አሬይ ማለት አንድ አይነት ዳታዎችን በጋራ ለማስቀመጥ የምንጠቀምበት መንገድ ነው, ልክ እንደ ፎቶ አልበም ማለት ነው, በአንድ አልበም ውስጥ ያሉ ፎቶዎች አንድ አይነት መጠን እና ቅርፅ አላቸው. በተመሳሳይ, በአንድ አሬይ ውስጥ ያሉ ሁሉም ዳታዎች አንድ አይነት አይነት (ለምሳሌ: ቁጥር, ፊደል) መሆን አለባቸው. 😉
+
+
+
+2.3. Initializing Arrays 
+
+􀀹When declaring an array of local scope (within a function), if we do not specify the array variable will not be initialized, so its content is undetermined until we store some values in it. 
+
+􀀹If we declare a global array (outside any function) its content will be initialized with all its elements filled with zeros. Thus, if in the global scope we declare: 
+
+int day [5]; 
+
+􀀹every element of day will be set initially to 0: 
+
+
+
+􀀹But additionally, when we declare an Array, we have the possibility to assign initial values to each one of its elements using curly brackets { } . For example: 
+
+int day [5] = { 16, 2, 77, 40, 12071 }; 
+
+􀀹The above declaration would have created an array like the following one: 
+
+                     
+
+􀀹The number of elements in the array that we initialized within curly brackets { } must be equal or less than the length in elements that we declared for the array enclosed within square brackets [ ]. If we have less number of items for the initialization, the rest will be filled with zero. 
+
+
+
+􀀹For example, in the example of the day array we have declared that it had 5 elements and in the list of initial values within curly brackets { } we have set 5 different values, one for each element. If we ignore the last initial value (12071) in the above initialization, 0 will be taken automatically for the last array element. 
+
+􀀹Because this can be considered as useless repetition, C++ allows the possibility of leaving empty the brackets [ ], where the number of items in the initialization bracket will be counted to set the size of the array. int day [] = { 1, 2, 7, 4, 12,9 }; 
+
+􀀹The compiler will count the number of initialization items which is 6 and set the size of the array day to 6 (i.e.: day[6]) 
+
+􀀹You can use the initialization form only when defining the array. You cannot use it later, and cannot assign one array to another once. I.e. 
+
+int arr [] = {16, 2, 77, 40, 12071}; 
+
+int ar [4]; 
+
+ar[]={1,2,3,4};//not allowed 
+
+arr=ar;//not allowed 
+
+􀀹Note: when initializing an array, we can provide fewer values than the array elements. E.g. int a [10] = {10, 2, 3}; in this case the compiler sets the remaining elements to zero. 
+
+Rules 
+
+If the array size is given in brackets, then the initialized list must have at most that many values in it. If it has fewer, the rest of the array is initialized to 0's. 
+
+If the size is not given in brackets, then the size is equal to the number of elements in the initializer list. 
+
+If there is no initializer list, none of the array elements are initialized. They are not set to 0
+
+3 የአሬይ ማስጀመሪያ
+
+አንድን አሬይ በአካባቢው ወሰን (local scope - በfunction ውስጥ) ስናውጅ፣ ካላስጀመርነው (specify) ተለዋዋጩ (variable) በራሱ አይጀመርም (initialized)፤ ስለዚህ የተወሰኑ እሴቶችን (values) እስክናስቀምጥ ድረስ ይዘቱ አልተወሰነም።
+
+አንድን አሬይ በአለምአቀፍ ደረጃ (global scope - ከማንኛውም function ውጭ) ካወጅን ግን ይዘቱ በዜሮዎች ተሞልቶ በራሱ ይጀመራል። ስለዚህ፣ በአለምአቀፍ ደረጃ የሚከተለውን ብናውጅ፡
+
+int day [5];
+
+የday እያንዳንዱ ኤለመንት መጀመሪያ በ0 ይሞላል፡
+
+day[0] = 0
+
+day[1] = 0
+
+day[2] = 0
+
+day[3] = 0
+
+day[4] = 0
+
+በተጨማሪም፣ አንድን አሬይ ስናውጅ ለእያንዳንዱ ኤለመንት መጀመሪያ ላይ እሴቶችን ለመስጠት {} መጠቀም እንችላለን። ለምሳሌ፡
+
+int day [5] = { 16, 2, 77, 40, 12071 };
+
+ከላይ ያለው አወቃቀር የሚከተለውን አይነት አሬይ ይፈጥራል፡
+
+day[0] = 16
+
+day[1] = 2
+
+day[2] = 77
+
+day[3] = 40
+
+day[4] = 12071
+
+በማስጀመሪያ ጊዜ በ {} ውስጥ የሰጠነው የኤለመንቶች ቁጥር በአሬይ ውስጥ ካለው የኤለመንቶች ርዝመት ያነሰ ወይም እኩል መሆን አለበት። የማስጀመሪያ እሴቶች ከቀነሱ ቀሪዎቹ በዜሮ ይሞላሉ።
+
+ለምሳሌ፣ በday አሬይ ምሳሌ 5 ኤለመንቶች እንዳሉት ገልፀናል፣ በ {} ውስጥ ባለው የመነሻ እሴቶች ዝርዝር ውስጥ ለእያንዳንዱ ኤለመንት አንድ 5 የተለያዩ እሴቶችን አስቀምጠናል። በምሳሌው ላይ የመጨረሻውን የመነሻ እሴት (12071) ከዘለልነው፣ ለመጨረሻው የአሬይ ኤለመንት 0 ይወሰዳል።
+
+ይህ አላስፈላጊ ድግግሞሽ ተደርጎ ሊወሰድ ስለሚችል፣ C++ በ [] ውስጥ ያለውን ክፍት ቦታ የመተው እድል ይሰጣል፤ በዚህ ጊዜ የማስጀመሪያው ብዛት የአሬዩን መጠን ለመወሰን ይቆጠራል።
+
+int day [] = { 1, 2, 7, 4, 12, 9 };
+
+ኮምፕሌተሩ (compiler) የማስጀመሪያ እቃዎችን ይቆጥራል (6) እና የአሬይ day መጠንን ወደ 6 ያዘጋጃል (ማለትም፡ day[6])
+
+ይህንን የማስጀመሪያ ዘዴ መጠቀም የምንችለው አሬዩን በምንገልጽበት ጊዜ ብቻ ነው። በኋላ ላይ መጠቀም አንችልም፣ እንዲሁም አንድን አሬይ ለሌላ አሬይ መስጠት አንችልም። ለምሳሌ፡
+
+int arr [] = {16, 2, 77, 40, 12071};
+
+int ar [4];
+
+ar[]={1,2,3,4};//ይሄ አይቻልም
+
+arr=ar;//ይሄም አይቻልም
+
+ማሳሰቢያ፡ አሬይን በምንጀምርበት ጊዜ ከአሬይ ኤለመንቶች ያነሱ እሴቶችን መስጠት እንችላለን። ለምሳሌ፡ int a [10] = {10, 2, 3}; በዚህ ጊዜ ኮምፕሌተሩ (compiler) የተቀሩትን ኤለመንቶች በዜሮ ያዘጋጃል።
+
+ህጎች
+
+የአሬይ መጠኑ በካሬ ቅንፎች ውስጥ ከተሰጠ፣ በቅንፍ ውስጥ ያሉት እሴቶች ከዛ መጠን መብለጥ የለባቸውም። ካነሱ፣ የተቀሩት የአሬይ ክፍሎች በ 0 ይጀመራሉ።
+
+መጠኑ በካሬ ቅንፎች ውስጥ ካልተሰጠ፣ መጠኑ በinitializer list ውስጥ ካሉት ንጥረ ነገሮች ጋር እኩል ነው።
+
+ምንም initializer list ከሌለ, የአሬይ ኤለመንቶች በምንም አይጀመሩም። ወደ 0 አልተቀናበሩም።

@@ -1,0 +1,247 @@
+5.4 Arrays of Structures
+
+Arrays of structures are useful for storing collections of related data sets such as employee records, inventory files, or any data that fits a structure format.
+
+---
+
+ Structure Declaration with Arrays
+
+Consider the following structure definition for a company’s store data:
+
+struct Company
+{
+    int employees
+    int registers
+    double sales
+} store[1000]
+- This single declaration creates an array store of 1000 Company structures.
+- Each element in the array contains three members: employees, registers, and sales.
+- Note: Creating large arrays of structures consumes memory quickly, so ensure enough system resources are available.
+
+
+You can also first declare a structure and then define the array separately:
+
+struct Company
+{
+    int employees // Structure defined without variables
+
+// Later in the program
+Company store[1000] // Array of 1000 Company structures
+---
+
+ Accessing and Modifying Array of Structures
+
+- Use the dot operator (.) to access members of individual elements:
+
+store[4].employees +3  // Increase employees count of 5th store by 3
+- Unlike simple arrays, you can assign one entire structure element to another:
+
+store[44] store[19]  // Copy all members from 20th store to 45th store
+
+Example: Structure and Array Usage in C++
+
+#include <iostream>
+#include <conio.h>
+
+struct Student
+{
+    char name[100]
+    int roll
+    int marks
+    float avg
+
+int main()
+{
+    Student cl1, cl2
+
+    std::cout << "Enter name of the first student: "
+    std::cin.getline(cl1.name, 100)
+    cl1.roll 15
+    cl1.marks 541
+    cl1.avg 83
+
+    std::cout << "Enter name of the second student: "
+    std::cin.getline(cl2.name, 100)
+    cl2.roll 12
+    cl2.marks 654
+    cl2.avg 92
+
+    // Display details of first student
+    std::cout << "\nName of the first student: " << cl1.name
+    std::cout << "\nRoll: " << cl1.roll
+    std::cout << "\nMarks: " << cl1.marks
+    std::cout << "\nAverage: " << cl1.avg << "\n"
+
+    // Display details of second student
+    std::cout << "\nDetails of the second student:\n"
+    std::cout << "Name: " << cl2.name
+    std::cout << "\nRoll: " << cl2.roll
+    std::cout << "\nMarks: " << cl2.marks
+    std::cout << "\nAverage: " << cl2.avg << "\n"
+
+    getch()
+}
+
+
+ Example: Using Array of Structures with Functions
+
+The following complete example shows how you can define an array of structures, input data, and display it through functions.
+
+#include <iostream>
+#include <conio.h>
+
+struct Inventory
+{
+    long storage
+    int accesstime
+    char vendorcode
+    float cost
+    float price
+
+void disp_menu()
+Inventory enter_data()
+void see_data(Inventory disk[], int num_items)
+
+int main()
+{
+    clrscr()
+    Inventory disk[125]
+    int ans
+    int num_items 0
+
+    do
+    {
+        do
+        {
+            disp_menu()
+            std::cin >> ans
+        } while (ans < 1 || ans > 3)
+
+        switch(ans)
+        {
+            case 1:
+                disk[num_items] enter_data()
+                num_items++
+                break
+
+            case 2:
+                see_data(disk, num_items)
+
+            default:
+                break
+        }
+    } while(ans !3)
+
+    return 0
+}
+
+void disp_menu()
+{
+    std::cout << "\n\n* Disk Drive Inventory System *\n\n"
+    std::cout << "Do you want to:\n\n"
+    std::cout << "\t1. Enter new item in inventory\n\n"
+    std::cout << "\t2. See inventory data\n\n"
+    std::cout << "\t3. Exit the program\n\n"
+    std::cout << "What is your choice? "
+}
+
+Inventory enter_data()
+{
+    Inventory disk_item
+    std::cout << "\n\nWhat is the next drive's storage in bytes? "
+    std::cin >> disk_item.storage
+    std::cout << "What is the drive's access time
+disk_item.vendorcode getchar()
+cout<<"\nWhat is the drive's cost? "
+cin>>disk_item.cost
+cout<<"\nWhat is the drive's price? "
+cin>>disk_item.price
+return (disk_item)
+}
+void see_data(inventory disk[125], int num_items)
+{
+int ctr
+cout<<"\n\nHere is the inventory listing:\n\n"
+for(ctr0ctr<num_itemsctr++)
+{
+cout<<"Storage: "<<disk[ctr].storage<<"\n"
+cout<<"Access time: "<<disk[ctr].accesstime<<endl
+cout<<"Vendor code: "<<disk[ctr].vendorcode<<"\n"
+cout<<"Cost : $ "<<disk[ctr].cost<<"\n"
+cout<<"Price: $ "<<disk[ctr].price<<endl
+}
+return
+}
+
+
+5.4 Arrays of Structures
+Arrays of structures ማለት የአንድን ሙሉ employee file, inventory file, ወይም structure ቅርጸት የሚከተል ማንኛውንም data ለማስቀመጥ አሪፍ ናቸው።
+
+ይሄ structure declaration እንመልከት፦
+
+struct Company
+{
+   int employees
+   int registers
+   double sales
+}store[1000]
+በአንድ declaration, ይሄ ኮድ 1,000 store structures ይፈጥራል ማለት ነው፣ Company structure definition ኖሯቸው፣ እያንዳንዱ structure ደግሞ ሶስት አባላት ይኖሩታል።
+
+NB. ብዙ structure ስትፈጥር ኮምፒውተርህ memory እንዳያልቅበት ተጠንቀቅ። Arrays of structures በጣም valuable information ሊበሉ ይችላሉ።
+
+ከ structure declaration በኋላም array of structures define ማድረግ ትችላለህ።
+
+struct Company
+{
+   int employees // no structure variables defined yet
+#include<iostream.h>
+
+void main()
+{
+struct Company store[1000] //the variable store is array of the structure Company
+}
+Referencing the array structure
+The dot operator (.) ለ structure array element ልክ ለ normal variables እንደሚሰራው ነው የሚሰራው። ለአምስተኛው store (store[4]) የ employees ቁጥር በሶስት ቢጨምር፣ structure variable እንደዚህ update ማድረግ ትችላለህ፦
+
+store[4].employees +3
+ልክ arrays ላይ እንዳየነው፣ የአንድን array ሙሉ content በ simple statement ወደ ሌላ array copy ማድረግ እንደማንችለው፣ በ structures ውስጥ ግን ሙሉ structures በ array notation በመጠቀም assign ማድረግ ትችላለህ።
+
+የ20ኛውን store አባላት በሙሉ ወደ 45ኛው store assign ለማድረግ፣ እንዲህ ታደርጋለህ፦
+store[44] store[19]//copies all members from 20th store to 45th
+
+የ C++ ኮድ ስትራክቸርን ወደ ፋንክሽን እንዴት ማስተላለፍ እንደሚቻል ያሳያል።
+struct Person
+{
+    char name[50]
+ይህ Person የሚባል ስትራክቸር ይገልጻል። ይህ ስትራክቸር name (ስም ለማስቀመጥ የሚያገለግል የካራክተር ድርድር)፣ age (እድሜን ለማስቀመጥ የሚያገለግል ኢንቲጀር)፣ እና salary (ደሞዝን ለማስቀመጥ የሚያገለግል ፍሎት) አባላት አሉት።
+void displayData(Person)   // Function declaration
+ይህ displayData የሚባል ፋንክሽን ይገልጻል። ይህ ፋንክሽን Person ስትራክቸርን እንደ ግቤት ይቀበላል። የ void ፋንክሽን ነው፣ ማለትም ምንም አይነት እሴት አይመልስም።
+int main()
+{
+    Person p
+    cout << "Enter Full name: "
+    cin.get(p.name, 50)
+    cin >> p.age
+    cin >> p.salary
+    // Function call with structure variable as an argument
+    displayData(p)
+    getch( )
+}
+Person ተለዋዋጭ p ይፈጠራል።
+ፕሮግራሙ የተጠቃሚውን ስም፣ እድሜ እና ደሞዝ እንዲያስገባ ይጠይቃል፣ እና እነዚህ እሴቶች በ p ተለዋዋጭ ውስጥ ይቀመጣሉ።
+displayData ፋንክሽን ይጠራል፣ እና p ስትራክቸር እንደ ግቤት ይተላለፋል።
+void displayData(Person p)
+{
+    cout << "\nDisplaying Information." << endl
+    cout << "Name: " << p.name << endl
+    cout <<"Age: " << p.age << endl
+    cout << "Salary: " << p.salary
+}
+ይህ ፋንክሽን Person ስትራክቸር ይቀበላል (በዚህ ፋንክሽን ውስጥ p ተብሎ ይጠራል)። ከዚያም የ name፣ age እና salary አባላትን ወደ ኮንሶል ያትማል።
+
+
+በአጭሩ፣ ኮዱ:
+
+ተዛማጅ መረጃዎችን ለመሰብሰብ ስትራክቸር (Person) ይገልጻል።
+Person ስትራክቸርን እንዴት እንደሚጠቀም የሚያውቅ ፋንክሽን (displayData) ይፈጥራል።
+በ main ውስጥ፣ Person ተለዋዋጭ ይፈጥራል፣ ከተጠቃሚው መረጃ ይቀበላል፣ እና ከዚያ መረጃውን ለማሳየት ሙሉውን Person ስትራክቸር ወደ displayData ፋንክሽን ያስተላልፋል።

@@ -1,0 +1,93 @@
+Working with Individual Characters (በነጠላ ካራክተሮች መስራት)
+10. The strchr() Function
+• strchr() የተባለው function በአንድ string ውስጥ አንድ የተወሰነ ካራክተር ለመጀመሪያ ጊዜ የት እንደተገኘ ይፈልጋል።
+• አጠቃቀሙ (Syntax):
+C++
+strchr(const char S, char c)
+// S: የሚፈለግበት ስትሪንግ
+// c: የሚፈለገው ካራክተር
+• ካራክተሩ (c) በስትሪንግ (S) ውስጥ ከተገኘ፣ strchr() የሚመልስልህ የተገኘበትን ቦታ እና ከዚያ በኋላ ያለውን የቀረውን ስትሪንግ ነው። ካልተገኘ ደግሞ NULL ይመልሳል።
+• ምሳሌ:
+C++
+char carName2[] {"fordb 4-Runner"}
+cout << strchr(carName2, r)
+በ "fordb 4-Runner" ውስጥ 'r' ለመጀመሪያ ጊዜ የተገኘው 'r'o'b' በሚለው ቃል ውስጥ ነው። ውጤት (Output):
+rdb 4-Runner
+________________________________________
+Working with Sub-Strings (ከንዑስ ስትሪንጎች ጋር መስራት)
+11. The strstr() Function
+• strstr() የተባለው function በአንድ ዋና string ውስጥ አንድ ንዑስ ስትሪንግ (Sub-string) ለመጀመሪያ ጊዜ የት እንደተገኘ ይፈልጋል።
+• አጠቃቀሙ (Syntax):
+C++
+char strstr(char Main, char Sub)
+// Main: ዋናው ስትሪንግ
+// Sub: የሚፈለገው ንዑስ ስትሪንግ
+• ንዑስ ስትሪንጉ (Sub) በዋናው ስትሪንግ (Main) ውስጥ ከተገኘ፣ strstr() የሚመልስልህ ንዑስ ስትሪንጉ ከተገኘበት ቦታ ጀምሮ ያለውን የቀረውን ዋና ስትሪንግ ነው። ካልተገኘ ደግሞ NULL ይመልሳል።
+• ምሳሌ 1 (ተገኝቷል):
+C++
+char carName1[] {"Ford"} // Sub
+char carName2[] {"Ford 4-Runner"} // Main
+cout << strstr(carName2, carName1)
+ውጤት (Output):
+Ford 4-Runner
+• ምሳሌ 2 (አልተገኘም):
+C++
+char carName1[] {"EFord"}
+ምክንያቱም "EFord" የሚለው ስትሪንግ በ "Ford 4-Runner" ውስጥ ስለሌለ (የፊደል ልዩነት አለ) ውጤት (Output):
+NULL value as shown below (እዚህ ባዶ ይሆናል)
+
+Working with Character Cases
+
+12.The strlwr() Function
+
+• The strlwr() function is used to convert a string to lowercase. 
+• Its syntax is: char strlwr(char S)
+
+• This function takes, as argument, the string that needs to be converted. During conversion, if a Latin character were in uppercase, it would be converted to lowercase. Otherwise, it would stay “as if”. This means any symbol that is not a readable character would not be converted.
+• For example
+char carName1[] {"EFord"}
+cout<<strlwr(carName1)
+• The output is
+
+13.The strupr( ) Function
+
+• The strupr() function is used to convert a string to uppercase. Its syntax is:
+char strupr(char S)
+Each lowercase character in the function’s argument, S, would be converted to uppercase.
+Any character or symbol that is not in lowercase would not be changed.
+• For example
+char carName1[] {"EFord"}
+cout<<strupr(carName1)
+• The output is
+
+
+
+
+Working with Character Cases (የፊደል ትልቀት/ትንሽነት መቆጣጠሪያ)
+12. The strlwr() Function
+• strlwr() የተባለው function በአንድ string ውስጥ ያሉትን ሁሉንም ፊደላት ወደ ሎወርኬዝ (Lowercase) ለመቀየር ያገለግላል።
+• አጠቃቀሙ (Syntax):
+C++
+char strlwr(char S)
+// S: ሎወርኬዝ እንዲሆን የምትፈልገው ስትሪንግ
+• ይህ function አንድ አርጉመንት ይወስዳል።
+• ሲቀይር፣ አፐርኬዝ (Uppercase) የነበሩ የላቲን ፊደላት ወደ ሎወርኬዝ ይቀየራሉ . ሌሎች ምልክቶች ወይም ቁጥሮች ካሉ ግን እንደነበሩ ይቀራሉ።
+• ምሳሌ:
+C++
+char carName1[] {"EFord"} // 'E' ትልቅ ፊደል ነው
+cout << strlwr(carName1)
+ውጤት (Output):
+eford
+13. The strupr() Function
+• strupr() የተባለው function ደግሞ በአንድ string ውስጥ ያሉትን ሁሉንም ፊደላት ወደ አፐርኬዝ (Uppercase) ለመቀየር ያገለግላል።
+• አጠቃቀሙ (Syntax):
+C++
+char strupr(char S)
+// S: አፐርኬዝ እንዲሆን የምትፈልገው ስትሪንግ
+• በ strlwr() እንደተመለከትነው፣ ይህ functionም የሚቀይረው ሎወርኬዝ የነበሩትን ፊደላት ብቻ ነው። ሌሎች ትልቅ ፊደላት ወይም ምልክቶች እንደነበሩ ይቀራሉ።
+• ምሳሌ:
+C++
+char carName1[] {"eFord"} // 'e' ትንሽ ፊደል ነው
+cout << strupr(carName1)
+ውጤት (Output):
+EFORD

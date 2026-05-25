@@ -1,0 +1,133 @@
+9.3: Operation With File
+First we will see how files are opened and closed. A file can be defined by
+following class ifstream, ofstream, fstream, all these are defined in
+fstream.h header file.
+if a file object is declared by ifstream class, then that object can be
+used for reading from a file.
+if a file object is declared by ofstream class, then that object can
+be used for writing onto a file.
+If a file object is declared by fstream class then, that object can be
+used for both reading from and writing to a file.
+​9.3 የፋይል ኦፕሬሽኖች (Operations With File)
+​በመጀመሪያ ፋይሎች እንዴት እንደሚከፈቱና እንደሚዘጉ እንይ። አንድን ፋይል በፕሮግራማችን ለመጠቀም በ fstream.h ውስጥ የሚገኙትን እነዚህን ሶስት ክላሶች እንጠቀማለን፡
+​ifstream: የዚህ ክላስ ኦብጀክት (object) ከፈጠርክ፣ ፋይሉን ለማንበብ ብቻ ነው የምትጠቀመው (Input)።
+​ofstream: የዚህ ክላስ ኦብጀክት ደግሞ በፋይሉ ላይ መረጃ ለመጻፍ ይጠቅማል (Output)።
+​fstream: ይሄኛው ደግሞ ሁለቱንም በአንድ ላይ ያደርጋል፤ ማለትም ከፋይሉ ለማንበብም ሆነ በፋይሉ ላይ ለመጻፍ ያስችልሃል።
+9.4: Types of Disk File Access
+Your program can access files either in sequential manner or random
+manner. The access mode of a file determines how one can read, write,
+change, add and delete data from a file.
+A sequential file has to be accessed in the same order as the file was
+written. This is analogues to cassette tapes: you play music in the same
+order as it was recorded.
+Unlike the sequential files, you can have random-access to files in any
+order you want. Think of data in a random-access file as being similar to
+songs on compact disc (CD): you can go directly to any song you want to
+play without having to play or fast-forward through the other songs.
+9.4.1: Sequential File Concepts
+You can perform three operations on sequential disk files. You can create
+disk files, add to disk files, and read from disk files.
+9.4.1.1: Opening and Closing Sequential Files
+When you open a disk file, you only have to inform C++, the file name
+and what you want to do with it. C++ and your operating system work
+together to make sure that the disk is ready, and they create an entry in
+your file directory for the filename (if you are creating a file). When you close a file, C++ writes any remaining data to the file, releases the file from
+the program, and updates the file directory to reflect the file’s new size.
+You can use either of the two methods to open a file in C++:
+using a Constructor or
+using the open function
+The following C++ statement will create an object with the name fout of
+ofstream class and this object will be associated with file name “hello.txt”.
+
+ofstream fout (“hello.txt”) //create hello.txt in your directory file
+This statement uses the constructor method.
+The following C++ statement will create an object with the name fout of
+ofstream class and this object will be associated with file name “hello.txt”.
+ofstream fout
+fout.open(“hello.txt”) //create hello.txt in your current directory
+The code will create hello text file as shown below
+
+If you open a file for writing (out access mode), C++ creates the file. If a
+file by that name already exists, C++ overwrite the old file with no
+warning. You must be careful when opening files not to overwrite existing
+data that you want.
+If an error occurs during opening of a file, C++ does not create a valid file
+pointer (file object). Instead, C++ creates a file pointer (object) equal to
+zero. For example if you open a file for output, but use an invalid disk
+name, C++ can’t open the file and therefore makes the file object equal to
+zero.
+You can also determine the file access mode when creating a file in C++. If
+you want to use the open function to open a file then the syntax is:
+fileobject.open(filename,accessmode)
+File name is a string containing a valid file name for your computer.
+Accessmode is the sought operation to be taken on the file and must be one of the values in the following table.
+
+9.4 የፋይል አጠቃቀም አይነቶች (Types of Disk File Access)
+​ፕሮግራማችን ፋይሎችን በሁለት መንገድ ሊያገኛቸው ይችላል፡
+​ሰርተህ ተከተል (Sequential Access): ዳታው በተቀመጠበት ቅደም ተከተል ብቻ ማንበብ። ልክ እንደ ካሴት ማለት ነው፤ መጀመሪያ የተቀዳውን ሳትሰማ መሃል ላይ ያለውን መስማት አትችልም።
+​የፈለጉበት ጋር መዝለል (Random Access): ዳታውን በፈለግከው ቅደም ተከተል ማግኘት። ይሄ ደግሞ እንደ ሲዲ (CD) ነው፤ የፈለግከውን ዘፈን መርጠህ በቀጥታ ማጫወት ትችላለህ።
+​9.4.1 ሰርተህ ተከተል ፋይሎች (Sequential File Concepts)
+​በእነዚህ ፋይሎች ላይ ሶስት ነገሮችን ማድረግ ትችላለህ፡ አዲስ ፋይል መፍጠር፣ ዳታ መጨመር እና ከፋይሉ ላይ ዳታ ማንበብ።
+​9.4.1.1 ፋይሎችን መክፈትና መዝጋት
+​አንድን ፋይል ስትከፍት ለ C++ የምትነግረው ሁለት ነገር ብቻ ነው፡ የፋይሉን ስም እና ምን ማድረግ እንደፈለግክ። ፋይሉን ስትዘጋው ደግሞ C++ የቀረ ዳታ ካለ ፋይሉ ላይ ጽፎ ያጠናቅቃል፣ እንዲሁም ፋይሉን ከፕሮግራሙ ጋር ያላቅቀዋል።
+​ፋይል ለመክፈት ሁለት መንገዶች አሉ፦
+1, በኮንስትራክተር (Constructor) መጠቀም፦
+ofstream fout ("hello.txt") // ፋይሉን ወዲያውኑ ይፈጥረዋል
+የ open() ፋንክሽንን መጠቀም፦
+ofstream fout
+fout.open("hello.txt") // መጀመሪያ ኦብጀክቱን ፈጥሮ በኋላ ፋይሉን ይከፍታል
+ጥንቃቄ ማድረግ ያለባችሁ ነገሮች፦
+​Overwrite: ፋይል ለመጻፍ (out mode) ስትከፍት፣ በዚያ ስም ሌላ ፋይል ቀድሞ ካለ C++ ያለምንም ማስጠንቀቂያ አጥፍቶ በአዲሱ ይተካዋል። ስለዚህ ጥንቃቄ አድርግ!
+​Error Handling: ፋይሉ ሳይከፈት ቢቀር (ለምሳሌ የዲስክ ስም ከተሳሳተ)፣ የፈጠርከው ኦብጀክት ዋጋው 0 (zero) ይሆናል። ይሄ ፋይሉ አልተከፈተም ማለት ነው።
+​የፋይሉን አጠቃቀም አይነት (Access mode) ለመወሰን የምንጠቀምበት ሲንታክስ (Syntax) እንዲህ ነው፦
+​fileobject.open(filename, accessmode)
+
+
+
+outdata.open(“c:\\names.txt”,ios::app)
+outdata.open(“c:\\names.txt”,ios::in)
+outdata.open(“c:\\names.txt”,ios::out)
+You should always check for the successful opening of a file before
+starting file manipulation on it. You use the fail() function to do the task:
+Lets have an example here:
+ifstream indata
+indata.open(“c:\\myfile.txt”,ios::in)
+if(indata.fail())
+{
+//error description here
+}
+In this case, the open operation will fail (i.e the fail function will return
+true), if there is no file named myfile.txt in the directory C:\
+After you are done with your file manipulations, you should use the close
+function to release any resources that were consumed by the file
+operation. 
+Here is an example
+indata.close()
+The above close() statement will terminate the relationship between the
+ifstream object indata and the file name “c:\myfile.txt”, hence releasing
+any resource needed by the system.
+የፋይል አከፋፈት አይነቶች (Access Modes)
+​እነዚህን ምሳሌዎች ተመልከት፡
+​outdata.open("c:\\names.txt", ios::app)
+​ios::app (Append): ፋይሉ ካለ መጨረሻው ላይ አዲስ መረጃ ለመጨመር ይጠቅማል። የቆየውን ዳታ አያጠፋብህም።
+​outdata.open("c:\\names.txt", ios::in)
+​ios::in (Input): ከፋይሉ ላይ መረጃ ለማንበብ ብቻ ስትፈልግ።
+​outdata.open("c:\\names.txt", ios::out)
+​ios::out (Output): በፋይሉ ላይ መረጃ ለመጻፍ። ፋይሉ ቀድሞ ካለ ግን ያጠፋውና በአዲስ ይተካዋል።
+​ፋይሉ በትክክል መከፈቱን ማረጋገጥ
+​ፋይል ላይ ማንኛውንም ስራ ከመስራትህ በፊት፣ ፋይሉ በትክክል መከፈቱን ማረጋገጥ በጣም አስፈላጊ ነው። ለዚህ ደግሞ fail() የምትባል ፋንክሽን እንጠቀማለን።
+​ለምሳሌ፡
+ifstream indata
+indata.open("c:\\myfile.txt", ios::in)
+
+if(indata.fail())
+{
+// ፋይሉ ካልተገኘ ወይም መከፈት ካልቻለ እዚህ ጋር ማሳሰቢያ መጻፍ ትችላለህ
+cout << "Error: ፋይሉ ሊገኝ አልቻለም!" << endl
+}
+እዚህ ጋር ፋይሉ (myfile.txt) በሲ-ድራይቭ (C:) ውስጥ ከሌለ፣ fail() ፋንክሽኑ true (እውነት) የሚል መልስ ይሰጠናል። ይህም ስህተት መኖሩን ያሳውቀናል።
+​ፋይልን መዝጋት (Closing a File)
+​የፈለግከውን ስራ ሰርተህ ስትጨርስ፣ የከፈትከውን ፋይል መዝጋት አለብህ። ይሄም ኮምፒውተሩ ለዛ ፋይል የተጠቀመውን ሜሞሪ (resources) እንዲለቅ ይረዳዋል።
+​ምሳሌ፡
+indata.close()
+ይህንን ስታደርግ በ indata ኦብጀክት እና በ myfile.txt መካከል የነበረው ግንኙነት ያበቃል።

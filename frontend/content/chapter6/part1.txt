@@ -1,0 +1,248 @@
+6.1 What is String? 
+String ማለት በቀላሉ የተከተለ ቁምፊዎች (characters) መዝሙር ነው።
+ምሳሌ፦ ቃላት፣ ስሞች፣ ዓረፍተ ነገሮች ወዘተ። 📝
+እስካሁን ድረስ በፕሮግራም ውስጥ ቁጥሮችን (numbers) ብቻ ነበር ስንሰራ የነበረው ፤ ነገር ግን ኮምፒዩተር ጽሑፎችን መያዝ አለበት፣ ይህን ስራ የሚያደርገው ደግሞ string ነው✨
+
+🧩 string በ C++
+በ C++ ውስጥ string ለመያዝ የተዘጋጀ built-in variable type አይኖርም።
+ነገር ግን store ማድረግ እንችላለን💪 array of character በመጠቀም ይህን መፈፀም እንችላለን።
+👉 char አንድ ፊደል (character) ብቻ ይይዛል፣
+ነገር ግን char array ተከታታይ ፊደሎችን (characters) ይያዛል፣ ይህም string ነው! 😃
+
+ምሳሌ፦
+char name[20]
+ይህ ማለት ነው፦
+🧠 “C++ ሆይ፣ እባክህ እስከ 20 ፊደል (character) የሚያስቀምጥ ቦታ አዘጋጅልኝ!” ማለት ነው።
+
+ይህ የተዘጋጀልን ቦታ ከስር ያሉትን ፅሁፎች ይችላል፦
+"Hello"
+"Studying C++"
+ወይም ከዚህም አጠር ያሉ ጽሑፎችን ማከማቸት ይችላል። ይህ 19 character ማስቀመጥ ይችላል ፤ የመጨረሻው 1 space ለክብር እንግዳ የተቀመጠች ነች (ሌላ ጊዜ እናወራበታለን)☺️
+
+🔚 የክብር እንግዳዋ character— '\0'
+በሁሉም C-style string መጨረሻ ላይ የሚጨመር የልዩ character አለ።
+ይህ ነው 👉 '\0' — ይህን null character ወይም string terminator 🧱 ብለን እንጠራዋለን
+ለምሳሌ፦
+name ውስጥ "Hello" ከተቀመጠ፣ እንዲህ ይመስላል 👇
+H e l l o \0 ? ? ? ? ...
+(? ማለት ባዶ / ክፍት ቦታ ነው ማለት ነው።)
+
+እንዲሁ "Studying C++" ከተቀመጠ፣
+| S | t | u | d | y | i | n | g | | C | + | + | \0 | ? | ? | ... |
+
+ኮምፒዩተሩ ይህን \0 ምልክት ሲያይ ->
+🗣 “ እስከዚህ ብቻ አንብብ ፣ ከዚ በኋላ ያለውን አታንብብ !” ብሎ ነው ሚረዳው
+
+💡 በአጠቃላይ፦
+✅ String 
+char greeting[] "Hello"
+
+ሁለቱም አንድ ናቸው — “Hello” የምትለውን ቃል ያስቀምጣሉ እና በመጨረሻ \0 ያካትታሉ።
+
+2️⃣ C++ String Class (ዘመናዊ መንገድ 💎)
+በ Standard C++ Library ውስጥ የተገኘው የ string class ይህንን ነገር ቀላል አድርጎታል!
+ይህንን ለመጠቀምም ይህን እንጨምራለን ፦
+#include <string>
+using namespace std
+
+ከዚያ በኋላ፦
+string str
+str "Hello World!"
+
+✅ ለመጠቀም ቀላል 
+✅ የ\0 ጉዳይ አያስጨንቅም 
+✅ ብዙ የተጠቃሚ መጠን ያላቸው functions አሉ
+
+💬 ማጠቃለያ
+Concept Description 
+String በመጨረሻው \0 የሚያበቃ የተከተለ ቁምፊዎች
+C-style string የchar አሬይ፣ \0 ያቀርባል
+C++ string class ከ<string> መጽሐፍ የመጣ object-oriented string
+Null character \0 የstring መጨረሻን የሚያመለክት
+Libraries <string.h> (C-style) እና <string> (C++ STL)
+
+6.1.1 Initialization of Strings
+Because strings of characters are ordinary arrays they fulfill same rules as any array. For example, if we want to initialize a string of characters with predetermined values we can do it in a similar way to any other array: 
+
+char mystring[] { 'H', 'e', 'l', 'l', 'o', '\0' } 
+
+In this case we would have declared a string of characters (array) of 6 elements of type char initialized with the characters that compose Hello plus a null character '\0’. 
+Nevertheless, string of characters have an additional way to initialize its values: using constant strings. 
+In the expressions we have used in examples of previous chapters there have already appeared several times constants that represented entire strings of characters. These are specified enclosed between double quotes ( “ “ ), for example: 
+
+Eg: "the result is:” is a constant string that we have probably used in some occasion. 
+
+Unlike single quotes (‘) which allow to specify single character constants, double quotes (“) are constants that specify a succession of characters. These strings enclosed between double quotes have always a null character (‘\0’) automatically appended at the end.
+Therefore we could initialize the string mystring with values by any of these two ways: 
+
+char mystring [] { 'H', 'e', 'l', 'l', 'o', '\0' } char mystring [] "Hello" 
+
+In both cases the Array or string of characters mystring is declared with a size of 6 characters (elements of type char ): the 5 characters that compose Hello plus a final null character ( '\0' ) which specifies the end of the string and that, in the second case, when using double quotes ( " ) it is automatically appended. 
+Before going further, you should note that the assignation of multiple constants like double-quoted constants (“) to arrays are only valid when initializing the array, that is, at the moment when declared. 
+
+The following expressions within a code are not valid for arrays 
+
+mystring"Hello" mystring[] "Hello" 
+Neither would be: mystring { 'H', 'e', 'l', 'l', 'o', '\0' } 
+So remember: We can "assign" a multiple constant to an Array only at the moment of initializing it. The reason will be more comprehensible when you know a bit more about pointers, since then it will be clarified that an array is simply a constant pointer pointing to an allocated block of memory. And because of this constant feature, the array itself cannot be assigned any value, but we can assign values to each of the elements of the array. 
+At the moment of initializing an Array it is a special case, since it is not an assignation, although the same equal sign (
+
+👉 ይህ 6 element ያለው የcharacter array ይፈጥራል። እነዚህም "Hello" የሚለው ውስጥ 5 character ፤ ከነዚህም በኋላ null character (\0) ይጨምራል። በድምሩ 6 character ማለት ነው።
+ሌላ ቀላል መንገድም መጠቀም እንችላለን ፤እንዲ አድርገን መፃፍ ትችላለህ፦
+char mystring[] "Hello"
+👉 ኮምፒላሩ በራሱ የመጨረሻውን \0 ይጨምራል።
+
+ሁለቱም እኩል ናቸው፤
+5 visible የሆኑ characterኦች እና
+1 የተደበቀ/visible ያልሆነ null character (\0)
+
+⚠️ አስፈላጊ rule፡
+የstring ዋጋን assign ለማድረግ "Hello" እንደዚህ ማድረግ በdeclaration ጊዜ ብቻ ይፈቀዳል። ከዚያ በኋላ በኮድ ውስጥ value መስጠት / assign ማድረግ አይፈቀድም።
+እንደዚህ ያሉ ምሳሌዎች የማይሰሩ ናቸው፦
+mystring "Hello" // ❌ አይፈቀድም 
+mystring[] "Hello" // ❌ አይፈቀድም
+
+ይህ ምክንያቱም array ማለት constant pointer ነው፤ ከተፈጠረ በኋላ መቀየር አይቻልም፣ ነገር ግን ውስጣዊ አካሎቹን በተናጥል መቀየር ትችላለህ።
+
+👉 በአጭሩ፦
+የstringን ዋጋ በdeclaration ጊዜ ብቻ ነው መስጠት /assign ማድረግ የሚቻለው።
+ለዚህም በ { } ወይም በ " " መጠቀም ይቻላል።
+
+6.1.2 String Manipulation Functions
+• The C++ and its parent the C languages do not have a string data type. In C and
+C++, strings are created from arrays. Therefore, the C++ language relies on
+operations performed on the arrays of characters or pointers to char. The functions
+used for this purpose are numerous and you should know what they are used for.
+• As a reminder, thanks to the features of arrays of characters and the friendship between
+arrays of characters and strings, there are two main ways you can declare and initialize a
+string:
+char *Thing “Telephone”
+char Major[] “Computer Sciences”
+3.3 String Manipulation Functions
+• በመጀመሪያ፣ ሲ++ (C++) እና ሲ (C) ቋንቋዎች "ስትሪንግ ዳታ ታይፕ" የሚባል ነገር የላቸውም ማለት ነው። ይህ ማለት እንደሌሎች ቋንቋዎች በቀጥታ string ብለን አንጠቀምም ማለት ነው።
+• ታዲያ እንዴት ነው ስትሪንግ የምንሰራው? ስትሪንጎች የሚፈጠሩት ከ"አሬይ" (Array) ወይም የካራክተሮች ስብስብ ነው። ልክ እንደ አንድ ሰንሰለት አስበው—እያንዳንዱ ፊደል (ካራክተር) የሰንሰለቱ አንድ ክፍል ነው።
+• ስለዚህ፣ C++ ውስጥ በስትሪንግ ላይ የምታደርጋቸው ኦፕሬሽኖች በሙሉ የሚሰሩት በእነዚህ የካራክተሮች አሬዮች ወይም በ"ፖይንተር ቱ ቻር" (Pointer to char) በመጠቀም ነው።
+• ስትሪንጎችን ለመቆጣጠር (Manipulate) የሚጠቅሙ ብዙ ፈንክሽኖች (Functions) አሉ—እነዚህን ምን እንደሚሰሩ ማወቅህ በጣም ወሳኝ ነው።
+• አስታውስ! የአሬይ እና የስትሪንግ ወዳጅነት ምስጋና ይግባውና ስትሪንግ ለማወጅ (Declare) እና ለመጀመር (Initialize) ሁለት ዋና መንገዶች አሉ፦
+1. ፖይንተርን ስትጠቀም (Pointer Style):
+C++
+char *Thing “Telephone”
+// "Telephone" የሚለውን ቃል የሚያመለክት 'Thing' የሚባል char pointer አሳወቅን።
+2. አሬይ ስታይልን ስትጠቀም (Array Style):
+C++
+char Major[] “Computer Sciences”
+// "Computer Sciences" የሚለውን ጽሑፍ የሚይዝ 'Major' የሚባል የካራክተሮች Array አሳወቅን።
+________________________________________
+
+
+
+1. The Length of a String (strlen)
+• In many operations, you will want to know how many characters a string consists of. To
+find the number of characters of a string, use the strlen() function. 
+• Its syntax is: strlen(Major) where Major is the string variable
+• The strlen ( ) function takes one argument, which is the string you are considering. The
+function returns the number of characters of the string.
+char School[] "Manchester United"
+int Length strlen(School)
+cout << "The length of " << School<<”is”<<Length
+
+The length of Manchester United is 17 characters
+2. The strcat() Function
+• If you have two strings, to append one to another, use the strcat () function. 
+• Its syntax is: char strcat(string1, string2) where string1 and string2 are the string variables
+• The strcat ( ) function takes two arguments. The second argument, called the source string, is the string you want to add to the first string this first string is referred to as the
+destination.
+• Although the function takes two arguments. It really ends up changing the destination
+string by appending the second string at the end of the first string. This could be used to
+add two strings.
+• Here is an example:
+
+char Make[] {"Ford "} 
+char Model[] "Explorer"
+cout << "Originally, Make " << Make
+strcat(Make, Model)
+cout << "\n\nAfter concatenating, Make " << Make << endl
+• The output is
+
+
+3. The strncat () Function
+
+• Like the strcat( ) function, the strncat( ) function is used to append one string to another. The
+difference is that, while the strcat ( ) considers all characters of the source string, the
+strncat( ) function allows you to specify the number of characters from the source string
+that you want to append to the destination string. This means that, if the source string has
+12 characters, you can decide to append only a set number of its characters. 
+• The syntax is:
+char strncat(string1, string2, number)
+Besides the same arguments as the strcat () function, the Number argument sets the number of characters considered from Source. To perform the concatenation, the compiler would count characters from left to right on the source string.
+• Here is an example:
+char Make[] {"Ford "}
+char Model[] {"Explorer"}
+strcat(Make, Model,3)
+
+Output
+Originally, Make 
+// Major የምትፈልገው የstring variable ነች።
+• strlen() አንድ አርጉመንት (Argument) ብቻ ይወስዳል (የምትቆጥረውን ስትሪንግ) እና የሚመልስልህ (returns) የካራክተሮቹን ብዛት ነው።
+• ምሳሌ:
+C++
+char School[] "Manchester United" // 17 ካራክተሮች (space ይጨምራል)
+int Length strlen(School)
+// Length አሁን 17 ይሆናል።
+ውጤት (Output):
+The length of Manchester United is 17 characters
+________________________________________
+2. The strcat() Function
+• ሁለት ስትሪንጎች ሲኖሩህ አንዱን ከሌላው ጫፍ ላይ ለመጨመር (ለመቀጠል ወይም Append ለማድረግ) strcat() የተባለውን function እንጠቀማለን።
+• strcat() የሁለቱን ስትሪንጎች ቃል በቃል ይጣብቃቸዋል (Concatenate)።
+• አጠቃቀሙ (Syntax):
+C++
+char strcat(string1, string2)
+// string1: Destination (የሚጨመርበት/የሚቀየረው)
+// string2: Source (የሚጨመረው)
+• ይህ function ሁለት አርጉመንቶች ይወስዳል። ሁለተኛው አርጉመንት (Source string) ለመጀመሪያው አርጉመንት (Destination string) መጨረሻ ላይ ይጨመራል።
+• ትልቁ ነገር: ይህ function የሚቀይረው (Changing) የመጀመሪያውን ስትሪንግ (Destination string) ብቻ ነው።
+• ምሳሌ:
+C++
+char Make[] {"Ford "} // Make የ Destination ነው
+char Model[] "Explorer" // Model የ Source ነው
+cout << "Originally, Make " << Make // Ford
+strcat(Make, Model) // Modelን ከ Make ጫፍ ጨምር
+// Make አሁን "Ford Explorer" ይሆናል
+cout << "\n\nAfter concatenating, Make " << Make << endl
+ውጤት (Output):
+Originally, Make 
+// number: ከ string2 ላይ ተቆርጠው ወደ string1 የሚጨመሩ የካራክተሮች ብዛት
+• ኮምፓይለሩ (Compiler) የሚቆጥረው ከ Source string ግራ ወደ ቀኝ ነው።
+• ምሳሌ:
+C++
+char Make[] {"Ford "} // Ford
+strncat(Make, Model, 3) // ከ "Explorer" ላይ 3ቱን ካራክተሮች ("Exp") ብቻ ጨምር
+cout << "\n\nAfter concatenating, Make " << Make << endl
+// string1: የሚተካው/Destination (አሮጌው)
+// string2: የሚቀዳው/Source (አዲሱ)
+• ይህ function ሁለት አርጉመንቶች ይወስዳል። ሁለተኛው ስትሪንግ (Source) የመጀመሪያውን ስትሪንግ (Destination) ሙሉ ለሙሉ ይተካዋል።
+• strcpy() የሚጠቅምህ አሁን ያለውን ስትሪንግ ለመተካት ወይም አዲስ ስትሪንግ ለመጀመር (Initialize) ስትፈልግ ነው።
+• ምሳሌ:
+C++
+char carName1[] {"Ford Escort"} // Source
+char carName2[] {"Toyota 4-Runner"} // Destination (ይህ ይተካል)
+// carName2 አሁን በ carName1 ይተካል
+cout << strcpy(carName2, carName1)
+ውጤት (Output):
+Ford Escort
+________________________________________
+5. The strncpy() Function
+• strncpy() ከ strcpy() ጋር ተመሳሳይነት አለው። ልዩነቱ strncpy() ከምንጩ (Source) ስትሪንግ ላይ ምን ያህል ካራክተሮች ብቻ እንዲቀዳልህ እንደምትፈልግ እንድትወስን ያስችልሃል።
+• አጠቃቀሙ (Syntax):
+C++
+char strncpy(string1, string2, number)
+// number: ከ string2 ላይ ተቆርጠው ወደ string1 የሚቀዱት የካራክተሮች ብዛት
+• ምሳሌ:
+C++
+char carName1[] {"Ford Escort"} // Destination
+// ከ carName1 ("Ford Escort") ላይ 8ቱን ካራክተሮች ("Ford Esc") ብቻ ወደ carName2 ቅዳ
+cout << strncpy(carName2, carName1, 8)
+የመጀመሪያዎቹ 8 ካራክተሮች ተቀድተው ገቡ። የተቀሩት የ carName2 ካራክተሮች (ከ 8ተኛው ቦታ ጀምሮ) ሳይቀየሩ ይቀራሉ። ውጤት (Output):
+Ford Esc-Runner
+________________________________________

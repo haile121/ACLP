@@ -1,0 +1,130 @@
+4.7. Pointer Arithmetic
+To conduct arithmetical operations on pointers is a little different than to
+conduct them on other integer data types. To begin, only addition and
+subtraction operations are allowed to be conducted, the others make no sense
+in the world of pointers. But both addition and subtraction have a different
+behavior with pointers according to the size of the data type to which they
+point to.
+When we saw the different data types that exist, we saw that some occupy
+more or less space than others in the memory. For example, in the case of
+integer numbers, char occupies 1 byte, short occupies 2 bytes and long
+occupies 4.
+
+Let's suppose that we have 3 pointers:
+char *mychar
+short *myshort
+long *mylong
+And that we know that they point to memory locations 1000 , 2000 and 3000
+respectively. So if we write:
+mychar++
+myshort++
+mylong++
+mychar , as you may expect, would contain the value 1001 . Nevertheless,
+myshort would contain the value 2002 , and mylong would contain 3004 . The
+reason is that when adding 1 to a pointer we are making it to point to the
+following element of the same type with which it has been defined, and
+therefore the size in bytes of the type pointed is added to the pointer.
+pointer.
+
+
+This is applicable both when adding and subtracting any number to a pointer.
+It is important to warn you that both increase ( ++ ) and decrease ( -- )
+operators have a greater priority than the reference operator asterisk ( * ),
+therefore the following expressions may lead to confusion:
+*p++
+*p++ *q++
+The first one is equivalent to *(p++) and what it does is to increase p (the
+address where it points to - not the value that contains).
+The second, because both increase operators ( ++ ) are after the expressions to
+be evaluated and not before, first the value of *q is assigned to *p and then
+they are both q and p increased by one. It is equivalent to:
+*p *q
+p++
+q++
+Now let us have a look at a code that shows increments through an integer
+array:
+void main()
+{
+int iara[] {10,20,30,40,50}
+int * ip iara
+cout<<*ip<<endl
+ip++
+}
+
+
+4.7. የፖይንተር ሂሳባዊ ስሌት (Pointer Arithmetic)
+በፖይንተር ላይ የምንጠቀማቸው ዋና ዋና ስሌቶች መደመር (+) እና መቀነስ (-) ብቻ ናቸው። ማባዛትና ማካፈል በፖይንተር አለም ትርጉም የላቸውም።
+
+1. ስሌቱ በዳታ አይነቱ ይወሰናል
+አንድን ፖይንተር በ 1 ስንጨምር (ptr++)፣ አድራሻው የሚጨምረው በ 1 ቁጥር ሳይሆን ፖይንተሩ በሚይዘው የዳታ አይነት መጠን (Size) ልክ ነው።
+ለምሳሌ (Memory Location 1000 ላይ ቢነሱ):
+*char p (1 byte): p++ ሲደረግ $\rightarrow$ 1001 ይሆናል (1 byte ጨመረ)።
+*short p (2 bytes): p++ ሲደረግ $\rightarrow$ 1002 ይሆናል (2 bytes ጨመረ)።
+*long p (4 bytes): p++ ሲደረግ $\rightarrow$ 1004 ይሆናል (4 bytes ጨመረ)።
+
+2. የቅድሚያ ቅደም ተከተል (Priority)
+የመጨመሪያ (++) እና የመቀነሻ (--) ምልክቶች ከዲሪፈረንስ (*) ምልክት የበለጠ የቅድሚያ ተፈጻሚነት አላቸው። ይህ ግራ ሊያጋባ ይችላል፦
+*p++ ማለት $\rightarrow$ መጀመሪያ ፖይንተሩን (አድራሻውን) ጨምር፣ ከዚያም በዛ አድራሻ ያለውን ዳታ አሳይ ማለት ነው። (እኩል ነው ከ፦ *(p++))
+*p++ 
+int *ip iara // መጀመሪያ 10 ላይ ነው
+
+cout << *ip // 10 ያትማል
+ip++        // ወደ ቀጣዩ (20) ይሄዳል
+cout << *ip // 20 ያትማል
+ip++        // ወደ ቀጣዩ (30) ይሄዳል
+cout << *ip // 30 ያትማል
+
+💡 Core Concept
+ፖይንተርን መደመር ማለት "ወደ ቀጣዩ የዳታ ክፍል ሂድ" ማለት እንጂ "አድራሻው ላይ 1 ቁጥር ጨምር" ማለት አይደለም።
+ስሌቱ የሚሰራው ፖይንተሩ በተሰጠው የዳታ አይነት መጠን (Size) ላይ ተመስርቶ ነው።
+
+
+4.8. Pointer and String
+If you declare a character table with 5 rows and 20 columns, each row would
+contain the same number of characters. You can define the table with the
+following statement.
+char names[5][20] {{“George”},{“Mesfin”},{“John”},{“Kim”},{“Barbara”}}
+The above statement will create the following table in memory:
+
+Notice that much of the table is waster space. Each row takes 20 characters,
+even though the data in each row takes far fewer characters.
+To fix the memory-wasting problem of fully justified tables, you should
+declare a single-dimensional array of character pointers. Each pointer points
+to a string in memory and the strings do not have to be the same length.
+Here is the definition for such an array:
+char *name [5] {{“George”},{“Mesfin”},{“John”}, {“Kim”},{“Barbara”}}
+This array is a single-dimension array. The asterisk before names makes this
+array an array of pointers. Each string takes only as much memory as is
+needed by the string and its terminating zero. At this time, we will have this
+structure in memory:
+To print the first string, we should use:
+cout<<*names //prints George.
+To print the second use:
+cout<< *(names+1) //prints Michael
+Whenever you dereference any pointer element with the * dereferencing
+operator, you access one of the strings in the array.
+
+
+4.8. ፖይንተር እና ስትሪንግ (Pointer and String)
+ብዙ ስሞችን በአንድ ላይ ለማስቀመጥ ሁለት መንገዶች አሉን። ሁለቱ መንገዶች በሜሞሪ አጠቃቀም ረገድ ትልቅ ልዩነት አላቸው።
+1. በባህላዊ 2D Array መጠቀም (Memory Wasting)
+ሁለት ዳይሜንሽን ያለው አሬይ (2D Array) ስንጠቀም ለእያንዳንዱ ስም እኩል የሆነ የቦታ መጠን እንሰጣለን።
+ምሳሌ፦ char names[5][20]
+እዚህ ጋር 5 ስሞችን ለመያዝ ተዘጋጅተናል፣ ለእያንዳንዱ ስም ደግሞ 20 ክፍሎችን (Characters) መድበናል።
+ችግሩ፦ እንደ "Kim" ያለ አጭር ስም 3 ፊደል ብቻ ቢሆንም፣ ኮምፒውተሩ ግን 20 ቦታ ይይዝለታል። የተቀሩት 17 ቦታዎች በባዶ ይባክናሉ (Wasted Space)።
+
+2. በፖይንተር አሬይ መጠቀም (Memory Efficient)
+የሜሞሪ ብክነትን ለማስቀረት የፖይንተር አሬይ (Array of Pointers) መጠቀም እንችላለን።
+ምሳሌ፦ char *name[5] {"George", "Mesfin", "John", "Kim", "Barbara"}
+እዚህ ጋር name የሚባለው አሬይ የያዘው አድራሻዎችን ብቻ ነው።
+እያንዳንዱ ፖይንተር ወደየራሱ ስም ይጠቁማል። ስሞቹ እንደየርዝመታቸው የሚያስፈልጋቸውን ቦታ ብቻ ይይዛሉ እንጂ ትርፍ ቦታ አይይዙም።
+3. በፖይንተር ስሞችን ማተም (Printing Strings)
+የፖይንተር አሬይን በመጠቀም ስሞችን ለማውጣት የ Dereferencing (*) ምልክትን እንጠቀማለን፦
+የመጀመሪያውን ስም ለማተም፦ cout << *names George ያትማል።
+ሁለተኛውን ስም ለማተም፦ cout << *(names + 1) Mesfin ያትማል።
+ሶስተኛውን ስም ለማተም፦ cout << *(names + 2) John ያትማል።
+
+💡 Core Concept
+2D Array: ሜሞሪ ያባክናል፣ ምክንያቱም ሁሉም ረድፎች እኩል ቦታ ስለሚይዙ።
+Array of Pointers: ሜሞሪ ይቆጥባል፣ ምክንያቱም እያንዳንዱ ስም የሚያስፈልገውን ያህል ቦታ ብቻ ስለሚይዝ።
+ማንኛውንም የፖይንተር አባል በ * ምልክት ስንጠራው፣ ፖይንተሩ የያዘውን ሙሉ ስም (String) እናገኛለን።

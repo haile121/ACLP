@@ -1,0 +1,483 @@
+2.6 Multidimensional Arrays 
+
+
+
+􀀹Multidimensional arrays can be described as arrays of arrays. For example, a bi-dimensional array can be imagined as a bi-dimensional table of a uniform concrete data type. 
+
+     
+
+􀀹Matrix represents a bi-dimensional array of 3 per 5 values of type int . The way to declare this array would be: 
+
+int matrix[3][5]; 
+
+􀀹For example, the way to reference the second element vertically and fourth horizontally in an expression would be: 
+
+matrix[1][3]
+
+ 
+
+(remember that array indices always begin by 0 ) 
+
+􀀹Multidimensional arrays are not limited to two indices (two dimensions). They can contain so many indices as needed, although it is rare to have to represent more than 3 dimensions. Just consider the amount of memory that an array with many indices may need. For example: 
+
+char century [100][365][24][60][60]; 
+
+􀀹Assigns a char for each second contained in a century, that is more than 3 billion chars ! What would consume about 3000 megabytes of RAM memory if we could declare it? 
+
+􀀹Multidimensional arrays are nothing else than an abstraction, since we can simply obtain the same results with a simple array by putting a factor between its indices: 
+
+
+
+int matrix [3][5]; is equivalent to int matrix [15]; (3 * 5 = 15) 
+
+
+
+􀀹With the only difference that the compiler remembers for us the depth of each imaginary dimension. Serve as example these two pieces of code, with exactly the same result, one using bi-dimensional arrays and the other using only simple arrays: 
+
+
+
+
+
+
+
+
+
+// multidimensional array 
+
+#include <iostream.h>
+
+#define WIDTH 5
+
+#define HEIGHT 3
+
+ int matrix [HEIGHT][WIDTH]; 
+
+int n,m;
+
+int main () 
+
+{
+
+      for (n=0;n<HEIGHT;n++) 
+
+for (m=0;m<WIDTH;m++) 
+
+{
+
+ 	matrix [n][m]=(n+1)*(m+1); 
+
+}
+
+ return 0;
+
+ } 
+
+􀀹None of the programs above produce any output on the screen, but both assign values to the memory block called matrix in the following way: 
+
+
+
+􀀹We have used defined constants ( #define ) to simplify possible future modifications of the program, for example, in case that we decided to enlarge the array to a height of 4 instead of 3 it would be enough by changing the line: 
+
+#define HEIGHT 3 
+
+by the following code 
+
+#define HEIGHT 4 
+
+􀀹Using Loop to input a Two-Dimensional Array from user
+
+int mat[3][5], row, col ;
+
+for (row = 0; row < 3; row++)
+
+for (col = 0; col < 5; col++)
+
+cin >> mat[row][col];
+
+
+
+
+
+2.6 Multidimensional Arrays 
+
+እነሱ እንደ አሬዎች ውስጥ ያሉ አሬዎች ናቸው።
+
+
+
+ሁለት መጠን ያላቸው (2D) አሬዎች እንደ ሰንጠረዥ ወይም ግሪድ ይመስላሉ፤ በ ረድፍ (row) እና አምድ (column) ይዋቀራሉ ።
+
+
+
+
+
+🧠 ምሳሌ፦
+
+int matrix[3][5];
+
+ይህ ሶስት ረድፎችን (row) እና አምስት አምዶችን (column) የያዘ ሰንጠረዥ ይፈጥራል።
+
+ሁሉም int ቁጥሮችን ነው የሚይዙት ።
+
+
+
+📍 Accessing Elements
+
+ሁለተኛውን ረድፍ እና አራተኛውን አምድ ለመጠቀም ለማግኘት (access) ለማድረግ ከፈለጋችሁ እንደዚ ነው ምትፅፉት፦
+
+matrix[1][3];
+
+(አሬዎች ቁጥር በ 1 ሳይሆን በ0 እንደሚጀምር አትርሱ! 😅)
+
+
+
+🌌 ከ2 Dimensions ሲሆኑስ🤔?
+
+ሶስት ወይም ከዚያ በላይ መጠን ያላቸውን አሬዎች መፍጠር ይቻላል፣
+
+ግን ይህ ብዙ ሜሞሪ ይበላል 💾😅
+
+ምሳሌ፦
+
+char century[100][365][24][60][60];
+
+ይህ በአንድ ክፍለ ዘመን (century) ውስጥ ያለ እያንዳንዱን ሰከንድ አንድ character  እንዲያከማች ያደርጋል።
+
+👉 ይህ ማለት ከ 3 ቢሊዮን በላይ character ማለት ነው! (ወደ 3000 MB RAM ያጠጋል) 😲
+
+
+
+
+
+💡 በእርግጥ 2D አሬው እንደ 1D አሬ ነው ፣ ግን ኮምፒለሩ እያንዳንዱ ረድፍ:(row) ስንት እንደሆነ ያስታውሳል/ያውቃል።
+
+int matrix[3][5];  // በመጠኑ ከ int matrix[15]; ጋር እኩል ነው።
+
+
+
+🧮 ምሳሌ
+
+#include <iostream.h>
+
+#define WIDTH 5
+
+#define HEIGHT 3
+
+
+
+int matrix[HEIGHT][WIDTH];
+
+int n, m;
+
+int main() {
+
+    for (n = 0; n < HEIGHT; n++)
+
+        for (m = 0; m < WIDTH; m++)
+
+            matrix[n][m] = (n + 1) * (m + 1);
+
+    return 0;
+
+}
+
+
+
+📘 ይህ ፕሮግራም በመጀመሪያ ምንም አይታተምም ወይም output የለውም ፣ ግን ውስጡ ውስጥ እንደ multiplication table ይመስል ቁጥሮችን ይመዘግባል።
+
+
+
+⚙️ ለምን #define እንጠቀማለን ?
+
+#define ማለት መጠኑን በኋላ ላይ ለመቀየር ብንፈልግ በቀላሉ እንድንቀይር ያስችለናል።
+
+ምሳሌ፦
+
+3 ረድፍ(row) ያለውን አሬ ወደ 4 ረድፍ(row) ለመለወጥ፣
+
+#define HEIGHT 3
+
+ን ይቀይሩ እና ይህን አድርጉ፦
+
+#define HEIGHT 4
+
+በዚ ሰዓት የrow ብዛት 4 ይሆናል። ቀላል እና ፈጣን 🎉
+
+
+
+👨‍💻  Input From the User (ተጠቃሚው እራሱ እንዲያስገባ)
+
+የአሬው ብዛት ተጠቃሚው የሚያስገቡበት መንገድ፦
+
+
+
+int mat[3][5], row, col;
+
+for (row = 0; row < 3; row++)
+
+    for (col = 0; col < 5; col++)
+
+        cin >> mat[row][col];
+
+
+
+ይህ ተጠቃሚው ምን ያህል array እንደሚፈልግ እንዲጻፍ ያደርጋል፣ ቁጥሮችም በተከታታይ (order ጠብቀው) በእያንዳንዱ ረድፍ ውስጥ ይቀመጣሉ። ⌨️ መጀመሪያ የገባው ቁጥር የመጀመሪያው box ውስጥ ፣ ሁለተኛ የገባው ቁጥር ሁለተኛው box ውስጥ......እያለ ያስቀምጠዋል ።
+
+👉 በአጭሩ፦ ሁለት ወይም ከዚያ በላይ መጠን ያላቸው አሬዎች በመሆን የመረጃ መዝገቦችን በሰንጠረዥ መልክ ለመያዝ ይጠቅማሉ፣ እና በloop ተመልሰው በቀላሉ መሞላት ይችላሉ። 🧠💻
+
+
+
+
+
+To pass two dimensional array 
+
+􀀹	Two-dimensional arrays can be passed as parameters to a function, and they are passed by reference. This means that the function can directly access and modified the contents of the passed array. When declaring a two-dimensional array as a formal parameter, we can omit the size of the first dimension, but not the second; that is, we must specify the number of columns. For example:
+
+Having the following function prototype:
+
+void print(int A[][3],int N, int M)
+
+In order to pass to this function an array declared as:
+
+int arr[4][3];
+
+we need to write a call like this:
+
+print(arr);
+
+􀀹Here is a complete example:
+
+#include <iostream>
+
+void print(int A[][3],int N, int M)
+
+{
+
+  for (R = 0; R < N; R++)
+
+    for (C = 0; C < M; C++)
+
+       cout << A[R][C];
+
+}
+
+int main ()
+
+{
+
+ 	 int arr[4][3] ={{12, 29, 11},
+
+                  {25, 25, 13},
+
+                  {24, 64, 67},
+
+                  {11, 18, 14}};
+
+  	print(arr,4,3);
+
+ 	 return 0;
+
+}
+
+􀀹Notice that the first brackets [] are left empty, while the following ones specify sizes for their respective dimensions. This is necessary in order for the compiler to be able to determine the depth of each additional dimension.
+
+􀀹Function to find the sum of two Matrices
+
+void Addition(int A[][20], int B[][20],int N, int M)
+
+{
+
+  for (int R=0;R<N;R++)
+
+  for(int C=0;C<M;C++)
+
+   C[R][C]=A[R][C]+B[R][C];
+
+}
+
+􀀹Function to find out transpose of a matrix A
+
+
+
+ void Transpose(int A[][20], int B[][20],int N, int M)
+
+{
+
+  	for(int R=0;R<N;R++)
+
+  	for(int C=0;C<M;C++)
+
+       	B[R][C]=A[C][R];
+
+}
+
+
+
+
+
+
+
+
+
+🎯 Passing Two-Dimensional Arrays to a Function
+
+
+
+💡 ሀሳብ መጀመሪያ፡
+
+
+
+የ 2D array (የሁለት ዲሜንሽን አሬይ) መላክ ከፈለግኔ በ reference ይላካሉ።
+
+👉 ማለትም፣ ፋንክሽኑ ከሚላከው አሬይ ጋር በቀጥታ መስራት እና ዋጋውን መቀየር ይችላል።
+
+
+
+🧮 🧮 Declaring
+
+
+
+ሁለት ዲሜንሽን አሬይ እንደ function parameter declare ሲደረግ ፣
+
+➡ የመጀመሪያውን መጠን (rows) መግለጽ አይጠበቅብንም።
+
+➡ ነገር ግን የሁለተኛውን መጠን (columns) መገለጽ አለበት።
+
+
+
+
+
+---
+
+
+
+🧠 ምሳሌ፡
+
+
+
+void print(int A[][3], int N, int M);
+
+
+
+እንዲህ ያለ አሬይ ከሆነ፡
+
+
+
+int arr[4][3];
+
+
+
+እንዲህ ትጠራዋለህ 👇
+
+
+
+print(arr, 4, 3);
+
+
+
+
+
+💻 ሙሉ ኮድ፡
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+
+void print(int A[][3], int N, int M) {
+
+  for (int R = 0; R < N; R++)
+
+    for (int C = 0; C < M; C++)
+
+       cout << A[R][C] << " ";
+
+}
+
+
+
+int main() {
+
+  int arr[4][3] = {
+
+      {12, 29, 11},
+
+      {25, 25, 13},
+
+      {24, 64, 67},
+
+      {11, 18, 14}
+
+  };
+
+  print(arr, 4, 3);
+
+  return 0;
+
+}
+
+
+
+🧩 የመጀመሪያው ላይ ካስተዋላቹት ባዶ [] ነው፣ ነገር ግን ከዚያ በኋላ ያለው [3] የcolumns ቁጥርን ያመለክታል።
+
+ይህ compilerኡ  row ምን ያህል ስፋት እንዳሐው እንድናውቅ ያረገናል።
+
+
+
+
+
+➕ የሁለት Matrices መደመር ፋንክሽን
+
+
+
+void Addition(int A[][20], int B[][20], int N, int M) {
+
+  for (int R = 0; R < N; R++)
+
+    for (int C = 0; C < M; C++)
+
+      C[R][C] = A[R][C] + B[R][C];
+
+}
+
+
+
+🧮 ይህ ፋንክሽን እያንዳንዱ አባል elements በelement ይደምራል።
+
+በቀላሉ፡ C = A + B 😄
+
+
+
+
+
+🔄 Matrix Transpose ፋንክሽን
+
+
+
+void Transpose(int A[][20], int B[][20], int N, int M) {
+
+  for (int R = 0; R < N; R++)
+
+    for (int C = 0; C < M; C++)
+
+      B[R][C] = A[C][R];
+
+}
+
+
+
+🔁 ይህ ፋንክሽን ሲሰራ  rows እና columns ቦታ ይቀያየራሉ! 
+
+ማለትም፣ row  column ፣ column ደሞ row ሆነው  ቦታ ይቀያየራሉ! 😎
+
+
+
+
+
+በአጠቃላይ፣
+
+🎯 ከፋንክሽን ጋር 2D አሬይ መላክ ቀላል ይሆናል።
+
+እና በፋንክሽኑ ውስጥ ያስተካክለዋል (modify) ፣ ያሳየልጨ(display) ፣ ወይም ከመጀመሪያው ተነስቶ እንደአዲስ መፍጠር (create a new one based on it)። 🧠💻

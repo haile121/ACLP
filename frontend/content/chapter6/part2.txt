@@ -1,0 +1,149 @@
+Comparing Strings (ስትሪንጎችን ማነጻጸር)
+• ሁለት ስትሪንጎች እኩል መሆናቸውን ወይም አንዱ ከሌላው ይበልጣል/ያነሰ መሆኑን ማወቅ ስትፈልግ የ String Comparison Functions እንጠቀማለን።
+• እነዚህ functions የሚሰሩት ካራክተሮችን አንድ በአንድ በማወዳደር ነው።
+6. The strcmp() Function
+• strcmp() የተባለው function ሁለት ስትሪንጎችን ያነጻጽርና ውጤቱን በኢንቲጀር (Integer) መልክ ይመልሳል።
+• አጠቃቀሙ (Syntax):
+C++
+strcmp(char S1, char S2)
+• የሚመለሰው ውጤት (Return Value):
+o Negative value (-): S1 ከ S2 ያነሰ ከሆነ።
+o 0 (ዜሮ): S1 እና S2 እኩል ከሆኑ።
+o Positive value (+): S1 ከ S2 የሚበልጥ ከሆነ።
+o ማወዳደሩ የሚካሄደው በፊደል ቅደም ተከተል (Lexicographically) ወይም በ ASCII Value ነው።
+• ምሳሌ:
+C++
+char carName1[] {"Forda Escort"} // S1
+char carName2[] {"Fordb 4-Runner"} // S2
+// carName2 ("Fordb...") ከ carName1 ("Forda...") ጋር ሲነጻጸር
+cout << strcmp(carName2, carName1)
+S2 እና S1 በ 5ኛው ካራክተር ላይ ይለያያሉ: S2 'b' ሲሆን S1 'a' ነው። 'b' ከ 'a' ትበልጣለች። ስለዚህ S2 ትበልጣለች። ውጤት (Output):
+1 (Positive value)
+
+7. The strncmp () Function
+
+• The strncmp () function compares two strings using a specified number of characters and
+returns an integer as a result of its findings. Its syntax is:
+strncmp (const char S1, char S2, int Number)
+• This function takes three arguments. The first two arguments are the strings that need to
+be compared. The 3rd argument specifies the number of characters considered for the
+comparison. 
+• It returns
+A negative value if S1 is less than S2
+0 if S1 and S2 are equal
+A positive value if S1 is greater than S2
+• For example
+
+char carName1[] {"Forda Escort"}
+char carName2[] {"Fordb 4-Runner"}
+cout<<strncmp(carName2, carName1,1)
+
+The output is
+0
+
+8. The stricmp() Function
+• The stricmp () function compares two strings without regard to their case. In other words, this function does not take into consideration if there is a mix of uppercase and lowercase characters in the strings. 
+• The syntax of the function is: stricmp(char S1, const char S2)
+• This function takes two strings, S1 and S2 and compares them. It returns
+A negative value if S1 is less than S2
+0 if S1 and S2 are equal
+A positive value if S1 is greater than S2
+• For example
+char carName1[] {"Forda Escort"}
+The output is
+32
+• For example
+char carName1[] {"Forda Escort"}
+cout<<stricmp(carName2, carName1)
+The output is
+1
+9. The strnicmp() Function
+
+• The strnicmp () function compares two strings without regard to their case but considers
+only a specified number of characters. 
+• The syntax of the function is: int strnicmp (char S1, char S2, int n)
+cout<<strnicmp(carName2, carName1,1)
+• The output is 
+0
+
+Working with Individual Characters
+
+10. The strchr() Function
+• The strchr () function looks for the first occurrence of a certain character in a string. Its
+syntax is:
+strchr(const char S, char c)
+
+• This function takes two arguments. The second argument specifies what character to look
+for in the first argument which is a string. If the character c appears in the string S, the
+function would return a new string whose value starts at the first occurrence of c in S. If
+the character c does not appear in the string S, then the function would return NULL.
+• For example
+char carName2[] {"fordb 4-Runner"}
+char r'r'
+cout<<strchr(carName2, r)
+• The output is
+
+
+Working with Sub-Strings
+
+11.The strstr() Function
+
+• The strstr () function looks for the first occurrence of a sub-string in another string and
+returns a new string as the remaining string. Its syntax is:
+char strstr(char Main, char Sub)
+
+• The first argument of the function is the main string that would be examined. The function
+would look for the second argument, the Sub string appearance in the main string. If the
+• Sub string is part of the Main string, then the function would return a string whose value
+starts at the first appearance of Sub and make it a new string. If Sub is not part of the Main string, the function would return a NULL value.
+• For example
+char carName1[] {"Ford"}
+cout<<strstr(carName2, carName1)
+
+• The output is
+
+char carName1[] {"EFord"}
+• The output is null value as shown below
+
+String Manipulation Functions (ስትሪንግ ላይ የሚሰሩ ፈንክሽኖች)
+7. The strncmp() Function
+• strncmp() የተባለው function ልክ እንደ strcmp() ሁለት ስትሪንጎችን ያወዳድራል፣ ነገር ግን እዚህ ጋር የምናወዳድረው ምን ያህል ካራክተሮች ብቻ እንደሆነ እንወስናለን።
+• አጠቃቀሙ (Syntax):
+C++
+strncmp(const char S1, char S2, int Number)
+// Number: ከሁለቱ ስትሪንጎች ላይ ተቆርጠው የሚወዳደሩት የካራክተሮች ብዛት
+• ሶስት አርጉመንቶች ይወስዳል፡ ለማወዳደር የሚፈልጓቸውን ሁለት ስትሪንጎች እና የካራክተሮቹን ብዛት።
+• የሚመለሰው ውጤት (Return Value):
+o Negative value (-): S1 ከ S2 ያነሰ ከሆነ።
+o 0 (ዜሮ): S1 እና S2 እኩል ከሆኑ።
+o Positive value (+): S1 ከ S2 የሚበልጥ ከሆነ።
+• ምሳሌ:
+C++
+char carName1[] {"Forda Escort"} // S2
+// የመጀመሪያውን 1 ካራክተር ብቻ አወዳድር: 'F' ከ 'F' ጋር
+cout << strncmp(carName2, carName1, 1)
+የመጀመሪያው ካራክተር (F) ተመሳሳይ ስለሆነ፣ ውጤቱ 0 ይሆናል። ውጤት (Output):
+0
+8. The stricmp() Function
+• stricmp() የተባለው function ሁለት ስትሪንጎችን ያወዳድራል፣ ግን አፐርኬዝ (Uppercase) እና ሎወርኬዝ (Lowercase) የፊደል ልዩነትን ግምት ውስጥ አያስገባም። ማለትም ፊደሎቹ ትልቅም ይሁኑ ትንሽ፣ እንደ አንድ ፊደል ይመለከታቸዋል።
+• አጠቃቀሙ (Syntax):
+C++
+stricmp(char S1, const char S2)
+• የሚመለሰው ውጤት (Return Value): ልክ እንደ strcmp() ነው፡
+o Negative value (-): S1 ከ S2 ያነሰ ከሆነ።
+o 0 (ዜሮ): S1 እና S2 እኩል ከሆኑ።
+o Positive value (+): S1 ከ S2 የሚበልጥ ከሆነ።
+• ምሳሌ:
+C++
+char carName1[] {"Forda Escort"} // S1 (በ 'F' ይጀምራል)
+char carName2[] {"fordb 4-Runner"} // S2 (በ 'f' ይጀምራል)
+cout << stricmp(carName2, carName1)
+ምንም እንኳ 'F' እና 'f' ቢለያዩም፣ stricmp() እንደ ተመሳሳይ (F 
+// n: የሚወዳደሩት የካራክተሮች ብዛት (case insensitive)
+• ምሳሌ:
+C++
+char carName1[] {"Forda Escort"} // S2
+// የመጀመሪያውን 1 ካራክተር ብቻ አወዳድር ('F' ከ 'f' ጋር)
+cout << strnicmp(carName2, carName1, 1)
+'F' እና 'f' በ case ቢለያዩም፣ n1 ሆኖ case insensitive ስለሆነ እኩል ናቸው። ውጤት (Output):
+0

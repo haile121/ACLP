@@ -1,0 +1,172 @@
+5.2 Accessing members of a structure
+To refer to the members of a structure we need to use the dot operator (.)
+The General syntax to access members of a structure variable would be:
+  VarName.Member
+Where VarName is the variable name of the structure variable And Member is variable name of the members of the structure
+Eg: For the above student structure:
+struct Student Stud //declaring Stud to have the property of the Student structure
+strcpy(Stud.FName,”Abebe”) //assigned Abebe as First Name
+Stud.CGPA3.21 //assignes 3.21 as CGPA value of Abebe
+sout<<Stud.FName //display the name
+sout<<Stud.CGPA // display the CGPA of Abebe
+Example for person structure
+#include <iostream>
+#include <conio>
+struct Person
+{
+    char name[50]
+    int age
+    float salary
+int main()
+{
+    Person p1//instance of member variable
+//initialization of member variable
+    cout << "Enter Full name: "
+    cin.getline(p1.name, 50)
+    cout << "Enter age: "
+    cin >> p1.age
+    cout << "Enter salary: "
+    cin >> p1.salary
+//accessing member variables
+    cout << "\nDisplaying Information." << endl
+    cout << "Name: " << p1.name << endl
+    cout <<"Age: " << p1.age << endl
+    cout << "Salary: " << p1.salary
+    getch()
+    return 0
+}
+
+5.3  Initializing Structure Data
+You can initialize members when you declare a structure, or you can initialize
+a structure in the body of the program. Here is a complete program.
+{
+char title[25]
+char artist[20]
+int num_songs
+float price
+char date_purchased[9]
+} cd1 {"Red Moon Men","Sams and the Sneeds", 12, 11.95,"08/13/93"}
+cout<<"\nhere is the info about cd1"<<endl
+cout<<cd1.title<<endl
+cout<<cd1.artist<<endl
+cout<<cd1.num_songs<<endl
+cout<<cd1.price<<endl
+cout<<cd1.date_purchased<<endl
+A better approach to initialize structures is to use the dot operator(.). the dot
+operator is one way to initialize individual members of a structure variable in
+the body of your program. 
+The syntax of the dot operator is :
+structureVariableName.memberName
+here is an example:
+#include<iostream>
+#include<conio>
+#include<string>
+void main()
+{
+clrscr()
+struct cd_collection
+{
+   char title[25]
+   char artist[20]
+   int num_songs
+   float price
+  char date_purchased[9]
+}cd1
+//initialize members here
+  strcpy(cd1.title,"Red Moon Men")
+  strcpy(cd1.artist,"Sams")
+  cd1.num_songs12
+  cd1.price 11.95f
+  strcpy(cd1.date_purchased,"22/12/02")
+//print the data
+  cout<<"\nHere is the info"<<endl
+  cout<<"Title : "<<cd1.title<<endl
+  cout<<"Artist : "<<cd1.artist<<endl
+  cout<<"Songs : "<<cd1.num_songs<<endl
+  cout<<"Price : "<<cd1.price<<endl
+  cout<<"Date purchased : "<<cd1.date_purchased
+  getch()
+}
+
+Structure ማለት እንደ አንድ ትልቅ ቦርሳ ነው፣ በውስጡ የተለያዩ ነገሮችን ማስቀመጥ እንችላለን። እነዚህን ነገሮች ለመጠቀም ደግሞ "." የሚለውን ምልክት እንጠቀማለን፣ ልክ እንደ ቁልፍ ማለት ነው!
+ነገሮችን እንዴት ማግኘት እንችላለን?
+
+ይሄንን ፎርሙላ ተጠቀም፡
+
+የቦርሳው_ስም.የእቃው_ስም
+
+*   የቦርሳው_ስም ማለት structure ያደረግነው ነገር ስም ነው።
+*   የእቃው_ስም ማለት structure ውስጥ ያለውን ነገር ስም ነው።
+
+ምሳሌ በ "ተማሪ"
+
+
+struct ተማሪ {
+  string ስም
+
+int main() {
+  ተማሪ ዮሐንስ // ዮሐንስ የሚባል ተማሪ ከ structure ፈጠርን
+
+  ዮሐንስ.ስም "ዮሐንስ አበበ" // ዮሐንስ የሚለውን ስም ከ structure አስገባን
+  ዮሐንስ.GPA 3.5 // 3.5 የሚለውን GPA ከ structure አስገባን
+
+  cout << ዮሐንስ.ስም // ዮሐንስ የሚለውን ስም አሳየን
+  cout << ዮሐንስ.GPA // 3.5 የሚለውን GPA አሳየን
+
+  return 0
+}
+
+
+በዚህ ምሳሌ፡
+
+*   "ተማሪ" የሚባል structure ፈጠርን።
+*   በውስጡ "ስም" እና "GPA" የሚባሉ ነገሮች አሉ።
+*   "ዮሐንስ" የሚባል ተማሪ ከ structure ፈጠርን።
+*   ከዚያም የ "ዮሐንስን" ስም እና GPA አስገባን።
+*   በመጨረሻም ስሙን እና GPA አሳየን።
+
+እንዴት values ማስገባት እንችላለን?
+
+ሁለት መንገዶች አሉ፡
+
+1.  ስትፈጥሩት: ልክ structure ስትፈጥሩ values ማስገባት ትችላላችሁ።
+
+   
+    struct ሲዲ {
+      char ርዕስ[25]
+      char አርቲስት[20]
+      int የዘፈኖች_ቁጥር
+      float ዋጋ
+      char የተገዛበት_ቀን[9]
+    } cd1 {"ቀይ ጨረቃ", "ሳም እና ጓደኞቹ", 12, 11.95, "08/13/93"}
+    
+2.  በኋላ: structure ከፈጠራችሁ በኋላ values ማስገባት ትችላላችሁ። ይሄኛው ዘዴ በጣም የተለመደ ነው።
+
+   
+    #include <iostream>
+    #include <string>
+
+    struct ሲዲ {
+      char ርዕስ[25]
+    }
+
+    int main() {
+      ሲዲ cd1
+
+      strcpy(cd1.ርዕስ, "ቀይ ጨረቃ")
+      strcpy(cd1.አርቲስት, "ሳም")
+      cd1.የዘፈኖች_ቁጥር 12
+      cd1.ዋጋ 11.95
+      strcpy(cd1.የተገዛበት_ቀን, "22/12/02")
+
+      cout << "\nሲዲው ይሄን ይመስላል:" << endl
+      cout << "ርዕስ: " << cd1.ርዕስ << endl
+      cout << "አርቲስት: " << cd1.አርቲስት << endl
+      cout << "የዘፈኖች_ቁጥር: " << cd1.የዘፈኖች_ቁጥር << endl
+      cout << "ዋጋ: " << cd1.ዋጋ << endl
+      cout << "የተገዛበት_ቀን: " << cd1.የተገዛበት_ቀን << endl
+
+      return 0
+    }
+    
+አያችሁ structure መጠቀም በጣም ቀላል ነው!

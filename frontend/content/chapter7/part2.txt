@@ -1,0 +1,232 @@
+4.1. Declaring Pointers: 
+-Is reserving a memory location for a pointer variable in the heap.
+Syntax:
+odata type * pointer_name 
+-to declare a pointer variable called p_age, do the following:
+oint * p_age
+-Whenever the dereference operator, *, appears in a variable declariation, the
+variable being declared is always a pointer variable.
+
+
+4.1. ፖይንተርን መግለጽ (Declaring Pointers)
+ፖይንተርን መግለጽ (Declare ማድረግ) ማለት ለፖይንተር ቫሪያብል በኮምፒውተር ሜሞሪ ውስጥ ቦታ ማስያዝ ማለት ነው።
+የሳንታክስ መዋቅር (Syntax)
+ፖይንተርን ለመፍጠር የሚከተለውን ፎርማት እንጠቀማለን፦
+data_type * pointer_name
+-Data type: ፖይንተሩ የሚያመለክተው የቫሪያብል አይነት (ለምሳሌ፦ int, float, char)።
+-Asterisk (*): ይህ ምልክት ቫሪያብሉ ተራ ሳይሆን Pointer መሆኑን ለኮምፒውተሩ ይነግረዋል።
+-Pointer name: ለፖይንተሩ የምንሰጠው ስም።
+
+ምሳሌ (Example)
+የአንድን ሰው እድሜ (age) አድራሻ የሚይዝ p_age የሚባል ፖይንተር ለመፍጠር እንዲህ እንጽፋለን፦
+C++
+int * p_age
+እዚህ ጋር ልብ ሊባሉ የሚገቡ ነጥቦች፦
+-በምናውጅበት (Declaration) ጊዜ የምንጠቀማት የሰረዝ ምልክት * ቫሪያብሉ ፖይንተር መሆኑን ለማረጋገጥ ነው።
+-int * p_age ስንል "ይህ ፖይንተር ወደ integer ዳታ አይነት ብቻ ነው የሚያመለክተው" ማለታችን ነው።
+-ምንም እንኳን ፖይንተሩ በራሱ ሜሞሪ ውስጥ ቢቀመጥም፣ ዋና ስራው ግን የሌላን ቫሪያብል አድራሻ መያዝ ነው።
+
+ማስታወሻ (Note)
+በፕሮግራምህ ውስጥ በዲክላሬሽን (Declaration) መስመር ላይ * ምልክትን ካየህ፣ ያ ቫሪያብል ሁልጊዜም Pointer variable መሆኑን መረዳት ይኖርብሃል።
+
+4.2. Assigning values to pointers:
+-p_age is an integer pointer. The type of a pointer is very important. p_age can
+point only to integer values, never to floating-point or other types.
+-To assign p_age the address of a variable, do the following:
+int age 26
+int * p_age
+p_age &age
+OR
+int age 26
+int * p_age & age
+
+Both ways are possible.
+-If you wanted to print the value of age, do the following:
+ocout<<age//prints the value of age
+-Or by using pointers you can do it as follows
+ocout<<*p_age//dereferences p_age
+
+oThe dereference operator produces a value that tells the pointer where to
+point. Without the *, (i.e cout<<p_age), a cout statement would print an
+address (the address of age). With the *, the cout prints the value at that
+address. 
+
+
+4.2. ለፖይንተር እሴት መስጠት (Assigning values to pointers)
+ፖይንተርን ዲክሌር ካደረግን በኋላ፣ የሌላን ቫሪያብል አድራሻ ልንሰጠው ይገባል።
+
+1. የዳታ አይነት አስፈላጊነት (Importance of Type)
+አንድ ፖይንተር ሲፈጠር የተሰጠው የዳታ አይነት በጣም ወሳኝ ነው።
+ ለምሳሌ፦ p_age እንደ int (integer) ፖይንተር ከተፈጠረ፣ ሊይዝ የሚችለው የ integer ቫሪያብልን አድራሻ ብቻ ነው።
+ ወደ float ወይም double አድራሻ እንዲያመለክት ማድረግ አይቻልም።
+
+2. አድራሻን ለፖይንተር መስጠት (Assigning Address)
+አድራሻን ለፖይንተር ለመስጠት ሁለት መንገዶችን መጠቀም እንችላለን፦
+ሀ. ለየብቻ መጻፍ (Separately):
+C++
+int age 26
+int *p_age     // ፖይንተሩን መፍጠር
+p_age &age   // አድራሻውን መስጠት
+ለ. በአንድ መስመር መጻፍ (In one line):
+C++
+int age 26
+int *p_age &age // ሲፈጠር በቀጥታ አድራሻውን መስጠት
+ሁለቱም መንገዶች ትክክል ናቸው።
+3. እሴትን (Value) ማተም ወይም ማንበብ
+የቫሪያብሉን ዋጋ (26 ቁጥርን) ለማተም ሁለት አማራጮች አሉን፦
+
+በቀጥታ በቫሪያብል ስሙ፦
+cout << age $\rightarrow$ ውጤቱ 26 ይሆናል።
+
+በፖይንተር (Dereferencing)፦
+cout << *p_age $\rightarrow$ ውጤቱ 26 ይሆናል።
+(እዚህ ጋር * ምልክቱ ፖይንተሩ ወደያዘው አድራሻ ሄዶ እሴቱን እንዲያመጣ ያዘዋል።)
+ጥንቃቄ፦ > * cout << *p_age ካልን በውስጡ ያለውን ቁጥር (26) ያወጣልናል።
+
+cout << p_age ካልን ግን (ያለ * ምልክት) የ ageን የሜሞሪ አድራሻ (ለምሳሌ 0x61ff08) ያወጣልናል።
+
+ማጠቃለያ 
+ኮድ (Code)  ምን ያትማል? (Output)  ትርጉም
+age  26  የቫሪያብሉ እሴት
+&age  0x61ff08 (አድራሻ)  የቫሪያብሉ ሜሞሪ አድራሻ
+p_age  0x61ff08 (አድራሻ)  በፖይንተሩ ውስጥ ያለው አድራሻ
+*p_age  26  ፖይንተሩ በያዘው አድራሻ ውስጥ ያለ እሴት
+
+-You can assign a different value to age with the following statement:
+oage 13 //assigns a new value to variable age
+o*p_age  // a regular integer variable
+int *p_num //declares an integer pointer
+cout<< “num is ”<<num<<endl
+cout<< “the address of num is ”<<&num<<endl
+p_num &num// puts address of num in p_num
+cout<< “*p_num is ”<<*p_num<<endl //prints value of num
+cout<< “p_num is ”<<p_num<<endl //prints value of P_num
+*p_num 200
+*p_num *p_num + 50
+getch()
+}
+
+⚠️ ማሳሰቢያ (N.B)
+በፕሮግራምህ ውስጥ የሰረዝ ምልክት (*) ከፖይንተር ቫሪያብል በፊት የምትጠቀመው በሁለት አጋጣሚዎች ብቻ ነው፦
+1.Declaring: ፖይንተር ቫሪያብሉን ለመፍጠር (ለምሳሌ፦ int *p_num)።
+2.Dereferencing: ፖይንተሩ የያዘውን አድራሻ ተከትለህ በውስጡ ያለውን ዳታ ለማግኘት (ለምሳሌ፦ *p_num 200)።
+የኮድ ምሳሌ ማብራሪያ (Program Analysis)
+በሰጠኸኝ ኮድ ውስጥ የሚከናወኑትን ተግባራት ደረጃ በደረጃ እንመልከት፦
+C++
+void main() {
+    int num 123      // 1. መደበኛ ቫሪያብል ተፈጠረ፣ 123 ተሰጠው
+    int *p_num         // 2. ፖይንተር ተፈጠረ (p_num ይባላል)
+    
+    cout << num        // 123 ያትማል
+    cout << &num       // የ numን ሜሞሪ አድራሻ ያትማል
+    
+    p_num &num       // 3. የ numን አድራሻ ለ p_num ሰጠን
+    
+    cout << *p_num     // 123 ያትማል (Dereferencing)
+    cout << p_num      // የ numን አድራሻ ያትማል (ምክንያቱም p_num አድራሻውን ይዟል)
+
+    *p_num 200       // 4. በፖይንተሩ አማካኝነት የ numን ዋጋ ወደ 200 ቀየርነው
+    *p_num *p_num + 50 // 5. በፖይንተሩ ዋጋ ላይ 50 ጨመርን (num አሁን 250 ይሆናል)
+}
+የዚህ ኮድ ዋና ትምህርቶች (Key Takeaways)
+1.አድራሻን ማስተላለፍ፦ p_num &num ስንል ፖይንተሩ ወደ num እንዲያመለክት አደረግን።
+2.ዋጋን መቀየር፦ *p_num 200 ስንል የ numን ዋጋ በቀጥታ ሳይሆን በፖይንተሩ በኩል ቀየርነው። ይህ በጣም ጠቃሚ ዘዴ ነው።
+3.ሂሳባዊ ስሌት፦ በፖይንተር በኩል ልክ እንደ ተራ ቁጥር ሂሳብ መስራት ይቻላል።
+
+💡 ለማስታወስ ያህል (Summary Tip)
+& (Address-of): የቤት አድራሻህን እንደመጠየቅ ነው።
+* (Dereference): ወደ ቤቱ ገብቶ በውስጡ ያለውን እቃ እንደማየት ወይም እንደመቀየር ነው።
+
+4.3. Pointer to void
+Note that we can’t assign the address of a float type variable to an integer
+pointer variable and similarly the address of an integer variable cannot be
+stored in a float or character pointer.
+flaot y
+int x
+int *ip
+float *fp
+ip &y //illegal statement
+fp &x //illegal statement
+
+That means, if a variable type and pointer to type is same, then only we can
+assign the address of variable to pointer variable. And if both are different type then we can’t assign the address of variable to pointer variable but this is
+also possible in C++ by declaring pointer variable as a void as follows:
+ovoid *p
+
+Let us see an example:
+void *p
+float y
+p &x //valid assignment
+p &y //valid assignment
+
+The difficulty on void pointers is that, void pointers cannot be de referenced.
+They are aimed only to store address and the dereference operator is not
+allowed for void pointers.
+
+
+4.3. ፖይንተር ቱ ቮይድ (Pointer to void)
+በተለመደው የፖይንተር አጠቃቀም፣ የአንድ ፖይንተር ዳታ አይነት (Data Type) እና ፖይንተሩ የሚይዘው የቫሪያብል ዳታ አይነት የግድ ተመሳሳይ መሆን አለባቸው።
+1. የተከለከሉ አጠቃቀሞች (Illegal Statements)
+የተለያዩ የዳታ አይነቶችን ማቀላቀል ስህተት ነው። ለምሳሌ፦
+የ float አድራሻን ለ int ፖይንተር መስጠት አይቻልም።
+የ int አድራሻን ለ float ፖይንተር መስጠት አይቻልም።
+C++
+float y // ስህተት (Illegal)! ምክንያቱም ip የ integer ፖይንተር ነው
+
+2. የ "void *" ጥቅምና አጠቃቀም
+ሁሉንም አይነት ዳታ (int, float, char...) መቀበል የሚችል ፖይንተር ከፈለግን void pointer እንጠቀማለን። ይህ በ C++ ውስጥ "Generic Pointer" ይባላል።
+አዋጃጅ (Syntax):
+void *p
+በዚህ መንገድ የተፈጠረ ፖይንተር ማንኛውንም አይነት አድራሻ መያዝ ይችላል፦
+C++
+void *p
+
+p &x // ትክክል (Valid)
+p &y // ትክክል (Valid)
+
+3. የ Void Pointer ውስንነት (Difficulty)
+ምንም እንኳን void ፖይንተር የማንኛውንም ቫሪያብል አድራሻ መያዝ ቢችልም፣ አንድ ትልቅ ችግር አለበት፦ Dereference ሊደረግ አይችልም።
+ለምን? ኮምፒውተሩ የያዘው አድራሻ የምን አይነት ዳታ እንደሆነ (int ይሁን float) ስለማያውቅ፣ በውስጡ ያለውን ዋጋ (Value) ማውጣት አይችልም።
+ህጉ፦ በ void ፖይንተር አማካኝነት *p ብለን እሴቱን ማተም ወይም መቀየር አንችልም። ዋና አላማው አድራሻን መያዝ ብቻ ነው።
+
+💡 ዋና ነጥቦች (Key Summary)
+Normal Pointers: ተመሳሳይ የዳታ አይነት ብቻ ነው የሚቀበሉት።
+Void Pointers: ሁሉንም አይነት አድራሻ መቀበል ይችላሉ።
+Dereferencing: void ፖይንተርን * ምልክት በመጠቀም መክፈት (Dereference ማድረግ) አይቻልም።
+
+Let us see an example:
+#include <iostream.h>
+#include <conio.h>
+void main()
+{
+void *p   //valid assignment
+p &y   //valid assignment
+cout<<p  //shows the address of the variable y
+cout<<*p  //produces error
+getch()
+}
+የ "void *" ኮድ ትንተና (Code Analysis)
+C++
+void main()
+{
+    void *p        // 1. ማንኛውንም አይነት አድራሻ መያዝ የሚችል ፖይንተር ተፈጠረ
+    int x 10     // 2. integer ቫሪያብል
+    float y 10.5 // 3. float ቫሪያብል
+
+    p &x         // 4. የ x አድራሻን ለ p ሰጠን (ትክክል ነው/Valid)
+    p &y         // 5. የ y አድራሻን ለ p ሰጠን (ይህም ትክክል ነው/Valid)
+
+    cout << p      // 6. የ yን የሜሞሪ አድራሻ ያትማል (ለምሳሌ፦ 0x61ff04)
+    
+    cout << *p     // 7. ስህተት (ERROR)! 
+}
+
+ለምን cout << *p ስህተት (Error) ሆነ?
+ምክንያቱ በጣም ቀላል ነው፦
+1.Dereferencing (* ምልክትን መጠቀም) ማለት "ወደዚህ አድራሻ ሂድና ዳታውን አምጣ" ማለት ነው።
+2.ነገር ግን p የተፈጠረው እንደ void (ባዶ/አይነት አልባ) በመሆኑ፣ ኮምፒውተሩ እዛ አድራሻ ላይ ያለው ዳታ int ይሁን float ወይም ሌላ መሆኑን መለየት አይችልም።
+3.ዳታው ምን እንደሆነ ካላወቀ ደግሞ ሜሞሪው ውስጥ ስንት ባይት (Bytes) ማንበብ እንዳለበት ግራ ይጋባል።
+
+💡 ዋና ማጠቃለያ (Key Summary)
+void pointer እንደ "ሁለገብ መያዣ" ያገለግላል፤ ማንኛውንም አድራሻ ይቀበላል።
+ነገር ግን በውስጡ ያለውን ዳታ ለማንበብ (Dereference ለማድረግ)፣ መጀመሪያ ወደ ትክክለኛው የዳታ አይነት መቀየር (Type Casting) ያስፈልጋል። ለምሳሌ ዳታውን ለማየት እንዲህ መጻፍ ነበረብን፦ cout << *(float*)p

@@ -1,0 +1,123 @@
+Chapter Four
+Pointers
+4. Introduction
+We have already seen how variables are memory cells that we can access by
+an identifier. But these variables are stored in concrete places of the computer
+memory. For our programs, the computer memory is only a succession of 1
+byte cells (the minimum size for a datum), each one with a unique address.
+
+A pointer is a variable which stores the address of another variable. The only
+difference between pointer variable and regular variable is the data they hold. Notice that pointer variable holds address address of some variable or pointer variable while ordinary variables hold values of their respective types.
+
+There are two pointer operators in C++: 
+o& the address of operator
+o* the dereference operator
+
+                                       ምዕራፍ አራት፦ ፖይንተሮች (Pointers)
+1. መግቢያ (Introduction)
+በፕሮግራሚንግ ውስጥ ተለዋዋጮች (Variables) በኮምፒውተር ሜሞሪ (Memory) ውስጥ ነው የሚቀመጡት። ኮምፒውተራችን ሜሞሪን የሚያየው እንደ ተከታታይ የዳታ ማስቀመጫ ክፍሎች አድርጎ ሲሆን፣ እያንዳንዱ ክፍል ደግሞ የራሱ የሆነ አድራሻ (Address) አለው።
+-Pointer ማለት የሌላ ተለዋዋጭን (Variable) የሜሞሪ አድራሻ አጋጥሞ የሚይዝ ልዩ የVariable አይነት ነው።
+-በተራ Variable እና በPointer መካከል ያለው ልዩነት የያዙት የዳታ አይነት ነው፦
+-Ordinary Variable: እንደ ቁጥር (integer) ወይም ፊደል (char) ያሉ እሴቶችን (values) ይይዛል።
+-Pointer Variable: የሌላን Variable የሜሞሪ አድራሻ (Address) ብቻ ይይዛል።
+
+2. የፖይንተር ኦፕሬተሮች (Pointer Operators)
+በ C++ ውስጥ ከፖይነር ጋር የምንጠቀምባቸው ሁለት ዋና ኦፕሬተሮች አሉ።
+
+ሀ. & (Address-of operator)
+ይህ ምልክት የአንድን Variable የሜሞሪ አድራሻ ለማወቅ ይጠቅማል። ለምሳሌ &x ካልን የ x አድራሻ ማለት ነው።
+ለ. * (Dereference operator)
+ይህ ምልክት በPointer አማካኝነት አድራሻው የተያዘለትን Variable እሴት (Value) ለማግኘት ወይም ለመቀየር ይጠቅማል።
+
+3. የፖይንተር አጠቃቀም በምሳሌ (Example)
+C++
+int var 25       // መደበኛ variable
+int *ptr          // ፖይነር (Pointer) መግለጽ
+
+ptr &var         // የ varን አድራሻ ለ ptr መስጠት
+ከላይ ባለው ኮድ መሰረት፦
+1.var የሚባለው Variable 25 የሚል ቁጥር ይዟል።
+2.ptr የሚባለው Pointer ደግሞ የ varን አድራሻ (ለምሳሌ 0x61ff08) ይዟል።
+3.*ptr ብለን ካዘዝን ግን በዛ አድራሻ ውስጥ ያለውን ቁጥር (25) ይሰጠናል።
+
+💡 ዋና ነጥቦች 
+-Variable እቃ የሚቀመጥበት ሳጥን ቢሆን፣ Pointer የሳጥኑ መገኛ አድራሻ (ቁልፍ) እንደማለት ነው።
+-ፖይነርን ለመግለጽ ከዳታ አይነቱ ቀጥሎ * ምልክትን እንጠቀማለን (ለምሳሌ፡ float *p)።
+-ፖይነሮች ሜሞሪን በብቃት ለመጠቀም እና ዳታን በፍጥነት ለማንቀሳቀስ በጣም ጠቃሚ ናቸው።
+
+'the value of the variable pointed by this pointer will be returned
+
+Whenever you see the & used with pointers, think of the words “address of.”
+The & operator always produces the memory address of whatever it
+precedes. The * operator, when used with pointers, either declares a pointer
+or dereferences the pointer’s value. The dereference operator can be literally
+translated to "value pointed by" .
+
+A pointer is simply the address of an object in memory. Generally, objects can
+be accessed in two ways: directly by their symbolic name, or indirectly
+through a pointer. The act of getting to an object via a pointer to it, is called
+dereferencing the pointer. Pointer variables are defined to point to objects of
+a specific type so that when the pointer is dereferenced, a typed object is
+obtained.
+
+At the moment in which we declare a variable this one must be stored in a
+concrete location in this succession of cells (the memory). We generally do not
+decide where the variable is to be placed - fortunately that is something
+automatically done by the compiler and the operating system on runtime, but
+once the operating system has assigned an address there are some cases in
+which we may be interested in knowing where the variable is stored.
+
+This can be done by preceding the variable identifier by an ampersand sign (&), which
+literally means, "address of”. For example:
+optr&var
+
+-This would assign to variable ptr the address of variable var , since when
+preceding the name of the variable var with the ampersand ( & ) character we
+are no longer talking about the content of the variable, but about its address
+in memory.
+-We are going to suppose that var has been placed in the memory address
+1776 and that we write the following:
+
+oThe result will be the one shown in the following 
+                           
+ptr var//produces error
+ptr & var //address of var is assigned to ptr
+
+We have assigned to x the content of variable var as we have done in many
+other occasions in previous sections, but to ptr we have assigned the address
+in memory where the operating system stores the value of var , that we have
+imagined that it is 1776 (it can be any address). The reason is that in the
+allocation of ptr we have preceded var with an ampersand ( & ) character.
+
+The variable that stores the address of another variable (like ptr in the
+previous example) is what we call a pointer.
+
+የፖይንተር (Pointer) ኦፕሬተሮች እና አጠቃቀም
+በ C++ ውስጥ ፖይንተርን ለመረዳት ሁለቱን ምልክቶች (& እና *) በሚገባ መለየት ያስፈልጋል።
+
+1. የ & (Address of) ኦፕሬተር
+ትርጉም፦ ይህ ምልክት በፖይንተር ትምህርት ውስጥ "Address of" (የ... አድራሻ) ተብሎ ይተረጎማል።
+ተግባር፦ ከማንኛውም Variable በፊት ከተቀመጠ፣ ያ Variable የተቀመጠበትን የሜሞሪ አድራሻ (Memory Address) ያወጣልናል።
+ምሳሌ፦ ptr &var ካልን፣ ለ ptr እየሰጠነው ያለነው የ varን ዳታ ሳይሆን var የተቀመጠበትን አድራሻ ነው።
+
+2. የ * (Dereference) ኦፕሬተር
+ይህ ምልክት እንደ አጠቃቀሙ ሁለት አይነት ትርጉም ይኖረዋል፦
+1.Pointer Declaration: ፖይንተር Variable ለመፍጠር ይጠቅማል። (ምሳሌ፦ int *ptr)
+2.Dereferencing: ፖይንተሩ የያዘውን አድራሻ ተከትሎ በመሄድ፣ በውስጡ ያለውን እሴት (Value) ለማግኘት ይጠቅማል። ይህ "Value pointed by" (በፖይንተሩ የተጠቆመ እሴት) ይባላል።
+
+3. ዳታን የማግኘት መንገዶች (Direct vs Indirect)
+በኮምፒውተር ሜሞሪ ውስጥ ያለን ዳታ በሁለት መንገድ ማግኘት እንችላለን፦
+Direct Access (ቀጥተኛ): የVariable ስሙን በመጥራት (ለምሳሌ፦ var)።
+Indirect Access (በተዘዋዋሪ): በፖይንተር አማካኝነት አድራሻውን ተከትሎ በመሄድ። ይህ ሂደት Dereferencing ይባላል።
+
+4. በምሳሌ እና በስዕላዊ መግለጫ
+አንድ var የሚባል Variable በሜሞሪ አድራሻ 1776 ላይ ተቀምጧል እንበል።
+ኦፕሬሽን (Operation)  ውጤት (Result)  ማብራሪያ
+ptr var  Error (ስህተት)  Variableን ለPointer በቀጥታ መስጠት አይቻልም።
+ptr &var  1776  አሁን ptr የ varን አድራሻ (1776) ይዟል።
+*ptr  Value of var  በ 1776 አድራሻ ላይ ያለውን ትክክለኛ ዳታ ይሰጠናል።
+
+ዋና ነጥቦች (Key Points)
+-Variable የት እንደሚቀመጥ የሚወስነው Compiler እና Operating System ናቸው። እኛ ግን አድራሻውን በ & ማወቅ እንችላለን።
+-ፖይንተር የተወሰነ Type (እንደ int, char) ሊኖረው ይገባል። ይህም ፖይንተሩን Dereference ስናደርግ የምናገኘው ዳታ ምን አይነት እንደሆነ ኮምፒውተሩ እንዲያውቅ ይረዳዋል።
+በአጭሩ፦ Pointer ማለት የሌላ Variable አድራሻን የሚይዝ Variable ነው።

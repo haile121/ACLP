@@ -1,0 +1,42 @@
+Chapter Nine
+File Operations (File I/O)
+
+9.1 Introduction
+The data created by the user and assigned to variables with an assignment
+statement is sufficient for some applications. With large volume of data
+most real-world applications use a better way of storing that data. For this,
+disk files offer the solution.
+When working with disk files, C++ does not have to access much RAM
+because C++ reads data from your disk drive and processes the data only
+parts at a time.
+
+ምዕራፍ ዘጠኝ
+​የፋይል ስራዎች (File I/O)
+​9.1 መግቢያ
+​አንዳንድ ጊዜ በፕሮግራማችን ውስጥ ለቫሪያብል (variable) የምንሰጠው ዳታ ለምንሰራው ስራ በቂ ሊሆን ይችላል። ነገር ግን፣ ዳታው በጣም ብዙ በሚሆንበት ጊዜ አብዛኞቹ ትክክለኛ የሶፍትዌር ስራዎች ዳታውን ለማስቀመጥ የተሻለ መንገድ ይፈልጋሉ። ለዚህ ደግሞ የኮምፒውተር ፋይሎች (disk files) ፍቱን መፍትሄ ናቸው።
+​በፋይሎች ላይ ስንሰራ C++ ብዙ የራም (RAM) አቅም መጠቀም አያስፈልገውም። ምክንያቱም C++ ዳታውን በቀጥታ ከዲስኩ ላይ እያነበበ በየጥቂቱ ፕሮሰስ ስለሚያደርገው ነው።
+
+9.2 Stream
+Stream is a general name given to flow of data. In C++, there are different
+types of streams. Each stream is associated with a particular class, which
+contains member function and definition for dealing with file. Lets have a
+look at the figure:
+
+​9.2 ስትሪም (Stream)
+​ስትሪም (Stream) ማለት በአጭሩ የዳታ ፍሰት ማለት ነው። በ C++ ውስጥ የተለያዩ የስትሪም አይነቶች አሉ። እያንዳንዱ ስትሪም ከአንድ የተወሰነ ክላስ (class) ጋር የተያያዘ ሲሆን፣ ያ ክላስ ደግሞ ከፋይሎች ጋር እንዴት መስራት እንዳለብን የሚያሳዩ ዝርዝር መመሪያዎችንና ተግባራትን (member functions) ይዟል።
+
+
+According to the above hierarchy, the class iostream is derived from the two classes’ istream and ostream and both istream and ostream are derived from ios. Similarly the class fstream is derived from iostream.
+Generally two main header files are used iostream.h and fstream.h. The
+classes used for input and output to the video display and key board are
+declared in the header file iostream.h and the classes used for disk file
+input output are declared in fstream.h.
+Note that when we include the header file fstream.h in our program then
+there is no need to include iostream.h header file. Because all the classes
+which are in fstream.h they are derived from classes which are in
+iostream.h therefore, we can use all the functions of iostream class.
+ከላይ ባየነው ተዋረድ (hierarchy) መሰረት፣ iostream የሚባለው ክላስ የመጣው (derived የሆነው) ከሁለቱ istream እና ostream ክላሶች ነው። እነዚህ ሁለቱ ደግሞ በተራቸው ከ ios ክላስ የተገኙ ናቸው። በተመሳሳይ ሁኔታ fstream የሚባለው ክላስ ደግሞ ከ iostream የተገኘ ነው።
+​በአጠቃላይ ለስራችን ሁለት ዋና ዋና የሄደር ፋይሎችን (header files) እንጠቀማለን፦ iostream.h እና fstream.h።
+​iostream.h: በኮምፒውተራችን ስክሪን ላይ መረጃ ለማሳየት እና ከኪቦርድ ዳታ ለመቀበል የሚያስችሉንን ክላሶች ይዟል።
+​fstream.h: በዲስክ ፋይሎች (disk files) ላይ ዳታ ለመጻፍና ለማንበብ የምንጠቀምባቸው ክላሶች የሚገኙት እዚህ ውስጥ ነው።
+​ልብ በል፦ በፕሮግራማችን ውስጥ fstream.hን ከተጠቀምን፣ iostream.hን ደግመን መጨመር (include ማድረግ) አያስፈልገንም። ለምን ቢባል? በ fstream.h ውስጥ ያሉ ፋይሎች በሙሉ ከ iostream.h ክላሶች የመጡ ስለሆነ፣ በ iostream ውስጥ ያሉትን ፋንክሽኖች በሙሉ በዛው መጠቀም እንችላለን።

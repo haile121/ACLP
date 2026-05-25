@@ -1,0 +1,129 @@
+Chapter Five
+Structures
+
+
+5.1 Introduction
+A structure is a collection of one or more variable types grouped together that can be referred using a single name (group name) and a member name.
+
+Structure is a collection of variables of different data types under a single name. It is similar to a class in that, both holds a collection of data of different data types.
+
+It is a user defined data type for grouping different data types.
+You can refer to a structure as a single variable, and you also can initialize,
+read and change the parts of a structure (the individual variables that make it
+up).
+
+Each element (called a member) in a structure can be of different data type.
+For example: You want to store some information about a person: his/her name, citizenship number and salary. You can easily create a structure to store all this variables using a single structure name. This collection of all related information under a single name Person is a structure.
+The General Syntax of structures is:
+Struct [structure tag]
+{
+Member definition
+Member definition
+…
+Member definition
+}[one or more structure variables]
+
+Let us see an example
+E.g.
+struct Inventory// Structure tag or structure name
+{
+  char description[15]
+    char part_no[6]  // members of the structure
+  int quantity
+   float cost
+} // all structures end with semicolon
+Another example might be:
+struct Student
+{
+char ID[8]
+char FName[15]
+char LName[15]
+char Sex
+int age
+float CGPA
+
+The above “Student” structure is aimed to store student record with all the
+relevant details.
+After the definition of the structure, one can declare a structure variable using
+the structure tag (instance of structure). If we need two variables to have the above structure property then the declaration would be:
+struct Inventory inv1,inv2 // instance of sturcture
+struct Student Stud1,stud2,Stud3
+student stud4
+Structure tag is not a variable name. Unlike array names, which reference the
+array as variables, a structure tag is simply a label for the structure’s format.
+
+The structure tag Inventory informs C++ that the tag called Inventory looks
+like two character arrays followed by one integer and one float variables.
+A structure tag is actually a newly defined data type that you, the
+programmer, defined.
+ኮምፒውተር ለሚሰራው ስራ መረጃዎችን በአንድ ቦታ ማስቀመጫ ማለት ነው። ልክ እንደ ቁምሳጥን ማለት ነው፣ ልብሶችህን በየቦታው ከመጣል በአንድ ቁምሳጥን ውስጥ በስርዓት እንደምታስቀምጣቸው ማለት ነው። ኮምፒውተራችንም መረጃዎቹን እንዲያደራጅለት ስንፈልግ structure እንጠቀማለን ማለት ነው።
+
+Structure ምንድን ነው?
+
+Structure ማለት አንድ ወይም ከዛ በላይ የሆኑ ተለዋዋጭ የሆኑ መረጃዎችን በአንድ ላይ የሚያጠቃልል ነገር ነው። ልክ እንደ አንድ ትልቅ ሳጥን ማለት ነው፤ በውስጡ የተለያዩ አይነት ነገሮች ሊኖሩ ይችላሉ። ለምሳሌ፡
+
+*   ስም (name)
+*   ቁጥር (number)
+*   ፊደል (character)
+
+እነዚህ ሁሉ በአንድ ላይ ተቀላቅለው በአንድ ስም ይጠራሉ። ልክ እንደ አንድ ሰው መታወቂያ ማለት ነው፤ መታወቂያው ውስጥ ስም፣ የትውልድ ቀን፣ ፎቶ ሁሉ በአንድ ላይ ይገኛሉ።
+
+ለምን Structure እንጠቀማለን?
+
+Structure መጠቀም ብዙ ጥቅሞች አሉት፡
+
+*   መረጃዎችን በአንድ ቦታ ያስቀምጣል ፡ ሁሉንም መረጃዎች በአንድ ቦታ ስለምናስቀምጥ በቀላሉ ማግኘት እንችላለን። ልክ እንደ አንድ ዶሴ ማለት ነው፤ ሁሉንም አስፈላጊ ወረቀቶች በአንድ ዶሴ ውስጥ ስለምናስቀምጥ በቀላሉ ማግኘት እንችላለን።
+*   ፕሮግራማችንን ቀላል ያደርገዋል፡ ፕሮግራማችንን በትንንሽ ክፍሎች እንድንከፋፍል ይረዳናል። ልክ እንደ ቤት አሰራር ማለት ነው፤ ቤቱን ከመጀመሪያው እስከ መጨረሻው በአንድ ጊዜ ከምንሰራው በክፍል ከፋፍለን እንሰራዋለን።
+*   ለማንበብ ቀላል ነው፡ ኮዱን በቀላሉ ማንበብና መረዳት እንችላለን።
+*   ለመጠቀም ቀላል ነው ፡ ኮዱን ቶሎ ቶሎ መጠቀም እንችላለን።
+
+የ Structure አገባብ (Syntax)
+
+Structure ለመስራት የሚከተለውን አገባብ እንጠቀማለን፡
+
+struct [የ structure ስም] {
+  የመረጃ አይነት  የመረጃ ስም
+  የመረጃ አይነት  የመረጃ ስም
+  ...
+}
+*   struct የሚለው ቃል structure ለመስራት እንደምንፈልግ ያሳያል።
+*   [የ structure ስም] ማለት ለ structure የምንሰጠው ስም ነው። ለምሳሌ "ሰው"፣ "መኪና"፣ "ቤት" ወዘተ ልንል እንችላለን።
+*   { } ውስጥ ደግሞ የ structure አባላትን እንጽፋለን። እያንዳንዱ አባል የራሱ የሆነ የመረጃ አይነት እና ስም አለው።
+
+ምሳሌዎች
+
+1.  የተማሪ መረጃ
+
+አንድ ተማሪ ስም፣ መለያ ቁጥር፣ እድሜ እና GPA እንዳለው እንገምት። ይህንን መረጃ ለማስቀመጥ የሚከተለውን structure መጠቀም እንችላለን፡
+
+struct ተማሪ {
+  char ስም[50]
+  int መለያ_ቁጥር
+  int እድሜ
+  float GPA
+2.  የመኪና መረጃ
+
+አንድ መኪና ሞዴል፣ የሰሌዳ ቁጥር እና የዋጋ እንዳለው እንገምት። ይህንን መረጃ ለማስቀመጥ የሚከተለውን structure መጠቀም እንችላለን፡
+
+struct መኪና {
+  char ሞዴል[50]
+  char የሰሌዳ_ቁጥር[10]
+  float ዋጋ
+Structure እንዴት መጠቀም እንችላለን?
+
+Structure ከሰራን በኋላ ተለዋዋጭ መፍጠር እንችላለን። ለምሳሌ፡
+
+ተማሪ ዮሐንስ // ዮሐንስ የሚባል ተማሪ ፈጠርን ማለት ነው
+መኪና ቶዮታ   // ቶዮታ የሚባል መኪና ፈጠርን ማለት ነው
+ከዚያም፣ የመረጃዎችን መሙላት እንችላለን፡
+
+ዮሐንስ.ስም "ዮሐንስ አበበ"
+ዮሐንስ.መለያ_ቁጥር 1234
+ዮሐንስ.እድሜ 20
+ዮሐንስ.GPA 3.5
+
+ቶዮታ.ሞዴል "Corolla"
+ቶዮታ.የሰሌዳ_ቁጥር "ABC-123"
+ቶዮታ.ዋጋ 250000
+ማጠቃለያ
+Structure ማለት መረጃዎችን በአንድ ቦታ ለማስቀመጥ እና ፕሮግራማችንን ቀላል ለማድረግ የሚረዳን መሳሪያ ነው። ልክ እንደ ቁምሳጥን ሁሉንም እቃዎች በስርዓት እንደሚያስቀምጥልን ሁሉ structuresም መረጃዎቻችንን በስርዓት ያስቀምጡልናል።

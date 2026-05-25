@@ -1,0 +1,453 @@
+4.9. Pointer to pointer:
+As the memory address where integer, float or character is stored in can be
+stored into a pointer variable, the address of a pointer can also be stored in
+another pointer. This pointer is said to be pointer to a pointer.
+An array of pointer is conceptually same as pointer to pointer type. The
+pointer to pointer type is declared as follows:
+Data_type ** pointer_name
+Note that the asterisk is double here.
+int **p //p is a pointer which holds the address another pointer.
+E.g.:
+
+char a
+char * b
+char ** c
+a 'z'
+b &a
+This, supposing the randomly chosen memory locations of 7230 , 8092 and
+10502 , could be described thus:
+
+
+(inside the cells there is the content of the variable under the cells its location)
+Have a look at the following code:
+
+void main()
+{
+clrscr()
+int data
+int *p1
+int **p2
+data 15
+cout<< “data ”<<data<<endl
+p1 &data
+p2 &p1
+cout<< “data through p1 ”<<*p1<<endl
+cout<< “data through p2 ”<< **p2<<endl
+getch( )
+}
+
+4.9. ፖይንተር ቱ ፖይንተር (Pointer to pointer)
+ልክ የአንድን ተራ ቫሪያብል አድራሻ በፖይንተር ውስጥ እንደምናስቀምጠው ሁሉ፣ የራሱን የፖይንተሩን አድራሻ ደግሞ በሌላ ፖይንተር ውስጥ ማስቀመጥ እንችላለን። ይህ "ፖይንተርን የሚጠቁም ፖይንተር" ይባላል።
+1. አዋጃጅ (Declaration)
+ፖይንተር ቱ ፖይንተርን ለመለየት ሁለት የሰረዝ ምልክቶችን (**) እንጠቀማለን።
+Data_type **pointer_name
+int **p ካልን p የሌላ ፖይንተርን አድራሻ ይይዛል ማለት ነው።
+2. በምሳሌ እንመልከተው
+ሶስት የተለያዩ ደረጃዎችን እንመልከት፦
+a $\rightarrow$ ቁምሳጥን (ዳታ ይይዛል)
+*b $\rightarrow$ የቁምሳጥኑ ቁልፍ (የ aን አድራሻ ይይዛል)
+**c $\rightarrow$ የቁልፉ መገኛ (የ bን አድራሻ ይይዛል)
+C++
+char a 'z'
+char *b &a  // b የ a አድራሻን ይይዛል
+char **c &b // c የ b አድራሻን ይይዛል
+
+3. የኮድ ትንተና (Code Analysis)
+በሰጠኸኝ ኮድ ውስጥ ዳታውን በተለያዩ መንገዶች ማግኘት እንደሚቻል ተገልጿል፦
+C++
+void main() {
+    int data 15
+    int *p1 &data  // p1 ወደ data ይጠቁማል
+    int **p2 &p1   // p2 ወደ p1 ይጠቁማል
+
+    cout << data     // በቀጥታ 15 ያትማል
+    cout << *p1      // በ p1 በኩል 15 ያትማል (አንድ ጊዜ Dereference በማድረግ)
+    cout << **p2     // በ p2 በኩል 15 ያትማል (ሁለት ጊዜ Dereference በማድረግ)
+}
+
+💡 ዋናው ሃሳብ (Core Concept)
+Level 1 (data): ትክክለኛው እሴት (15)።
+Level 2 (*p1): ወደ እሴቱ የሚወስድ አንድ መንገድ።
+Level 3 (**p2): ወደ መንገዱ የሚወስድ ሌላ መንገድ።
+
+
+4.10. Dynamic memory:
+Until now, in our programs, we have only had as much memory as we have
+requested in declarations of variables, arrays and other objects that we
+included, having the size of all of them to be fixed before the execution of the
+program. But, What if we need a variable amount of memory that can only be
+determined during the program execution (runtime)? For example, in case
+that we need a user input to determine the necessary amount of space. The
+answer is dynamic memory, for which C++ integrates the operators new and
+delete.
+Pointers are useful for creating dynamic objects during program execution.
+Unlike normal (global and local) objects which are allocated storage on the
+runtime stack, a dynamic object is allocated memory from a different storage
+area called the heap. Dynamic objects do not obey the normal scope rules.
+Their scope is explicitly controlled by the programmer.
+
+
+4.10. ዳይናሚክ ሜሞሪ (Dynamic Memory)
+እስከ አሁን የተጠቀምንባቸው ቫሪያብሎችና አሬይዎች (Static Allocation) ፕሮግራሙ ከመሰራቱ በፊት መጠናቸው መታወቅ አለበት። ነገር ግን ፕሮግራሙ እየሰራ እያለ (Runtime) ምን ያህል ሜሞሪ እንደሚያስፈልገን ተጠቃሚውን ጠይቀን መወሰን ቢፈለግስ? ለዚህ መፍትሄው Dynamic Memory ነው።
+1. ስታክ እና ሂፕ (Stack vs. Heap)
+በኮምፒውተር ሜሞሪ ውስጥ ሁለት ዋና ዋና ቦታዎች አሉ፦
+Stack (ስታክ): መደበኛ ቫሪያብሎች (Global እና Local) የሚቀመጡበት ነው። መጠናቸው በቋሚነት የተወሰነ ነው፣ ስራቸውን ሲጨርሱም ኮምፒውተሩ እራሱ ያጠፋቸዋል።
+Heap (ሂፕ): ለዳይናሚክ ሜሞሪ ተብሎ የተለየ ሰፊ ቦታ ነው። እዚህ ቦታ ላይ ሜሞሪ የምንይዘው በፖይንተር አማካኝነት ሲሆን፣ ሜሞሪውን መቼ መያዝ እና መቼ መልቀቅ እንዳለብን የሚወስነው ፕሮግራመሩ (እኛ) ነን።
+
+2. አዳዲስ ኦፕሬተሮች (New and Delete)
+ዳይናሚክ ሜሞሪን ለመጠቀም C++ ሁለት ዋና ኦፕሬተሮችን ይሰጠናል፦
+new: በሂፕ (Heap) ላይ አዲስ የሜሞሪ ቦታ ለመያዝ ይጠቅማል።
+delete: የተያዘን ዳይናሚክ ሜሞሪ መልቀቅ ወይም ማጥፋት ሲፈለግ ይጠቅማል። ካላጠፋነው የሜሞሪ ብክነት (Memory Leak) ይፈጠራል።
+
+3. የዳይናሚክ ኦብጀክቶች ባህሪ
+Scope (ወሰን): መደበኛ ቫሪያብሎች ያለንበት ፈንክሽን ሲያልቅ አብረው ይጠፋሉ። ዳይናሚክ ኦብጀክቶች ግን በ delete እስካላጠፋናቸው ድረስ በሜሞሪ ውስጥ ይቆያሉ።
+Control: ፕሮግራመሩ ሜሞሪውን ሙሉ በሙሉ የመቆጣጠር ስልጣን አለው።
+
+💡 ዋና ማጠቃለያ (Core Concept)
+ባህሪ (Feature)
+መደበኛ (Static) ሜሞሪ
+ዳይናሚክ (Dynamic) ሜሞሪ
+
+መቼ ይወሰናል?
+ፕሮግራሙ ከመሰራቱ በፊት
+ፕሮግራሙ እየሰራ እያለ (Runtime)
+
+ሜሞሪው የት ነው?
+Stack ላይ
+Heap ላይ
+
+አጠቃቀም
+በቫሪያብል ስም
+በፖይንተር ብቻ
+
+ማጥፋት
+ራሱ ይጠፋል
+በ delete እኛ ማጥፋት አለብን
+
+
+a) The New Operator
+In C++ new operator can create space dynamically i.e at run time, and
+similarly delete operator is also available which releases the memory
+taken by a variable and return memory to the operating system.
+When the space is created for a variable at compile time this approach
+is called static. If space is created at run time for a variable, this
+approach is called dynamic. See the following two lines:
+int a[10]//creation of static array
+int *a//creation of dynamic array
+Lets have another example:
+int * ptr3
+ptr3 new int [5]
+In this case, the operating system has assigned space for 5 elements of
+type int in the heap and it has returned a pointer to its beginning that
+has been assigned to ptr3 . Therefore, now, ptr3 points to a valid block
+of memory with space for 5 int elements.
+
+You could ask what is the difference between declaring a normal array
+and assigning memory to a pointer as we have just done. The most
+important one is that the size of an array must be a constant value,
+which limits its size to what we decide at the moment of designing the
+program before its execution, whereas the dynamic memory allocation
+allows assigning memory during the execution of the program using
+any variable, constant or combination of both as size.
+The dynamic memory is generally managed by the operating system,
+and in the multi-task interfaces can be shared between several
+applications, so there is a possibility that the memory exhausts. If this
+happens and the operating system cannot assign the memory that we
+request with the operator new , a null pointer will be returned. For that
+reason it is recommendable to always verify if after a call to instruction
+new the returned pointer is null:
+int * ptr3
+if (ptr3 
+if ptr3 is NULL, it means that there is no enough memory location in
+the heap to be given for ptr3.
+ሀ) የ "new" ኦፕሬተር (The New Operator)
+new ኦፕሬተር ፕሮግራሙ እየሰራ እያለ (Runtime) አዲስ የሜሞሪ ቦታ ለመጠየቅ የሚያገለግል መሳሪያ ነው።
+
+1. Static vs Dynamic Array
+በሁለቱ መካከል ያለውን ልዩነት በምሳሌ እንይ፦
+Static Array: int a[10]
+ሜሞሪው የሚፈጠረው ፕሮግራሙ ከመጀመሩ በፊት (Compile time) ነው። መጠኑም 10 ብቻ ሆኖ ይቆያል።
+Dynamic Array: int *a a new int[10]
+ሜሞሪው የሚፈጠረው ፕሮግራሙ እየሰራ እያለ (Runtime) ነው። መጠኑንም በፈለግነው ቁጥር መቀየር እንችላለን።
+
+2. አጠቃቀም እና የ Heap ጥቅሞች
+C++
+int *ptr3
+እዚህ ጋር ምን ተፈጠረ?
+ኦፕሬቲንግ ሲስተሙ በ Heap ውስጥ ለ 5 ኢንቲጀሮች የሚሆን ቦታ ያዘጋጃል።
+የዛን ቦታ የመጀመሪያ አድራሻ ለ ptr3 ይሰጣል።
+አሁን ptr3 የ 5 ቁጥሮች መያዣ አድራሻ ሆኖ ያገለግላል።
+ዋናው ልዩነት፦ የመደበኛ አሬይ መጠን ሁልጊዜ Constant (ቋሚ ቁጥር) መሆን አለበት። በ new ስንጠቀም ግን መጠኑን በቫሪያብል (ለምሳሌ ተጠቃሚው እንዲያስገባ በማድረግ) መወሰን እንችላለን።
+
+3. የሜሞሪ እጥረት እና Null Pointer
+ዳይናሚክ ሜሞሪ የሚወሰደው ከጋራ የሜሞሪ ቦታ (Heap) በመሆኑ፣ አንዳንድ ጊዜ ሜሞሪ ሊያልቅ ይችላል።
+ኦፕሬቲንግ ሲስተሙ የጠየቅነውን ሜሞሪ መስጠት ካልቻለ NULL (ባዶ) የሆነ አድራሻ ይመልሳል።
+ስለዚህ ሁልጊዜ newን ከተጠቀምን በኋላ ሜሞሪው መገኘቱን ማረጋገጥ ይመከራል፦
+C++
+int *ptr3 new int[5]
+}
+
+💡 Core Concept
+Static: መጠኑ ፕሮግራሙ ከመሰራቱ በፊት መታወቅ አለበት።
+Dynamic (new): መጠኑ ፕሮግራሙ እየሰራ እያለ ሊወሰን ይችላል።
+Heap: የዳይናሚክ ሜሞሪ መገኛ ቦታ ነው።
+NULL: ሜሞሪ ሲያልቅ የሚመለስ ውጤት ነው።
+b) Operator delete
+Since the necessity of dynamic memory is usually limited to concrete
+moments within a program, once this one is no longer needed it shall
+be freed so that it become available for future requests of dynamic
+memory. For this exists the operator delete , whose form is:
+delete pointer 
+or
+delete [] pointer 
+The first expression should be used to delete memory allocated for a
+single element, and the second one for memory allocated for multiple
+elements (arrays).
+In most compilers both expressions are equivalent and can be used
+without distinction, although indeed they are two different operators
+and so must be considered for operator overloading.
+In the following simple example, a program that memorizes numbers,
+does not have a limited amount of numbers that can be introduced,
+thanks to the concept and power of pointer that we request to the system as much space as it is necessary to store all the numbers that
+the user wishes to introduce.
+#include <iostream.h>
+#include <stdlib.h>
+#include<conio.h>
+int main ()
+{
+char input [100]
+int i,n
+long * num// total 0
+cout << "How many numbers do you want to type in? "
+cin.getline (input,100)
+iatoi (input)
+numnew long[i]
+if (num 
+exit (1)
+}
+for (n0 n<i n++)
+{
+cout << "Enter number: "
+num[n]atol (input)
+}
+cout << "You have entered: "
+for (n0 n++)
+cout << num[n] << ", "
+delete[] num
+return 0
+}
+
+NULL is a constant value defined in C++ libraries specially designed
+to indicate null pointers. In case that this constant is not defined you
+can do it yourself by defining it to 0:
+ለ) የ "delete" ኦፕሬተር (Operator delete)
+በ new የያዝነው ዳይናሚክ ሜሞሪ ስራውን ሲጨርስ የግድ መልቀቅ (Free መደረግ) አለበት። ካልለቀቅነው ሜሞሪው በከንቱ ተይዞ ይቀራል (ይህ Memory Leak ይባላል)።
+
+1. የአጠቃቀም ህግ (Syntax)
+እንደ ያዝነው የዳታ መጠን ሁለት አይነት አጻጻፍ አለ፦
+ለአንድ ዳታ (Single element): delete pointer
+ለድርድር (Arrays): delete [] pointer
+
+2. የኮድ ምሳሌ ትንተና
+በሰጠኸኝ ፕሮግራም ውስጥ ተጠቃሚው የሚፈልገውን ያህል ቁጥር እንዲያስገባ ተፈቅዶለታል። ዋና ዋና ነጥቦቹን እንይ፦
+መጠኑን መቀበል፦ ተጠቃሚው "5" ካለ፣ num new long[5] በሚለው መስመር 5 ቦታ በ Heap ላይ ይያዛል።
+NULL ቼክ ማድረግ፦ if (num  በማለት ሜሞሪውን ለኦፕሬቲንግ ሲስተሙ ይመልሳል።
+
+3. NULL Pointer
+NULL ማለት ምንም አይነት አድራሻ የማይጠቁም ባዶ ፖይንተር ማለት ነው።
+አብዛኛው ጊዜ በ C++ ላይብረሪ ውስጥ የተገለጸ ቋሚ (Constant) ነው።
+ላይብረሪው ውስጥ ባይኖር እንኳን፣ እንዲህ ብለን መግለጽ እንችላለን፦ #define NULL 0።
+
+💡 Core Concept
+new ቦታ ይይዛል  delete ቦታውን ይለቃል።
+የተያዘን ሜሞሪ አለመልቀቅ የኮምፒውተሩን ሜሞሪ ያጨናንቃል።
+አሬይ (Array) ስንጠቀም delete [] መጠቀም የተሻለ ልምድ ነው።
+
+ 1. Pointer to access and modify an integer variable
+
+ Code
+#include <iostream>
+using namespace std
+
+int main() {
+    int x 10
+    int *p &x
+
+    cout << "Value of x: " << *p << endl
+
+    *p 25
+    cout << "Modified value of x: " << x << endl
+
+    return 0
+}
+
+Explanation (አማርኛ)
+
+* #include <iostream>
+  input እና output ለመጠቀም የሚያስፈልግ header file ነው
+
+* using namespace std
+   std::cout ሳንጻፍ cout ብቻ እንድንጠቀም ያስችላል
+
+* int main() {
+   program የሚጀምርበት main function
+
+* int x 10
+integer variable x በ10 ይጀምራል
+
+* int *p &x
+  Pointer p የvariable x የmemory address ይይዛል
+
+* cout << "Value of x: " << *p << endl
+   Dereference (*p) በመጠቀም x ዋጋ ይታተማል
+
+* *p 25
+   Pointer በመጠቀም x ዋጋ ወደ 25 ይቀየራል
+
+* cout << "Modified value of x: " << x << endl
+  የተቀየረው የx value ይታተማል
+
+* return 0
+   program በትክክል መጨረሱን ያመለክታል
+
+
+2. Pointer to traverse and display an integer array
+
+Code
+
+#include <iostream>
+using namespace std
+
+int main() {
+    int arr[5] {10, 20, 30, 40, 50}
+
+    for (int i 0 i < 5 i++) {
+        cout << *(p + i) << " "
+    }
+
+    return 0
+}
+
+Explanation (አማርኛ)
+
+* int arr[5] {10, 20, 30, 40, 50}
+   5 element ያለው integer Array ተፈጥሯል
+
+* int *p arr
+   Pointer p የArray የfirst element address ይይዛል
+
+* for (int i 0 i++) {
+   loop ከ0 እስከ 4 ይዞራል
+
+* *(p + i)
+   Pointer arithmetic በመጠቀም element address ይቀየራል
+
+* cout << *(p + i) << " "
+   Dereference በመጠቀም element value ይታተማል
+
+* return 0
+   program በትክክል ይጨርሳል
+
+3. Pointer to Pointer
+
+Code
+
+#include <iostream>
+using namespace std
+    int **pp &p
+
+    cout << *p << endl
+    cout << **pp << endl
+}
+
+#  Explanation (አማርኛ)
+
+* int x 15
+integer variable x በ15 ይጀምራል
+
+* int *p &x
+  Pointer p የx address ይይዛል
+
+* int **pp &p
+   Pointer to Pointer pp የp address ይይዛል
+
+* cout << *p << endl
+   x value በfirst Dereference ይታተማል
+
+* cout << **pp << endl
+   two-level Dereference በመጠቀም x value ይታተማል
+
+
+4. Dynamic memory allocation using new and delete[]**
+
+## Code
+
+#include <iostream>
+using namespace std
+
+int main() {
+    int n
+    cin >> n
+
+    int *arr new int[n] i < n i++)
+        cin >> arr[i] i++)
+        cout << *(arr + i) << " "
+
+    delete[] arr
+    return 0
+}
+
+Explanation (አማርኛ)
+
+* int n
+   Array size ለመያዝ variable
+
+* cin >> n
+   user ከkeyboard size ያስገባል
+
+* int *arr new int[n]
+  → new operator memory በheap ላይ ይመድባል
+
+* cin >> arr[i]
+   user የArray value ያስገባል
+
+* *(arr + i)
+   Pointer arithmetic እና Dereference
+
+* delete[] arr
+   allocated memory ወደ system ይመለሳል
+
+ 5. Character pointer and string
+
+Code
+
+#include <iostream>
+using namespace std
+
+int main() {
+    char *name "Meseret Belete"
+    cout << name << endl
+
+    name "Meseret Alemu"
+}
+
+ Explanation (አማርኛ)
+
+* char *name "Meseret Belete"
+  Character Pointer string literal address ይይዛል
+
+* cout << name << endl
+  Pointer ሲታተም string ሙሉ ይታያል
+
+* name "Meseret Alemu"
+  Pointer ወደ new string address ይቀየራል
+
+* cout << name << endl
+   new string ይታተማል
+terminology
+*  Pointer  memory address
+*  *  Dereference
+*  &  Address of
+* Array name → constant Pointer
+* new / delete[] → Dynamic memory
+* **  Pointer to Pointer

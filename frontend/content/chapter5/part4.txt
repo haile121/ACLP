@@ -1,0 +1,287 @@
+Worksheet
+
+Display sum and average of n array elements which are accepted from a user using for Loop by function.
+
+```cpp
+
+ #include <iostream>
+
+ 
+
+
+
+ using namespace std;
+
+ 
+
+
+
+ // Function to calculate the sum and average of array elements
+
+ void calculateSumAndAverage(int arr[], int n) {
+
+  int sum = 0;
+
+ 
+
+
+
+  // Calculate the sum of array elements using a for loop
+
+  for (int i = 0; i < n; i++) {
+
+  sum += arr[i];
+
+  }
+
+ 
+
+
+
+  // Calculate the average
+
+  double average = static_cast<double>(sum) / n;
+
+ 
+
+
+
+  // Display the sum and average
+
+  cout << "Sum of array elements: " << sum << endl;
+
+  cout << "Average of array elements: " << average << endl;
+
+ }
+
+ 
+
+
+
+ int main() {
+
+  int n;
+
+ 
+
+
+
+  // Accept the number of elements from the user
+
+  cout << "Enter the number of elements: ";
+
+  cin >> n;
+
+ 
+
+
+
+  // Declare an array of size n
+
+  int arr[n];
+
+ 
+
+
+
+  // Accept array elements from the user
+
+  cout << "Enter the array elements:" << endl;
+
+  for (int i = 0; i < n; i++) {
+
+  cin >> arr[i];
+
+  }
+
+ 
+
+
+
+  // Call the function to calculate and display the sum and average
+
+  calculateSumAndAverage(arr, n);
+
+ 
+
+
+
+  return 0;
+
+ }
+
+ ይህ የ C++ ፕሮግራም ተጠቃሚው ያስገባቸውን የ "array" አባላቶች ድምር እና አማካይ የሚያሰላ ነው።
+
+
+
+ 1. #include <iostream>
+
+  - ይህ ቤተ-መጽሐፍት (library) የ "input" እና "output" ስራዎችን ለመስራት ያስችላል። ለምሳሌ `cout` (ለማተም) እና `cin` (ለማስገባት)።
+
+ 2. using namespace std;
+
+  - ይህን በመጠቀም `std` የሚለውን ስም ቦታ ሳንጠቅስ መጠቀም እንችላለን (ለምሳሌ `cout` እንጂ `std::cout` ማለት ሳያስፈልግ)።
+
+ 3. void calculateSumAndAverage(int arr[], int n)
+
+  - ይህ "array" እና መጠኑን ተቀብሎ ድምሩንና አማካዩን የሚሰላ ተግባር (function) ነው።
+
+  - `int arr[]`: ተጠቃሚው ያስገባውን "array" ይቀበላል።
+
+  - `int n`: የ "array"ው መጠን (የአባላቶቹ ቁጥር) ነው።
+
+  - `int sum = 0;`: የ "array" አባላትን ድምር ለማስቀመጥ የሚውል ተለዋዋጭ (variable) ሲሆን መጀመሪያ በ 0 ተጀምሯል።
+
+for (int i = 0; i < n; i++)
+
+  - ይህ "loop" እያንዳንዱን የ "array" አባል ለመጎብኘት ይጠቅማል።
+
+  - `i = 0`: "loop"ው የሚጀምረው ከመጀመሪያው አባል ነው።
+
+  - `i < n`: "loop"ው የሚቀጥለው `i` ከ "array"ው መጠን በታች እስካለ ድረስ ነው።
+
+  - `i++`: በእያንዳንዱ ጊዜ `i` በ 1 ይጨምራል።
+
+  - `sum += arr[i];`: በእያንዳንዱ አባል ላይ እየዞረ ድምሩን ይሰበስባል።
+
+ይህ ማለት  sum=sum+arr[i] ጋ ተመሳሳይ ነው፡፡
+
+
+
+ 5. double average = static_cast<double>(sum) / n;
+
+  - አማካዩን ለመስራት ድምሩን በ "array"ው መጠን ይካፈላል። `static_cast<double>(sum)` ድምሩን ወደ "double" ይቀይረዋል፣ ምክንያቱም አማካዩ አስርዮሽ ቁጥር ሊሆን ይችላል።
+
+ 6. cout << "Sum of array elements: " << sum << endl;
+
+  - ድምሩን ያትማል።
+
+  - `cout << "Average of array elements: " << average << endl;`: አማካዩን ያትማል።
+
+ 7. int main() {
+
+  - ይህ ፕሮግራሙ የሚጀምርበት ዋናው ተግባር ነው።
+
+  - `int n;`: ተጠቃሚው የሚያስገባውን የ "array" መጠን ለማስቀመጥ የሚውል ተለዋዋጭ ነው።
+
+  - `cout << "Enter the number of elements: ";`: ተጠቃሚው የ "array"ውን መጠን እንዲያስገባ ይጠይቃል።
+
+  - `cin >> n;`: ተጠቃሚው ያስገባውን መጠን ይቀበላል።
+
+  - `int arr[n];`: የ "array"ውን መጠን ተቀብሎ "array"ውን ይፈጥራል።
+
+  - `cout << "Enter the array elements:" << endl;`: ተጠቃሚው የ "array"ውን አባላት እንዲያስገባ ይጠይቃል።
+
+  - `for (int i = 0; i < n; i++) { cin >> arr[i]; }`: ተጠቃሚው ያስገባውን እያንዳንዱን አባል ይቀበላል።
+
+  - `calculateSumAndAverage(arr, n);`: ድምሩንና አማካዩን ለመስራት ተግባሩን ይጠራል።
+
+ 8. return 0;
+
+  - ፕሮግራሙ በተሳካ ሁኔታ መጠናቀቁን ያመለክታል።
+
+ ይህ ፕሮግራም ተጠቃሚው ያስገባቸውን ቁጥሮች ተቀብሎ ድምራቸውንና አማካያቸውን ያሰላል::
+
+Write a program to store the ages of six of your friends in a single array. Store each of thesix ages using the assignment operator. print the ages on the screen
+
+
+
+
+
+
+
+```c++ code
+
+ #include <iostream>
+
+ using namespace std;
+
+ int main() {
+
+  // Declare an array to store the ages of 6 friends
+
+  int ages[6];
+
+   // Prompt the user to enter the ages of each friend
+
+  cout << "Please enter the ages of your 6 friends:" << endl;
+
+  for (int i = 0; i < 6; i++) {
+
+  cout << "Age of friend " << i + 1 << ": ";
+
+  cin >> ages[i]; // Store the age entered by the user
+
+  }
+
+  // Display the ages on the screen
+
+  cout << "\nThe ages of your friends are:" << endl;
+
+  for (int i = 0; i < 6; i++) {
+
+  cout << "Friend " << i + 1 << ": " << ages[i] << " years" << endl;
+
+  } 
+
+  return 0;
+
+ }
+
+ ```
+
+ # ማብራሪያ 
+
+ 1. #include <iostream>
+
+  - ይሄ "iostream" የሚባለውን library ወደ ፕሮግራማችን ያስገባል:: ይሄ library "cout" እና "cin" የምትለዋን ነገር እንድንጠቀም ይረዳናል:: "cout" ማለት በ screen ላይ የሆነ ነገር ለማሳየት ስንፈልግ የምንጠቀምበት መሳሪያ ነው:: "cin" ደግሞ ተጠቃሚው ከ keyboard የሆነ ነገር እንዲያስገባልን ስንፈልግ የምንጠቀምበት መሳሪያ ነው::
+
+  2. using namespace std;
+
+  - ይሄን ስንጠቀም "std::" ብለን ከመጻፍ ይልቅ "cout" እና "cin" ብለን በቀላሉ መጠቀም እንችላለን::
+
+ 3. int main() {
+
+  - ይሄ የፕሮግራሙ ዋናው ክፍል ነው:: ፕሮግራሙ እዚህ ውስጥ ነው የሚሰራው::
+
+ 4. int ages[6];
+
+  - ይሄ "ages" የሚባል array ይፈጥራል:: Array ማለት ብዙ ነገሮችን በአንድ ላይ ማስቀመጥ የምንችልበት ሳጥን ማለት ነው:: በዚህ ሳጥን ውስጥ 6 ኢንቲጀር ቁጥሮችን ማስቀመጥ እንችላለን:: ኢንቲጀር ማለት ሙሉ ቁጥር ማለት ነው (ለምሳሌ 25, 30, 22...)::
+
+ 5. cout << "Please enter the ages of your 6 friends:" << endl;
+
+  - ይሄ በ screen ላይ "እባክዎን የ 6 ጓደኞችዎን እድሜ ያስገቡ:" የሚል ጽሑፍ ያሳያል:: "endl" ማለት ወደ አዲሱ መስመር ውረድ ማለት ነው::
+
+ 6. for (int i = 0; i < 6; i++) { ... }
+
+  - ይሄ "for loop" ይባላል:: Loop ማለት አንድን ነገር ደጋግመን እንድንሰራ የሚረዳን መሳሪያ ነው:: እዚህ ጋር ተጠቃሚው እድሜዎቹን እንዲያስገባ ደጋግመን እንጠይቃለን::
+
+  - `int i = 0;` ማለት "i" የሚባል ቁጥር 0 ጀምሮ ይጀምራል ማለት ነው::
+
+  - `i < 6;` ማለት "i" ከ 6 በታች እስካለ ድረስ loopው ይቀጥላል ማለት ነው::
+
+  - `i++` ማለት "i" በያንዳንዱ ጊዜ 1 ይጨምራል ማለት ነው::
+
+ 7. cout << "Age of friend " << i + 1 << ": ";
+
+  - ይሄ "የጓደኛ 1 እድሜ: "፣ "የጓደኛ 2 እድሜ: " እያለ በ screen ላይ ያሳያል::
+
+ 8. cin >> ages[i];
+
+  - ይሄ ተጠቃሚው keyboard ተጠቅሞ ያስገባውን ቁጥር "ages" በሚባለው array ውስጥ ያስቀምጣል::
+
+ 9. cout << "\nThe ages of your friends are:" << endl;
+
+  - ይሄ በ screen ላይ "የጓደኞቼ እድሜዎች:" የሚል ጽሑፍ ያሳያል:: "\n" ማለት ወደ አዲሱ መስመር ውረድ ማለት ነው (ከ "endl" ጋር ተመሳሳይ ነው)::
+
+ 10. cout << "Friend " << i + 1 << ": " << ages[i] << " years" << endl;
+
+  - ይሄ የእያንዳንዱን ጓደኛ እድሜ በ screen ላይ ያሳያል:: ለምሳሌ "ጓደኛ 1: 25 አመት" ብሎ ያሳያል::
+
+ 11. return 0;
+
+  - ይሄ ፕሮግራሙ እንደተሳካ ያሳያል::
+
+ 
+
+ በዚህ ኮድ ተጠቃሚው የ 6 ጓደኞቹን እድሜ እንዲያስገባ ከዛ በ screen ላይ እንዲያይ ማድረግ ትችላለህ:: ኮዱ ቀላል እና ለመረዳት የሚቻል ነው::

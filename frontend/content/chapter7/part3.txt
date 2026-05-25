@@ -1,0 +1,305 @@
+4.4. Arrays of Pointers
+If you have to reserve many pointers for many different values, you might
+want to declare an array of pointers.
+
+The following reserves an array of 10 integer pointer variables:
+       int *iptr[10] //reserves an array of 10 integer pointers
+
+The above statement will create the following structure in RAM
+                 
+iptr[4] &age// makes iptr[4] point to address of age.
+iptr[5] &x// makes iptr[5] point to address of x.
+
+
+
+4.4. የፖይንተሮች ድርድር (Arrays of Pointers)
+አንዳንድ ጊዜ ለብዙ የተለያዩ እሴቶች (Values) ብዙ ፖይንተሮችን መፍጠር ሊያስፈልገን ይችላል። በእንደዚህ አይነት ጊዜ ለእያንዳንዱ ፖይንተር የተለያየ ስም ከመስጠት ይልቅ Array of Pointers መጠቀም ይቀላል።
+1. ፖይንተር አሬይን መግለጽ (Declaring)
+ለምሳሌ 10 የ integer ፖይንተር ቫሪያብሎችን ለመፍጠር የሚከተለውን ኮድ እንጠቀማለን፦
+int *iptr[10]
+ይህ መስመር በኮምፒውተራችን ሜሞሪ (RAM) ውስጥ 10 የተለያዩ የፖይንተር ቦታዎችን ያዘጋጃል። እያንዳንዱ ክፍል (Element) የራሱን የሜሞሪ አድራሻ መያዝ ይችላል።
+
+2. አድራሻን ለፖይንተር አሬይ መስጠት (Assignment)
+በአሬይ ውስጥ ላለ እያንዳንዱ ክፍል (Index) የሌላን ቫሪያብል አድራሻ እንዲህ መስጠት እንችላለን፦
+C++
+int age 26
+int x 100
+
+iptr[4] &age  // በአምስተኛው ቦታ (index 4) ላይ የ ageን አድራሻ ያስቀምጣል
+iptr[5] &x    // በስድስተኛው ቦታ (index 5) ላይ የ xን አድራሻ ያስቀምጣል
+ምን ተፈጠረ?
+iptr[4] አሁን ወደ age point ያደርጋል።
+iptr[5] አሁን ወደ x point ያደርጋል።
+
+💡 ዋና ነጥቦች (Key Summary)
+መደበኛ Array: ቁጥሮችን ወይም ፊደላትን ይይዛል። (ለምሳሌ፡ int numbers[5])
+Array of Pointers: አድራሻዎችን (Addresses) ይይዛል። (ለምሳሌ፡ int *iptr[5])
+ይህ ዘዴ በተለይ የተለያዩ የዳታ ስብስቦችን በአንድ ዝርዝር ውስጥ ለማስተዳደር በጣም ጠቃሚ ነው።
+
+
+4.5. Pointer and arrays
+The concept of array goes very bound to the one of pointer. In fact, the
+identifier of an array is equivalent to the address of its first element, like a
+pointer is equivalent to the address of the first element that it points to, so in
+fact they are the same thing. 
+An array name is just a pointer that always points to the array’s first element.
+For example, supposing these two declarations:
+int numbers [20]
+int * p
+the following allocation would be valid:
+p numbers
+
+At this point p and numbers are equivalent and they have the same
+properties, with the only difference that we could assign another value to the
+pointer p whereas numbers will always point to the first of the 20 integer
+numbers of type int with which it was defined. So, unlike p, that is an
+ordinary variable pointer, numbers is a constant pointer (indeed that is an
+Array: a constant pointer). Therefore, although the previous expression was
+valid, the following allocation is not:
+numbers p//not valid
+
+Look at the following example
+void main()
+{
+int numbers [20]{10,20}
+pnumbers//address of numbers is assigned to p
+numbers p//error L value required
+cout<<numbers//displays the address of numbers and the same as p for pnu...
+getch()
+}
+Because numbers is an array (constant pointer), and no values can be
+assigned to constant identifiers.
+N.B: An array name is just a pointer, nothing more. The array name always
+points to the first element stored in the array. There for , we can have the
+following valid C++ code:
+int ara[5] {10,20,30,40,50}
+cout<< *(ara + 2) //prints ara[2]
+The expression *(ara+2) is not vague at all if you remember that an array
+name is just a pointer that always points to the array’s first element. *(ara+2)
+takes the address stored in ara, adds 2 to the address, and dereferences that
+location.
+Consider the following character array:
+char name[] “C++ Programming”
+What output do the following cout statements produce?
+cout<<name[0] // __C
+cout<<*name // _C__
+cout<<*(name+3) //_
+cout<<*(name+0) //C
+
+
+4.5. ፖይንተር እና አሬይ (Pointer and Arrays)
+በ C++ ውስጥ የአንድ አሬይ ስም (Array Name) በራሱ እንደ አንድ ፖይንተር ነው የሚያገለግለው። ይህም ሁልጊዜ የአሬዩን የመጀመሪያ ክፍል (First Element) አድራሻ ይይዛል።
+1. አሬይ እንደ Constant Pointer
+አንድ አሬይ ሲፈጠር፣ ስሙ በሜሞሪ ውስጥ የመጀመሪያውን ቦታ የሚያመለክት Constant Pointer (ቋሚ ፖይንተር) ይሆናል።
+C++
+int numbers[20]
+int *p       // ትክክል (Valid)፦ የ numbers አድራሻ ለ p ተሰጠ።
+numbers p       // ስህተት (Error)፦ numbers ቋሚ (Constant) ስለሆነ መቀየር አይቻልም።
+ልዩነቱ፦
+p ተራ ፖይንተር ስለሆነ፣ ዛሬ የ numbersን አድራሻ ነገ ደግሞ የሌላን ቫሪያብል አድራሻ እንዲይዝ ማድረግ ይቻላል።
+numbers ግን ሁልጊዜ ወደ መጀመሪያው ክፍሉ ብቻ ነው የሚያመለክተው፤ አድራሻውን መቀየር አይቻልም።
+
+2. አሬይን በፖይንተር ሂሳብ (Pointer Arithmetic) መጠቀም
+የአሬይ ስም ፖይንተር ከሆነ፣ በላዩ ላይ ቁጥር በመደመር ወደ ሌላ ክፍል መሄድ እንችላለን።
+ምሳሌ፦
+C++
+int ara[5] {10, 20, 30, 40, 50}
+
+cout << *(ara + 2) // 30 ያትማል
+ማብራሪያ፦
+ara ማለት የመጀመሪያው ክፍል (10) አድራሻ ነው።
+ara + 2 ማለት ከአድራሻው ላይ 2 ቦታዎችን ጨምርና ወደ ሶስተኛው ክፍል (30) ሂድ ማለት ነው።
+*(ara + 2) ደግሞ በዛ አድራሻ ላይ ያለውን እሴት (Value) አውጣ ማለት ነው።
+
+3. የ Character Array (String) ምሳሌ
+የሚከተለውን የፊደላት ድርድር (Array) እንመልከት፦
+char name[] "C++ Programming"
+ለቀረቡት ጥያቄዎች መልሱ የሚከተለው ይሆናል፦
+cout << name[0] 
+C (የመጀመሪያው ፊደል)
+cout << *name 
+C (የመጀመሪያው ፊደል አድራሻ Dereference ሲደረግ)
+cout << *(name + 3)  (Space/ባዶ ቦታ) (ምክንያቱም በኢንዴክስ 3 ላይ ያለው ባዶ ቦታ ነው - C 
+C (ከመጀመሪያው አድራሻ ላይ 0 ሲደመር እራሱ መጀመሪያው ላይ ይቀራል)
+
+💡 ዋና ማጠቃለ
+ara[i] እና *(ara + i) አንድ አይነት ናቸው።
+የአሬይ ስም ወደ መጀመሪያው ክፍል የሚያመለክት Constant Pointer ነው።
+ፖይንተርን በመጠቀም በአሬይ ውስጥ ያሉ ዳታዎችን በፍጥነት ማግኘት ይቻላል።
+
+
+4.6. Pointer Advantage
+You can’t change the value of an array name, because you can’t change constants.
+This explains why you can’t assign an array a new value during a program’s
+execution: eg: if Cname is array of characters then:
+Cname “Football” //invalid array assignment, it is allowed during declaration
+Unlike arrays, you can change a pointer variable. By changing pointers, you
+can make them point to different values in memory. 
+ይህ ክፍል Pointer ከ Array በተሻለ ምን አይነት ተለዋዋጭነት (Flexibility) እንደሚሰጠን ያብራራል።
+
+
+4.6. የፖይንተር ጥቅሞች (Pointer Advantage)
+በ C++ ውስጥ የአሬይ (Array) ስም እንደ Constant Pointer (ቋሚ ፖይንተር) ስለሚቆጠር፣ አንዴ ከተፈጠረ በኋላ የሚይዘውን አድራሻ መቀየር አይቻልም። ፖይንተር ግን ተለዋዋጭ ነው።
+1. አሬይ ላይ ያለ ገደብ (Array Limitation)
+አንድን አሬይ ከፈጠርን በኋላ፣ ሙሉ ለሙሉ አዲስ እሴት (Value) በቀጥታ በስሙ በኩል ልንሰጠው አንችልም።
+ምሳሌ፦
+C++
+char Cname[] "Tennis" // Declaration ላይ ይቻላል
+Cname "Football"      // ስህተት (Invalid)! ምክንያቱም Cname ቋሚ (Constant) ነው።
+ምንም እንኳን "Football" የሚለው ቃል ከ "Tennis" ጋር እኩል ቢሆንም፣ Cname የሚጠቁምበትን የሜሞሪ ቦታ መቀየር ስለማይቻል ኮምፒውተሩ ስህተት ያሳያል።
+
+2. የፖይንተር ተለዋዋጭነት (Pointer Flexibility)
+ከአሬይ በተለየ መልኩ፣ የፖይንተርን አድራሻ በፈለግን ጊዜ መቀየር እንችላለን። ፖይንተር በተለያዩ የፕሮግራም ክፍሎች ውስጥ ወደተለያዩ የሜሞሪ ቦታዎች እንዲያመለክት ማድረግ ይቻላል።
+ምሳሌ፦
+C++
+const char *p // ፖይንተር መፍጠር
+
+p "Tennis"   // መጀመሪያ ወደ "Tennis" እንዲያመለክት ተደረገ
+p "Football" // አሁን ደግሞ ወደ "Football" እንዲያመለክት ተቀየረ (Valid!)
+እዚህ ጋር p መጀመሪያ የ "Tennis" አድራሻን ይይዛል፣ በኋላ ደግሞ ያንን አድራሻ ትቶ የ "Football"ን አድራሻ ይይዛል። ይህ ትልቅ ብልጫ ነው።
+
+💡 ዋና ማጠቃለያ (Key Summary)
+ባህሪ (Feature)
+አሬይ (Array)
+ፖይንተር (Pointer)
+
+አድራሻ መቀየር
+አይቻልም (Constant ነው)
+ይቻላል (Variable ነው)
+
+Assignment
+በ Declaration ጊዜ ብቻ ነው የሚፈቀደው
+በማንኛውም ጊዜ አዲስ አድራሻ መቀበል ይችላል
+
+ተለዋዋጭነት
+ዝቅተኛ ነው
+ከፍተኛ ነው
+
+
+ማጠቃለያ 
+ፖይንተርን መጠቀም ፕሮግራማችን ሜሞሪን በፈለገው መንገድ እንዲያዘዋውር እና ዳታን በብቃት እንዲያስተዳድር ይረዳዋል። በተለይ ትልልቅ ዳታዎችን ከአንድ ቦታ ወደ ሌላ ቦታ ሳናንቀሳቅስ፣ አድራሻቸውን ብቻ በመቀየር ፈጣን ፕሮግራም ለመስራት ይጠቅማል።
+
+
+Have a look at the
+following code:
+
+void main()
+{
+clrscr()
+float v1 679.54
+float v2 900.18
+float * p_v
+p_v &v1
+cout<< “\nthe first value is ”<<*p_v
+cout<< “\nthe second value is ”<<*p_v
+}
+ይህ የኮድ ምሳሌ Pointer እንዴት በተለዋዋጭነት (Flexibility) እንደሚያገለግል በግልጽ ያሳያል። አንድ አይነት ፖይንተርን በመጠቀም የተለያዩ ቫሪያብሎችን እንዴት ማግኘት እንደምንችል እንይ።
+
+የኮዱ ትንተና (Step-by-Step Code Analysis)
+C++
+void main() {
+    float v1 679.54   // 1. የመጀመሪያው float ቫሪያብል
+    float v2 900.18   // 2. ሁለተኛው float ቫሪያብል
+    float * p_v         // 3. float ፖይንተር ተፈጠረ
+
+    p_v &v1           // 4. ፖይንተሩ ወደ v1 አድራሻ እንዲያመለክት ተደረገ
+    cout << *p_v        // 5. በፖይንተሩ በኩል የ v1 ዋጋ (679.54) ታተመ
+
+    p_v &v2           // 6. አሁን ደግሞ የፖይንተሩ አድራሻ ተቀይሮ ወደ v2 ሄደ
+    cout << *p_v        // 7. በዚሁ ፖይንተር በኩል የ v2 ዋጋ (900.18) ታተመ
+}
+
+ከዚህ ኮድ የምንረዳው ዋና ነጥብ
+በዚህ ፕሮግራም ውስጥ የተማርነው ትልቁ ቁምነገር ፖይንተር "ታማኝ" አይደለም የሚለውን ነው። ማለትም፦
+አንድ ፖይንተር በፕሮግራሙ መጀመሪያ ላይ ወደ አንድ ቫሪያብል እያመለከተ ከሆነ፣ በፕሮግራሙ ሂደት ውስጥ አድራሻውን ቀይረን ወደ ሌላ ቫሪያብል እንዲያመለክት ማድረግ እንችላለን።
+ይህ በአሬይ (Array) ስም ላይ የማይቻል ነገር ነው። አሬይ ቢሆን ኖሮ አንዴ የያዘውን ቦታ መልቀቅ አይችልም ነበር።
+💡 ለማጠቃለል
+p_v &v1 
+ፖይንተሩ የ v1ን አድራሻ ይይዛል።
+*p_v 
+የ v1ን ዋጋ ያወጣል።
+p_v &v2 
+የ v1ን አድራሻ ጥሎ የ v2ን አድራሻ ይተካል።
+*p_v 
+አሁን ደግሞ የ v2ን ዋጋ ያወጣል።
+
+You can use pointer notation and reference pointers as arrays with array
+notation. Study the following program carefully. It shows the inner workings
+of arrays and pointer notation.
+#include <iostream.h>
+#include <conio.h>
+
+void main()
+{
+clrscr()
+int i
+int array[5] {10,20,30,40,50}
+int *ptr
+ptr array //makes iprt point to array's first element. Or iprt &array[0]
+cout<< "using array subscripts:\n"
+cout<< "array\tptr\n"
+for(i0i<5i++)
+{
+cout<<array[i]<< "\t"<< ptr[i]<< "\n"
+}
+cout<< "\nUsing pointer notation\n"i++)
+{
+cout<< *(array+i) << "\t" << *(ptr+i)<< "\n"
+}
+getch()
+}
+
+
+Suppose that you want to store a persons name and print it. Rather than
+using arrays, you can use a character pointer. The following program does
+just that.
+void main()
+{
+clrscr()
+char *c “Meseret Belete”
+cout<< “your name is : ”<<c
+}
+Suppose that you must change a string pointed to by a character pointer, if
+the persons name in the above code is changed to Meseter Alemu: look at the
+following code:
+void main()
+{
+char *c “Meseret Belete”
+cout<< “youe name is : ”<<c
+c “Meseret Alemu”
+cout<< “\nnew person name is : ”<<c
+}
+
+If c were a character array, you could never assign it directly because an array
+name can’t be changed.
+ይህ ክፍል በ Pointer Notation እና Array Notation መካከል ያለውን ተለዋዋጭነት እንዲሁም በ Character Pointer እና Array መካከል ያለውን ልዩነት ያሳያል።
+1. ፖይንተር እና አሬይ አንድ ላይ (Interchangeability)
+በ C++ ውስጥ በአሬይ የምንሰራውን ስራ በፖይንተር፣ በፖይንተር የምንሰራውን ደግሞ በአሬይ መስራት እንችላለን።
+Array Notation: array[i] መጠቀም።
+Pointer Notation: *(ptr + i) መጠቀም።
+ከኮዱ የምንረዳው፦
+ptr array ካልን በኋላ የሚከተሉት እኩል ናቸው፦
+array[i] እና ptr[i] (ሁለቱም የአሬይ ምልክትን ይጠቀማሉ)
+*(array + i) እና *(ptr + i) (ሁለቱም የፖይንተር ምልክትን ይጠቀማሉ)
+
+2. Character Pointer (String ለመያዝ)
+የአንድን ሰው ስም ለመያዝ በ char አሬይ ምትክ char ፖይንተር መጠቀም ይቻላል።
+C++
+char *c "Meseret Belete"
+cout << c // ሙሉ ስሙን ያትማል
+እዚህ ጋር c የተባለው ፖይንተር ስሙ በሜሞሪ ውስጥ ወደሚገኝበት የመጀመሪያ ፊደል አድራሻ ይጠቁማል።
+
+3. የፖይንተር ትልቁ ብልጫ (Flexibility)
+በፖይንተር የተያዘን ስም (String) በማንኛውም ሰዓት መቀየር ይቻላል። በአሬይ ግን አይቻልም።
+ለምሳሌ፦
+C++
+char *c "Meseret Belete" 
+c "Meseret Alemu" // ትክክል (Valid)! አድራሻውን መቀየር ይቻላል።
+ልዩነቱ፦
+c Pointer ከሆነ፦ መጀመሪያ ወደ "Meseret Belete" አድራሻ ይዞ ነበር፣ በኋላ ግን አድራሻውን ትቶ ወደ "Meseret Alemu" አድራሻ እንዲያመለክት ማድረግ ይቻላል።
+c Array ቢሆን ኖሮ፦ አንዴ ቦታ ስለተያዘለት፣ በፕሮግራሙ መሃል c "Meseret Alemu" ብለን በቀጥታ መቀየር አንችልም ነበር።
+
+💡 ማጠቃለያ (Summary)
+ptr[i] እና *(ptr + i) አንድ አይነት ውጤት ይሰጣሉ።
+Pointerን እንደ Array መጠቀም ይቻላል።
+Pointer ተለዋዋጭ (Variable) ሲሆን፣ Array Name ግን ቋሚ (Constant) ፖይንተር ነው። ስለዚህ የፖይንተርን እሴት መቀየር ሲቻል የአሬይን ግን አይቻልም።

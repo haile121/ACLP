@@ -1,0 +1,137 @@
+9.4.1.2: Writing to a sequential File
+The most common file I/O functions are
+get() and put() to read from a file and write to file respectively
+You can also use the output redirection operator (<<) to write to a file.
+The following program creates a file called names.txt and saves the
+name of five persons in it:
+#include<fstream>
+#include<conio>
+#include<stdlib>
+void main()
+{
+ofstream fp
+fp.open("hello.txt")
+if(fp.fail())
+{
+cout<< "\nError opening file"
+getch()
+exit(1)
+}
+fp<< "Abebe Alemu"<<endl
+fp<< "Lemelem Berhanu"<<endl
+fp<< "Tesfaye Mulugeta"<<endl
+fp<< "Mahlet Kebede"<<endl
+fp<< "Assefa Bogale"<<endl
+fp.close()
+cout<<" Writing to file is successful press any key to exit"
+}
+Writing characters to sequential files:
+A character can be written onto a file using the put() function. See the following code:
+
+#include<fstream>
+#include<conio>
+#include<stdlib>// for exit() function
+void main()
+{
+char c
+ofstream outfile
+outfile.open("D:\\test.txt",ios::out)
+if(outfile.fail())
+{
+cout<<"\nError opening test.txt"
+}
+for(int i1i<15i++)
+{
+cout<<"\nEnter a character : "
+cin>>c
+outfile.put(c)// used to write a line or string to the output
+}
+outfile.close()
+}//end main
+
+Output….assume you entered A B C …..15 characters 
+A
+B
+C
+….
+The above program reads 15 characters and stores in D:\ with file test.txt.
+You can easily add data to an existing file, or create new files, by opening
+the file in append access mode.
+Files you open for append access mode (using ios::app) do not have to exist.
+If the file exists, C++ appends data to the end of the file (as is done when
+you open a file for write access).
+The following program adds three more names to the names.txt file
+created in the earlier program.
+#include<fstream.h>
+#include<stdlib.h>
+…
+void main()
+{
+ofstream outdata
+outdata.open(“c:\\names.txt”,ios::app)//append data
+if(outdata.fail())
+{
+cerr<< “\nError opening names.txt”
+}
+outdata<< “Berhanu Teka”<<endl
+outdata<< “Zelalem Assefa”<<endl
+outdata<< “Dagim Sheferaw”<<endl
+outdata.close()
+}//end main
+The above code will add or append three names from the existing file text at the end.
+If the file names.txt does not exist, C++ creates it and stores the three names
+to the file.
+Basically, you have to change only the open() function’s access mode to
+turn a file-creation program into a file-appending program.
+
+9.4.1.2 ወደ ፋይል መጻፍ (Writing to a sequential File)
+​ወደ ፋይል ለመጻፍ የምንጠቀምባቸው ዋና ዋና መንገዶች፦
+​put(): አንድን ካራክተር (character) ብቻ ፋይል ውስጥ ለመጻፍ ይጠቅማል።
+​<< (Output redirection operator): ልክ ስክሪን ላይ በ cout እንደምንጽፈው ሁሉ ወደ ፋይል ጽሁፎችን ለመላክ ይጠቅማል።
+​ምሳሌ 1፦ በ << በመጠቀም ስሞችን መጻፍ
+​ይህ ፕሮግራም "hello.txt" የሚባል ፋይል ፈጥሮ የአምስት ሰዎችን ስም ያስቀምጣል፡
+#include<fstream>
+#include<conio>
+#include<stdlib>
+
+void main()
+{
+ofstream fp // ፋይሉን መክፈት
+
+if(fp.fail()) // ፋይሉ መከፈቱን ማረጋገጥ
+{
+cout<< "\nError opening file"
+}
+
+// ወደ ፋይሉ መጻፍ
+fp<< "Abebe Alemu"<<endl
+
+fp.close() // ፋይሉን መዝጋት
+cout<<" Writing to file is successful press any key to exit"
+}
+ምሳሌ 2፦ በ put() ካራክተሮችን መጻፍ
+​ይህ ፕሮግራም ደግሞ 15 ፊደላትን ተቀብሎ በ "test.txt" ውስጥ አንድ በአንድ ያስቀምጣቸዋል፡
+#include<fstream>
+#include<conio>
+#include<stdlib>
+
+void main()
+{
+char c
+outfile.open("D:\\test.txt", ios::out)
+
+if(outfile.fail())
+{
+cout<<"\nError opening test.txt"
+}
+
+for(int i1 i<15 i++)
+{
+cout<<"\nEnter a character : " // አንድ ካራክተር ፋይሉ ውስጥ ይጽፋል
+}
+outfile.close()
+}
+ዳታ መጨመር (Appending Data)
+​አንድ ፋይል ላይ ያለውን መረጃ ሳታጠፋ አዲስ መረጃ መጨመር ከፈለግክ ios::app (append mode) ትጠቀማለህ። ፋይሉ ከሌለ አዲስ ይፈጥራል፣ ካለ ደግሞ መጨረሻው ላይ ይቀጥላል።
+outdata.open("c:\\names.txt", ios::app) // መጨረሻው ላይ ለመጨመር
+ጠቃሚ ነጥብ፦ ፋይል ከመፍጠር ወደ ፋይል ላይ መረጃ መጨመር ለመቀየር የምትቀይረው የ open() ፋንክሽን ውስጥ ያለችውን ios::app ብቻ ነው።

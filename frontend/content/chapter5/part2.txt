@@ -1,0 +1,157 @@
+2.4. Accessing and processing array elements 
+
+􀀹In any point of the program in which the array is visible we can access individually anyone of its elements for reading or modifying it as if it was a normal variable. To access individual elements, index or subscript is used. The format is the following: 
+
+name [ index ] 
+
+􀀹In c++ the first element has an index of 0 and the last element has an index, which is one less the size of the array (i.e. arraysize-1). Thus, from the above declaration, day[0] is the first element and day[4] is the last element. 
+
+􀀹Following the previous examples where day had 5 elements and each element is of type int, the name, which we can use to refer to each element, is the following one: 
+
+
+
+
+
+riable a , we could write: 
+
+a = day[2]; 
+
+􀀹Therefore, for all the effects, the expression day[2] is like any variable of type int with the same properties. Thus an array declaration enables us to create a lot of variables of the same type with a single declaration and we can use an index to identify individual elements. 
+
+􀀹Notice that the third element of day is specified day[2] , since first is day[0] , second day[1] , and therefore, third is day[2] . By this same reason, its last element is day [4]. Since if we wrote day [5], we would be acceding to the sixth element of day and therefore exceeding the size of the array. This might give you either error or unexpected value depending on the compiler. 
+
+2.4. Accessing and processing array elements 
+
+(ስለ ድርድር (Array) አባላትን መድረስ እና መጠቀም በአጭ)
+
+ይህ ሞጁል ስለ ድርድር አባላትን እንዴት መድረስ እና መጠቀም እንደሚቻል በአጭሩ ያስረዳል። ዋና ዋና ነጥቦቹ የሚከተሉት ናቸው፡
+
+1.  አጠቃላይ መረጃ
+
+    *   በፕሮግራሙ ውስጥ አንድ ድርድር (array) ከታወቀ በኋላ፣ ማንኛውንም አባል እንደ ተራ ተለዋዋጭ (variable) ማንበብ ወይም መቀየር ይቻላል።
+
+    *   ይህንን ለማድረግ ኢንዴክስ (index) ወይም ሰብስክሪፕት (subscript) የሚባል ቁጥር እንጠቀማለን።
+
+2.  አገባብ (Syntax)
+
+    *   የአንድን ድርድር አባል ለመድረስ `ስም[ኢንዴክስ]` የሚለውን አገባብ እንጠቀማለን። ለምሳሌ `day[2]`።
+
+3.  ኢንዴክስ በ C++
+
+    *   በ C++ ውስጥ የመጀመሪያው አባል ኢንዴክሱ 0 ነው።
+
+    *   የመጨረሻው አባል ኢንዴክሱ የድርድሩ መጠን ሲቀነስ 1 ነው። ለምሳሌ፣ ድርድሩ 5 አባላት ካሉት፣ የመጨረሻው አባል ኢንዴክስ 4 ይሆናል።
+
+    *   ለምሳሌ፣ `day[0]` የመጀመሪያውን አባል ሲሆን `day[4]` የመጨረሻውን አባል ያመለክታሉ።
+
+4.  የድርድር አባል እንደ ተለዋዋጭ መጠቀም
+
+    *   `a = day[2];` ብለን በመጻፍ የ`day` ድርድር ሶስተኛ አባል (ኢንዴክስ 2) ዋጋን ወደ `a` ተለዋዋጭ ማምጣት እንችላለን።
+
+    *   ስለዚህ፣ `day[2]` ልክ እንደ ኢንቲጀር (int) ተለዋዋጭ ነው ማለት ነው።
+
+5.  ማስጠንቀቂያ
+
+    *   የድርድሩ መጠን 5 ከሆነ፣ `day[5]` ብለን መጻፍ ስህተት ነው። ምክንያቱም 6ተኛውን አባል ለመድረስ እየሞከርን ስለሆነ፣ ይህም ከድርድሩ መጠን በላይ ነው። ይህ ስህተት በኮምፓይለሩ ላይ በመመስረት የተለየ ውጤት ሊያስከትል ይችላል።
+
+
+
+በአጭሩ:
+
+ Arrays (ድርድሮች) ብዙ ተለዋዋጮችን በአንድ ስም እንዲኖሩ ያስችላሉ፣ ኢንዴክስ በመጠቀምም ማንኛውንም አባል access (መድረስ) እና use or process (መጠቀም) ይቻላል።
+
+􀀹For example, to store the value 75 in the third element of the array variable day a suitable sentence would be: day[2] = 75; //as the third element is found at index 2 
+
+􀀹And, for example, to pass the value of the third element of the array variable day to the va
+
+􀀹In C++ it is perfectly valid to exceed the valid range of indices for an Array, which can cause certain detectable problems, since they do not cause compilation errors but they can cause unexpected results or serious errors during execution. The reason why this is allowed will be seen ahead when we begin to use pointers. 
+
+􀀹At this point it is important to be able to clearly distinguish between the two uses the square brackets [ ] have for arrays. 
+
+o One is to set the size of arrays during declaration 
+
+o The other is to specify indices for a specific array element when accessing the elements of the array 
+
+
+
+ይህ ሞጁል ስለ array አባላትን እንዴት access, value መስጠት እና ስህተቶችን ማስወገድ እንደሚቻል በቀላል አማርኛ ያስረዳል።
+
+
+
+ ዋጋን ወደ array አባል ማስገባት
+
+  *   `day[2] = 75;` ብለን በመጻፍ የ`day` array ሶስተኛ element (ኢንዴክስ 2) ዋጋ 75 እናደርጋለን።
+
+2.  የ arrayን አባል ዋጋ ወደ variable ማስተላለፍ
+
+    *   የ`day` array ሶስተኛ element (ኢንዴክስ 2) ዋጋን ወደ `a` variable ለማስተላለፍ `a = day[2];` ብለን እንጽፋለን።
+
+3.  "Out of Bounds" ስህተት
+
+    *   በ C++ ውስጥ ከአንድ array size በላይ የሆነ ኢንዴክስ መጠቀም ይቻላል፣ ነገር ግን ይህ በፕሮግራሙ ላይ unexpected ውጤት ሊያስከትል ይችላል።
+
+    *   ይህ ስህተት በ compilation ጊዜ ላይታወቅ ይችላል፣ ነገር ግን ፕሮግራሙ በሚሰራበት ጊዜ serious error ሊፈጥር ይችላል።
+
+
+
+4.  square bracket(የካሬ ቅንፎች) `[]` ሁለት አጠቃቀሞች
+
+    *   ካሬ ቅንፎች በ arrays ውስጥ ሁለት ነገሮችን ለማመልከት ያገለግላሉ፡
+
+ የ arrayውን size ለመወሰን 
+
+ለምሳሌ `int day[5];`
+
+        2.  የአንድን array element ለመድረስ ኢንዴክሱን ለመጥቀስ ለምሳሌ `day[2]`
+
+በአጭሩ፣ arraysን በአግባቡ ለመጠቀም የ element ኢንዴክስ መረዳት፣ ዋጋዎችን በትክክል ማስገባት እና "out of bounds" ስህተትን ማስወገድ ያስፈልጋል።
+
+􀀹Other valid operations with arrays in accessing and assigning: 
+
+1.int a=1; 
+
+2.day [0] = a;
+
+3.day[a] = 3;
+
+4.b = day [a+2]; 
+
+5.day [day[a]] = day[2] + 5;
+
+# ስለ Array Operations በቀላል አማርኛ
+
+እሺ፣ እነዚህን array operations በቀላል አማርኛ እንመልከት፡
+
+1.  `int a = 1;`
+
+    *   እዚህ ጋር `a` የሚባል variable integer አይነት አውጥተን valueውን 1 አድርገነዋል።
+
+2.  `day[0] = a;`
+
+    *   እዚህ ጋር የ`day` array በ index 0 ላይ ያለውን element value የ `a` value (ይህም 1 ነው) እንዲሆን እናደርጋለን።
+
+3.  `day[a] = 3;`
+
+    *   እዚህ ጋር የ`day` array በ index `a` (ይህም 1 ነው) ላይ ያለውን element value 3 እንዲሆን እናደርጋለን። ስለዚህ `day[1]` valueው 3 ይሆናል።
+
+4.  `b = day[a+2];`
+
+    *   እዚህ ጋር የ`day` array በ index `a+2` (ይህም 1+2 = 3 ነው) ላይ ያለውን element access እያደረግን ነው፣ ከዛ valueውን ለ `b` variable assign እናደርጋለን።
+
+5.  `day[day[a]] = day[2] + 5;`
+
+    *   ይሄ ትንሽ complex ነው፡
+
+        *   `day[a]` ማለት `day[1]` ማለት ነው፣ valueውም 3 ነው።
+
+        *   ስለዚህ `day[day[a]]` ማለት `day[3]` ማለት ነው። እዚህ ጋር የ`day` array በ index 3 ላይ ላለው element value እያ assign እያደረግን ነው።
+
+        *   `day[2] + 5` ደግሞ assign የሚደረገውን value ያሰላል። የ`day` array በ index 2 ላይ ያለውን element access አድርጎ ከ 5 ጋር ይጨምራል፣ ከዛ ሪዛልቱን ለ `day[3]` assign ያደርጋል።
+
+focus
+
+*   Array Bounds:ከ 0 እስከ array size - 1 ባለው index range ውስጥ ብቻ array element access ማድረግ ያስፈልጋል። ከዚህ ውጭ access ማድረግ serious error ሊያስከትል ይችላል።
+
+*   Data Types:Assign የምናደርገው value ከ array element data type ጋር መመሳሰል አለበት።
+
+በአጭሩ እነዚህ operations array element ለመጠቀም የሚረዱ ናቸው።
