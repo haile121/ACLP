@@ -1,21 +1,23 @@
-import { Router, Request, Response } from 'express';
-import { z } from 'zod';
-import { authenticate } from '../../middleware/authenticate';
-import { runCompiler } from './compiler-runner';
-import { query } from '../../db/connection';
-import { randomUUID } from 'crypto';
+import { Router, Request, Response } from "express";
+import { z } from "zod";
+import { authenticate } from "../../middleware/authenticate";
+import { runCompiler } from "./compiler-runner";
+import { query } from "../../db/connection";
+import { randomUUID } from "crypto";
 
 const router = Router();
 
 const submitSchema = z.object({
   source_code: z.string().min(1).max(64_000),
-  language: z.enum(['cpp', 'html', 'css', 'javascript']).default('cpp'),
+  language: z.enum(["cpp"]).default("cpp"),
 });
 
-router.post('/run', authenticate, async (req: Request, res: Response) => {
+router.post("/run", authenticate, async (req: Request, res: Response) => {
   const parsed = submitSchema.safeParse(req.body);
   if (!parsed.success) {
-    return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+    return res
+      .status(400)
+      .json({ error: "Invalid input", details: parsed.error.flatten() });
   }
 
   const { source_code, language } = parsed.data;
@@ -36,7 +38,7 @@ router.post('/run', authenticate, async (req: Request, res: Response) => {
         result.stderr ?? null,
         result.exitCode,
         result.timedOut,
-      ]
+      ],
     );
 
     return res.json({
@@ -48,8 +50,8 @@ router.post('/run', authenticate, async (req: Request, res: Response) => {
       language,
     });
   } catch (err) {
-    console.error('Compiler error:', err);
-    return res.status(500).json({ error: 'Compiler service unavailable' });
+    console.error("Compiler error:", err);
+    return res.status(500).json({ error: "Compiler service unavailable" });
   }
 });
 
