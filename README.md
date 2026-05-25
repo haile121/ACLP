@@ -1,6 +1,6 @@
-# AlphaX Programming
+# ACLP
 
-Bilingual (Amharic / English) learning platform for **C++** and **web fundamentals** (HTML, CSS, JavaScript): structured reading lessons, placement tests, chapter quizzes, module finals, verified certificates, a live compiler, gamification (XP, streaks, coins), and an AI tutor.
+Bilingual (Amharic / English) learning platform for **C++** structured reading lessons, placement tests, chapter quizzes, module finals, verified certificates, a live compiler, gamification (XP, streaks, coins), and an AI tutor.
 
 This repository is an **npm workspaces** monorepo:
 
@@ -65,7 +65,7 @@ fyr/
 ├── frontend/          # Next.js app
 │   ├── app/           # Routes (public marketing, auth lessons, compiler, admin, …)
 │   ├── components/    # UI (lessons, layout, …)
-│   ├── content/       # Lesson text: chapter1–4 (C++), web (HTML/CSS/JS)
+│   ├── content/       # Lesson text: chapter1–4 (C++)
 │   └── lib/           # Curriculum metadata, API client, utilities
 ├── backend/           # Express API
 │   ├── modules/       # Feature routers (auth, compiler, quizzes, certificates, …)
