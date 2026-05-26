@@ -3,11 +3,11 @@ export interface User {
   email: string;
   display_name: string;
   password_hash: string;
-  role: 'student' | 'admin';
+  role: "student" | "admin";
   level: string;
   assessment_completed: boolean;
   /** First chosen learning path before the placement test. */
-  primary_track: 'cpp' | null;
+  primary_track: "cpp" | null;
   cpp_level: string | null;
   web_level: string | null;
   cpp_assessment_completed: boolean;
@@ -19,6 +19,8 @@ export interface User {
   streak: number;
   last_active_date?: string | Date;
   is_active?: boolean;
+  is_premium?: boolean;
+  payment_reference?: string;
   created_at?: string | Date;
   updated_at?: string | Date;
 }
@@ -51,9 +53,9 @@ export interface AssessmentQuestion {
   /** Same length as options_json; Amharic labels for display when lang=am. */
   options_am_json?: string | string[] | null;
   correct_answer: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  difficulty: "beginner" | "intermediate" | "advanced";
   /** Placement bank (C++ only). */
-  track?: 'cpp';
+  track?: "cpp";
 }
 
 export interface Quiz {
@@ -137,5 +139,5 @@ export interface Friendship {
   id: string;
   user_id: string;
   friend_id: string;
-  status: 'pending' | 'accepted' | 'blocked';
+  status: "pending" | "accepted" | "blocked";
 }

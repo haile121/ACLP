@@ -1,8 +1,8 @@
-export type Language = 'am' | 'en';
+export type Language = "am" | "en";
 
-export type Level = 'beginner' | 'intermediate' | 'advanced';
+export type Level = "beginner" | "intermediate" | "advanced";
 
-export type UserRole = 'student' | 'admin';
+export type UserRole = "student" | "admin";
 
 export interface User {
   id: string;
@@ -12,19 +12,27 @@ export interface User {
   level: Level | null;
   assessment_completed: boolean;
   /** Defaults to C++ on registration; optional for legacy accounts. */
-  primary_track?: 'cpp' | null;
+  primary_track?: "cpp" | null;
   cpp_level?: Level | null;
   web_level?: Level | null;
   cpp_assessment_completed?: boolean;
   web_assessment_completed?: boolean;
   language_pref: Language;
-  theme_pref: 'light' | 'dark';
+  theme_pref: "light" | "dark";
   xp: number;
   coins: number;
   streak: number;
+  is_premium?: boolean;
+  payment_reference?: string;
 }
 
-export type DialogVariant = 'error' | 'info' | 'warning' | 'success' | 'confirm' | 'auth-required';
+export type DialogVariant =
+  | "error"
+  | "info"
+  | "warning"
+  | "success"
+  | "confirm"
+  | "auth-required";
 
 export interface DialogConfig {
   variant: DialogVariant;

@@ -43,6 +43,7 @@ import {
   backendPublicUrl,
   certificatesApi,
   courseTrackQuizzesApi,
+  paymentApi,
   progressApi,
   trackCompletionVideosApi,
   type TrackCertificateSummary,
@@ -645,6 +646,8 @@ export function Chapter1LessonList() {
     return !canAccessLessonTrack(user, "ch1-p1");
   }, [user]);
 
+  const isPremium = user?.is_premium ?? false;
+
   const completedCount = useMemo(
     () => accessibleLessons.filter((l) => done.includes(l.id)).length,
     [done, accessibleLessons],
@@ -887,69 +890,92 @@ export function Chapter1LessonList() {
                       <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
                         Sessions
                       </h3>
-                      <ol className="space-y-2">
-                        {chapter.lessons.map((lesson, i) => {
-                          const isDone = done.includes(lesson.id);
-                          return (
-                            <li key={lesson.id}>
-                              <Link
-                                href={`/lessons/${lesson.id}`}
-                                className={cn(
-                                  "group flex items-start gap-4 rounded-xl border p-4 transition-all duration-200",
-                                  isDone
-                                    ? "border-emerald-200/90 dark:border-emerald-900/45 bg-emerald-50/40 dark:bg-emerald-950/15"
-                                    : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/40 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md",
-                                )}
-                              >
-                                <span
+                      {(chapter.chapterNumber ?? 1) > 1 && !isPremium ? (
+                        <div className="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 p-6 text-center bg-gray-50/50 dark:bg-gray-800/20">
+                          <Lock
+                            className="h-6 w-6 mx-auto mb-3 text-gray-400"
+                            aria-hidden
+                          />
+                          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                            Premium Content
+                          </p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
+                            Unlock the full C++ course to access this chapter.
+                          </p>
+                          <Link
+                            href="/checkout"
+                            className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-500 mx-auto"
+                          >
+                            Unlock Full Course
+                          </Link>
+                        </div>
+                      ) : (
+                        <ol className="space-y-2">
+                          {chapter.lessons.map((lesson, i) => {
+                            const isDone = done.includes(lesson.id);
+                            return (
+                              <li key={lesson.id}>
+                                <Link
+                                  href={`/lessons/${lesson.id}`}
                                   className={cn(
-                                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold transition-colors",
+                                    "group flex items-start gap-4 rounded-xl border p-4 transition-all duration-200",
                                     isDone
-                                      ? "bg-emerald-500 text-white"
-                                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300",
+                                      ? "border-emerald-200/90 dark:border-emerald-900/45 bg-emerald-50/40 dark:bg-emerald-950/15"
+                                      : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/40 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md",
                                   )}
                                 >
-                                  {i + 1}
-                                </span>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-start justify-between gap-2">
-                                    <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                      {lesson.titleEn}
-                                    </p>
-                                    {isDone ? (
-                                      <CheckCircle2
-                                        className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400"
-                                        aria-label="Completed"
-                                      />
-                                    ) : (
-                                      <Circle
-                                        className="h-5 w-5 shrink-0 text-gray-300 dark:text-gray-600"
-                                        aria-label="Not completed"
-                                      />
+                                  <span
+                                    className={cn(
+                                      "flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold transition-colors",
+                                      isDone
+                                        ? "bg-emerald-500 text-white"
+                                        : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300",
                                     )}
+                                  >
+                                    {i + 1}
+                                  </span>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-start justify-between gap-2">
+                                      <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                        {lesson.titleEn}
+                                      </p>
+                                      {isDone ? (
+                                        <CheckCircle2
+                                          className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400"
+                                          aria-label="Completed"
+                                        />
+                                      ) : (
+                                        <Circle
+                                          className="h-5 w-5 shrink-0 text-gray-300 dark:text-gray-600"
+                                          aria-label="Not completed"
+                                        />
+                                      )}
+                                    </div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                                      {lesson.blurbEn}
+                                    </p>
+                                    <div className="flex items-center gap-3 mt-2 text-xs text-gray-400 dark:text-gray-500">
+                                      <span className="inline-flex items-center gap-1">
+                                        <Clock
+                                          className="h-3.5 w-3.5"
+                                          aria-hidden
+                                        />
+                                        ~{lesson.estMinutes} min
+                                      </span>
+                                    </div>
                                   </div>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
-                                    {lesson.blurbEn}
-                                  </p>
-                                  <div className="flex items-center gap-3 mt-2 text-xs text-gray-400 dark:text-gray-500">
-                                    <span className="inline-flex items-center gap-1">
-                                      <Clock
-                                        className="h-3.5 w-3.5"
-                                        aria-hidden
-                                      />
-                                      ~{lesson.estMinutes} min
-                                    </span>
-                                  </div>
-                                </div>
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ol>
-                      <ChapterQuizFooter
-                        chapterSlug={chapter.slug}
-                        done={done}
-                      />
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ol>
+                      )}
+                      {!((chapter.chapterNumber ?? 1) > 1 && !isPremium) && (
+                        <ChapterQuizFooter
+                          chapterSlug={chapter.slug}
+                          done={done}
+                        />
+                      )}
                     </CollapsibleSection>
                   );
                 })}

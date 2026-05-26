@@ -1,4 +1,4 @@
-# AlphaX Programming — Frontend
+# ACLP — Frontend
 
 Next.js app for the marketing site, learner dashboard, lessons, compiler UI, and admin tools.
 

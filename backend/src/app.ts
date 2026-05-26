@@ -27,6 +27,7 @@ import chatRouter from "../modules/chat/chat.router";
 import friendsRouter from "../modules/chat/friends.router";
 import adminRouter from "../modules/admin/admin.router";
 import trackCompletionVideosRouter from "../modules/track-completion-videos/track-completion-videos.router";
+import paymentRouter from "../modules/payment/payment.router";
 
 // WebSocket
 import { attachWebSocketServer } from "../modules/chat/chat.ws";
@@ -101,6 +102,7 @@ app.use("/api/chat", chatRouter);
 app.use("/api/friends", friendsRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/track-completion-videos", trackCompletionVideosRouter);
+app.use("/api/payment", paymentRouter);
 
 // Global error handler (must be last)
 app.use(errorHandler);

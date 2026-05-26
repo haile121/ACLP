@@ -22,6 +22,7 @@
     "migrate:010": "tsx scripts/run-migration-010.ts",
     "migrate:011": "tsx scripts/run-migration-011.ts",
     "migrate:012": "tsx scripts/run-migration-012.ts",
+    "migrate:013": "tsx scripts/run-migration-013.ts",
     "migrate:gamification": "npm run migrate:008 && npm run migrate:011",
     "migrate:course-track": "npm run migrate:001 && npm run migrate:005 && npm run seed:course-track-quizzes",
     "seed:course-track-quizzes": "tsx scripts/seed-course-track-quizzes.ts",

@@ -1,32 +1,45 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
-import { Noto_Sans_Ethiopic } from 'next/font/google';
-import { ArrowRight, ArrowUp, BookMarked, Check, ChevronLeft, ChevronRight, Lock, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { CollapsibleSection } from '@/components/ui/CollapsibleSection';
-import { LessonChapterNav } from '@/components/lessons/LessonChapterNav';
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { Noto_Sans_Ethiopic } from "next/font/google";
+import {
+  ArrowRight,
+  ArrowUp,
+  BookMarked,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Lock,
+  Sparkles,
+} from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { CollapsibleSection } from "@/components/ui/CollapsibleSection";
+import { LessonChapterNav } from "@/components/lessons/LessonChapterNav";
 import {
   ALL_LESSONS,
   getChapter1LessonIndex,
   getChapterForLesson,
   type Chapter1LessonMeta,
-} from '@/lib/chapter1Curriculum';
-import { useAuthSyncHint, markLessonCompleteSynced, syncCourseReadingProgressWithServer } from '@/lib/courseReadingProgress';
-import { applyGamificationRewards } from '@/lib/gamificationAlerts';
-import { useDialog } from '@/components/ui/DialogProvider';
-import { Spinner } from '@/components/ui/Spinner';
-import { authApi } from '@/lib/api';
-import { canAccessLessonTrack } from '@/lib/trackAccess';
-import type { User } from '@/types';
-import { cn } from '@/lib/cn';
+} from "@/lib/chapter1Curriculum";
+import {
+  useAuthSyncHint,
+  markLessonCompleteSynced,
+  syncCourseReadingProgressWithServer,
+} from "@/lib/courseReadingProgress";
+import { applyGamificationRewards } from "@/lib/gamificationAlerts";
+import { useDialog } from "@/components/ui/DialogProvider";
+import { Spinner } from "@/components/ui/Spinner";
+import { authApi, paymentApi } from "@/lib/api";
+import { canAccessLessonTrack } from "@/lib/trackAccess";
+import type { User } from "@/types";
+import { cn } from "@/lib/cn";
 
 const notoEthiopic = Noto_Sans_Ethiopic({
-  subsets: ['ethiopic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
+  subsets: ["ethiopic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 function estimateReadMinutes(text: string): number {
@@ -44,11 +57,13 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
   const authHint = useAuthSyncHint();
   const { show } = useDialog();
   const chapter = getChapterForLesson(meta);
-  const sessionInChapter = chapter.lessons.findIndex((l) => l.id === lessonId) + 1;
+  const sessionInChapter =
+    chapter.lessons.findIndex((l) => l.id === lessonId) + 1;
   const sessionTotal = chapter.lessons.length;
   const idx = getChapter1LessonIndex(lessonId);
   const prev = idx > 0 ? ALL_LESSONS[idx - 1] : null;
-  const next = idx >= 0 && idx < ALL_LESSONS.length - 1 ? ALL_LESSONS[idx + 1] : null;
+  const next =
+    idx >= 0 && idx < ALL_LESSONS.length - 1 ? ALL_LESSONS[idx + 1] : null;
   const nextIsNewChapter = next
     ? getChapterForLesson(next).slug !== chapter.slug
     : false;
@@ -59,6 +74,8 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
   const [gateUser, setGateUser] = useState<User | null | undefined>(undefined);
 
   const readMin = estimateReadMinutes(body);
+
+  const isPremium = gateUser?.is_premium ?? false;
 
   useEffect(() => {
     let cancelled = false;
@@ -79,7 +96,8 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
     const el = document.documentElement;
     const scrollTop = window.scrollY;
     const docHeight = el.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 100;
+    const pct =
+      docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 100;
     setScrollPct(pct);
     setShowBackTop(scrollTop > 360);
     setCompactHeader(scrollTop > 120);
@@ -87,12 +105,12 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
 
   useEffect(() => {
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [onScroll, lessonId, body]);
 
   useEffect(() => {
-    if (!Cookies.get('logged_in')) {
+    if (!Cookies.get("logged_in")) {
       setGateUser(null);
       return;
     }
@@ -111,7 +129,8 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
   }, [lessonId]);
 
   async function markComplete() {
-    const { xp_awarded, coins_awarded, synced, new_badges } = await markLessonCompleteSynced(lessonId);
+    const { xp_awarded, coins_awarded, synced, new_badges } =
+      await markLessonCompleteSynced(lessonId);
     setCompleted(true);
     if (synced) {
       const parts: string[] = [];
@@ -120,11 +139,11 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
       const hasBadges = (new_badges?.length ?? 0) > 0;
       if (!hasBadges) {
         show({
-          variant: 'success',
-          title: 'Lesson complete',
+          variant: "success",
+          title: "Lesson complete",
           message: parts.length
-            ? `${parts.join(' · ')} added to your progress.`
-            : 'Nice work — this reading counts toward your track progress.',
+            ? `${parts.join(" · ")} added to your progress.`
+            : "Nice work — this reading counts toward your track progress.",
           autoDismissMs: 4000,
         });
       }
@@ -140,17 +159,51 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
     );
   }
 
-  if (gateUser && !canAccessLessonTrack(gateUser, lessonId)) {
-    const track = 'cpp' as const;
-    const label = 'C++';
+  if (gateUser && (chapter.chapterNumber ?? 1) > 1 && !isPremium) {
     return (
       <div className="max-w-lg mx-auto px-4 py-20 text-center">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-500 mb-6 ring-1 ring-black/5 dark:ring-white/10">
           <Lock className="h-7 w-7" aria-hidden />
         </div>
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{label} lessons are locked</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+          Premium Content
+        </h1>
+        <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+          Unlock the full C++ course to access this chapter and all future
+          chapters.
+        </p>
+        <Link
+          href="/checkout"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-500 mx-auto mt-2"
+        >
+          Unlock Full Course
+        </Link>
+        <p className="mt-6">
+          <Link
+            href="/lessons"
+            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            ← Back to overview
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
+  if (gateUser && !canAccessLessonTrack(gateUser, lessonId)) {
+    const track = "cpp" as const;
+    const label = "C++";
+    return (
+      <div className="max-w-lg mx-auto px-4 py-20 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-500 mb-6 ring-1 ring-black/5 dark:ring-white/10">
+          <Lock className="h-7 w-7" aria-hidden />
+        </div>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+          {label} lessons are locked
+        </h1>
         <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-          Take the short placement test for this track to unlock all reading sessions and progress tracking.
+          Take the short placement test for this track to unlock all reading
+          sessions and progress tracking.
         </p>
         <Link
           href={`/assessment?track=${track}`}
@@ -160,7 +213,10 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
           <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
         <p className="mt-6">
-          <Link href="/lessons" className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+          <Link
+            href="/lessons"
+            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+          >
             ← Back to lessons
           </Link>
         </p>
@@ -184,10 +240,12 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
       {/* Sticky lesson title — mobile / tablet (docs-style) */}
       <div
         className={cn(
-          'fixed top-16 left-0 right-0 z-[34] lg:hidden border-b border-gray-200/80 dark:border-gray-800',
-          'bg-white/90 dark:bg-gray-950/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-gray-950/80',
-          'transition-[opacity,transform] duration-200 ease-out',
-          compactHeader ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-1 pointer-events-none'
+          "fixed top-16 left-0 right-0 z-[34] lg:hidden border-b border-gray-200/80 dark:border-gray-800",
+          "bg-white/90 dark:bg-gray-950/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-gray-950/80",
+          "transition-[opacity,transform] duration-200 ease-out",
+          compactHeader
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-1 pointer-events-none",
         )}
         aria-hidden={!compactHeader}
       >
@@ -201,7 +259,9 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
           <span className="text-gray-300 dark:text-gray-600" aria-hidden>
             /
           </span>
-          <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">{meta.titleEn}</span>
+          <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+            {meta.titleEn}
+          </span>
         </div>
       </div>
 
@@ -218,12 +278,20 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
               >
                 Lessons
               </Link>
-              <ChevronRight className="h-3.5 w-3.5 shrink-0 opacity-50" aria-hidden />
+              <ChevronRight
+                className="h-3.5 w-3.5 shrink-0 opacity-50"
+                aria-hidden
+              />
               <span className="text-gray-600 dark:text-gray-300 truncate max-w-[min(100%,12rem)] sm:max-w-none">
                 {chapter.titleEn}
               </span>
-              <ChevronRight className="h-3.5 w-3.5 shrink-0 opacity-50" aria-hidden />
-              <span className="text-gray-900 dark:text-white font-medium truncate">Part {meta.part}</span>
+              <ChevronRight
+                className="h-3.5 w-3.5 shrink-0 opacity-50"
+                aria-hidden
+              />
+              <span className="text-gray-900 dark:text-white font-medium truncate">
+                Part {meta.part}
+              </span>
             </nav>
 
             <div className="mb-6 lg:hidden">
@@ -234,7 +302,10 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                 variant="nested"
                 panelClassName="pt-2"
               >
-                <LessonChapterNav chapter={chapter} currentLessonId={lessonId} />
+                <LessonChapterNav
+                  chapter={chapter}
+                  currentLessonId={lessonId}
+                />
               </CollapsibleSection>
             </div>
 
@@ -253,8 +324,8 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
               </h1>
               <p
                 className={cn(
-                  'text-base text-gray-600 dark:text-gray-400 leading-relaxed border-l-2 border-blue-200 dark:border-blue-800 pl-4',
-                  notoEthiopic.className
+                  "text-base text-gray-600 dark:text-gray-400 leading-relaxed border-l-2 border-blue-200 dark:border-blue-800 pl-4",
+                  notoEthiopic.className,
                 )}
               >
                 {meta.titleAm}
@@ -268,10 +339,10 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
               <div className="px-4 sm:px-8 py-8 sm:py-11">
                 <div
                   className={cn(
-                    'whitespace-pre-wrap text-[16px] sm:text-[17px] leading-[1.75] sm:leading-[1.8]',
-                    'text-gray-800 dark:text-gray-200 break-words selection:bg-blue-200/80 dark:selection:bg-blue-900/50',
-                    'max-w-[65ch]',
-                    notoEthiopic.className
+                    "whitespace-pre-wrap text-[16px] sm:text-[17px] leading-[1.75] sm:leading-[1.8]",
+                    "text-gray-800 dark:text-gray-200 break-words selection:bg-blue-200/80 dark:selection:bg-blue-900/50",
+                    "max-w-[65ch]",
+                    notoEthiopic.className,
                   )}
                 >
                   {body}
@@ -282,9 +353,12 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
             <div className="mt-8 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 bg-gray-50/80 dark:bg-gray-900/50 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <Button
                 type="button"
-                variant={completed ? 'outline' : 'primary'}
+                variant={completed ? "outline" : "primary"}
                 size="lg"
-                className={cn('w-full sm:w-auto transition-transform', completed && 'opacity-90')}
+                className={cn(
+                  "w-full sm:w-auto transition-transform",
+                  completed && "opacity-90",
+                )}
                 onClick={markComplete}
                 disabled={completed}
                 aria-pressed={completed}
@@ -303,10 +377,10 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
               </Button>
               <p className="text-xs text-gray-500 dark:text-gray-400 text-center sm:text-right max-w-sm sm:max-w-md leading-relaxed">
                 {!authHint.ready
-                  ? 'Marked as read syncs to your account when you’re signed in; it’s also stored in this browser. The bar under the header shows scroll position on this page.'
+                  ? "Marked as read syncs to your account when you’re signed in; it’s also stored in this browser. The bar under the header shows scroll position on this page."
                   : authHint.signedIn
-                    ? 'Marked as read is saved to your account when online and cached here. The thin bar under the header shows scroll position on this page only.'
-                    : 'Marked as read stays on this device until you sign in. The bar under the header shows scroll position on this page.'}
+                    ? "Marked as read is saved to your account when online and cached here. The thin bar under the header shows scroll position on this page only."
+                    : "Marked as read stays on this device until you sign in. The bar under the header shows scroll position on this page."}
               </p>
             </div>
 
@@ -318,7 +392,7 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                   defaultOpen
                   trailing={
                     <span className="rounded-md bg-blue-100 dark:bg-blue-950/80 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">
-                      {nextIsNewChapter ? 'Next chapter' : 'Next session'}
+                      {nextIsNewChapter ? "Next chapter" : "Next session"}
                     </span>
                   }
                   panelClassName="pt-2"
@@ -341,17 +415,23 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                           ወደ ቀጣዩ ክፍል ይሂዱ — ተመሳሳይ ምዕራፍ፣ አዲስ ርዕሶች።
                         </p>
                         <div className="pt-1">
-                          <p className="text-base font-semibold text-gray-900 dark:text-white">{next.titleEn}</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">{next.titleAm}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 line-clamp-3">{next.blurbEn}</p>
+                          <p className="text-base font-semibold text-gray-900 dark:text-white">
+                            {next.titleEn}
+                          </p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+                            {next.titleAm}
+                          </p>
+                          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 line-clamp-3">
+                            {next.blurbEn}
+                          </p>
                         </div>
                         <Link
                           href={`/lessons/${next.id}`}
                           className={cn(
-                            'mt-3 inline-flex items-center justify-center gap-2 w-full sm:w-auto',
-                            'px-5 py-3 text-sm font-semibold rounded-xl transition-colors',
-                            'bg-blue-600 text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500',
-                            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:ring-offset-gray-950'
+                            "mt-3 inline-flex items-center justify-center gap-2 w-full sm:w-auto",
+                            "px-5 py-3 text-sm font-semibold rounded-xl transition-colors",
+                            "bg-blue-600 text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:ring-offset-gray-950",
                           )}
                         >
                           Continue to next lesson
@@ -362,7 +442,11 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                   </div>
                 </CollapsibleSection>
               ) : (
-                <CollapsibleSection title="All caught up" description="Last published lesson for now — explore the app." defaultOpen>
+                <CollapsibleSection
+                  title="All caught up"
+                  description="Last published lesson for now — explore the app."
+                  defaultOpen
+                >
                   <div className="rounded-xl border border-emerald-200/80 dark:border-emerald-900/40 bg-gradient-to-br from-emerald-50/90 to-teal-50/40 dark:from-emerald-950/30 dark:to-teal-950/15 p-4 sm:p-5 pt-2">
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md">
@@ -373,7 +457,8 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                           What&apos;s next
                         </h2>
                         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                          Review the lesson list anytime, or try the compiler and quizzes when you&apos;re ready.
+                          Review the lesson list anytime, or try the compiler
+                          and quizzes when you&apos;re ready.
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-500 italic border-l-2 border-emerald-300 dark:border-emerald-800 pl-3">
                           ምዕራፉን አጠናቀዋል። ዝግጅት ሲሆኑ ወደ ልምምድ ይሂዱ።
@@ -412,7 +497,7 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
       {showBackTop && (
         <button
           type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-28 sm:bottom-32 right-4 sm:right-6 z-[36] flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 shadow-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition-colors"
           aria-label="Back to top"
         >
@@ -422,7 +507,7 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
 
       <div
         className="fixed bottom-0 left-0 right-0 z-[35] border-t border-gray-200/90 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md supports-[padding:env(safe-area-inset-bottom)]:pb-[env(safe-area-inset-bottom)]"
-        style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       >
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-stretch sm:items-center justify-between gap-3">
           {prev ? (
@@ -439,7 +524,9 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
               </span>
             </Link>
           ) : (
-            <div className="text-sm text-gray-400 dark:text-gray-600 py-1">First lesson</div>
+            <div className="text-sm text-gray-400 dark:text-gray-600 py-1">
+              First lesson
+            </div>
           )}
 
           {next ? (
