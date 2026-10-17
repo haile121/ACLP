@@ -31,11 +31,31 @@ const included = [
 ];
 
 const compare = [
-  { label: { en: "Lessons & quizzes", am: "ትምህርቶች እና ጥያቄዎች" } },
-  { label: { en: "Live compiler", am: "ላይቭ ኮምፓይለር" } },
-  { label: { en: "AI tutor", am: "AI አስጠኚ" } },
-  { label: { en: "Certificates", am: "ሰርተፊኬቶች" } },
-  { label: { en: "Account & progress sync", am: "አካውንት እና የትምህርት ደህንነት" } },
+  {
+    label: { en: "Lessons & quizzes", am: "ትምህርቶች እና ጥያቄዎች" },
+    free: { en: "Chapter 1 only", am: "ምዕራፍ አንድ ብቻ" },
+    premium: { en: "Full curriculum", am: "ሙሉ ትምህርት" },
+  },
+  {
+    label: { en: "Live compiler", am: "ላይቭ ኮምፓይለር" },
+    free: { en: "No", am: "የለም" },
+    premium: { en: "Unlimited runs", am: "ያልተገደበ" },
+  },
+  {
+    label: { en: "AI tutor", am: "AI አስጠኚ" },
+    free: { en: "No", am: "የለም" },
+    premium: { en: "Unlimited", am: "ያልተገደበ" },
+  },
+  {
+    label: { en: "Certificates", am: "ሰርተፊኬቶች" },
+    free: { en: "No", am: "የለም" },
+    premium: { en: "Verified PDF", am: "የተረጋገጠ PDF" },
+  },
+  {
+    label: { en: "Account & progress sync", am: "አካውንት እና የትምህርት ደህንነት" },
+    free: { en: "Included", am: "ተካቷል" },
+    premium: { en: "Included", am: "ተካቷል" },
+  },
 ];
 
 export default function PricingPageClient() {
@@ -56,19 +76,19 @@ export default function PricingPageClient() {
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 dark:border-blue-500/25 bg-blue-50 dark:bg-blue-500/8 px-4 py-1.5 text-xs font-medium text-blue-700 dark:text-blue-300 mb-6">
               <Sparkles className="h-3.5 w-3.5" />
               {am
-                ? "ክሬዲት ካርድ አያስፈልግም · የሙከራ ገደብ የለም"
-                : "No credit card · No trial limits"}
+                ? "የአንድ ጊዜ ክፍያ · ለዘላለም ተደራሽነት"
+                : "One-time payment · Lifetime access"}
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-              {am ? "አንድ እቅድ። " : "One plan. "}
+              {am ? "ለሙያዎ " : "Invest in "}
               <span className="text-blue-600 dark:text-blue-500">
-                {am ? "ሁሉም የተካተተበት።" : "Everything included."}
+                {am ? "ኢንቨስት ያድርጉ።" : "your future."}
               </span>
             </h1>
             <p className="mt-5 text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
               {am
-                ? "እንደ ዘመናዊ መማሪያ መድረኮች የተገነባ—ነገር ግን ክፍያ የሌለው። በተደራሽነት የተደገፈ የC++ ትምህርት ለኢትዮጵያውያን ተማሪዎች።"
-                : "Built like modern learning platforms you know—except the price tag stays at zero. Serious C++ education for Ethiopian learners, funded for access—not paywalls."}
+                ? "እውነተኛ የፕሮግራሚንግ ክህሎቶችን ይማሩ። በአንድ ጊዜ ክፍያ ሙሉ ትምህርቱን፣ ላይቭ ኮምፓይለሩን፣ እና የ AI አስጠኚውን ለዘለአለም ያግኙ።"
+                : "Master real programming skills. Unlock the full curriculum, live compiler, and AI tutor for life with a single payment."}
             </p>
           </motion.div>
 
@@ -81,25 +101,30 @@ export default function PricingPageClient() {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 border-b border-gray-100 dark:border-white/8 pb-8">
               <div>
                 <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-                  {am ? "ማህበረሰብ" : "Community"}
+                  {am ? "ሙሉ የመድረኩ ተደራሽነት" : "Lifetime Premium"}
                 </p>
-                <p className="mt-2 text-5xl sm:text-6xl font-black tracking-tight text-gray-900 dark:text-white">
-                  $0
-                  <span className="text-lg sm:text-xl font-semibold text-gray-400 dark:text-gray-500 ml-2">
-                    {am ? "/ ለዘላለም" : "/ forever"}
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-5xl sm:text-6xl font-black tracking-tight text-gray-900 dark:text-white">
+                    999.9
                   </span>
-                </p>
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {am ? "ብር" : "ETB"}
+                  </span>
+                  <span className="text-lg sm:text-xl font-semibold text-gray-400 dark:text-gray-500 ml-1">
+                    {am ? "/ የአንድ ጊዜ ክፍያ" : "/ one-time"}
+                  </span>
+                </div>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   {am
-                    ? "ሙሉ የመድረኩ ተደራሽነት። እኩል የሆነ ተሞክሮ ለሁሉም።"
-                    : "Full platform access. Same experience for everyone."}
+                    ? "ያለ ምንም ወርሃዊ ክፍያ። ለዘላለም የእርስዎ።"
+                    : "No recurring fees. Yours forever."}
                 </p>
               </div>
               <Link
                 href="/sign-up"
-                className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-8 py-4 text-base font-bold text-white shadow-md shadow-blue-500/20 hover:bg-blue-500 transition-colors whitespace-nowrap"
+                className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-10 py-5 text-lg font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-500 hover:-translate-y-0.5 transition-all whitespace-nowrap"
               >
-                {am ? "በነፃ መማር ይጀምሩ" : "Start learning free"}
+                {am ? "መማር ይጀምሩ" : "Get Premium Access"}
               </Link>
             </div>
             <ul className="mt-8 grid sm:grid-cols-2 gap-3">
@@ -124,25 +149,29 @@ export default function PricingPageClient() {
             transition={{ duration: 0.45, delay: 0.15 }}
             className="mt-12 rounded-2xl border border-gray-200 dark:border-white/8 overflow-hidden"
           >
-            <div className="px-6 py-4 bg-gray-50 dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/8">
-              <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                {am ? "ያወዳድሩ" : "Compare"}
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                {am ? "በነፃው እቅድ የሚያገኙት" : "What you get on the free plan"}
-              </p>
+            <div className="grid grid-cols-3 px-6 py-4 bg-gray-50 dark:bg-white/[0.03] border-b border-gray-100 dark:border-white/8 text-sm font-semibold text-gray-900 dark:text-white">
+              <div>{am ? "ባህሪያት" : "Features"}</div>
+              <div className="text-center">
+                {am ? "ነጻ አካውንት" : "Free Account"}
+              </div>
+              <div className="text-right text-blue-600 dark:text-blue-400">
+                {am ? "ፕሪሚየም" : "Premium"}
+              </div>
             </div>
             <div className="divide-y divide-gray-100 dark:divide-white/8">
               {compare.map((row) => (
                 <div
                   key={row.label.en}
-                  className="flex items-center justify-between px-6 py-4 text-sm"
+                  className="grid grid-cols-3 items-center px-6 py-4 text-sm"
                 >
                   <span className="text-gray-600 dark:text-gray-400">
                     {am ? row.label.am : row.label.en}
                   </span>
-                  <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                    {am ? "ተካቷል" : "Included"}
+                  <span className="text-center text-gray-500 dark:text-gray-400">
+                    {am ? row.free.am : row.free.en}
+                  </span>
+                  <span className="text-right font-semibold text-emerald-600 dark:text-emerald-400">
+                    {am ? row.premium.am : row.premium.en}
                   </span>
                 </div>
               ))}
