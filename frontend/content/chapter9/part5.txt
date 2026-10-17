@@ -1,0 +1,56 @@
+Project: Search Engine (Mini)
+
+Index a set of words or text and search them by keyword, similar to a mini search engine.
+
+ይህ ፕሮጀክት አነስተኛ የሆነ መፈለጊያ (Search Engine) ነው። የጽሁፍ ዝርዝር ወስዶ ቃላትን በመፈለግ የት እንደሚገኙ ያሳያል።
+
+Requirements:
+- Search through multiple strings of text
+- Find the matching keyword and display the context or line where it was found
+- Process sequential text seamlessly
+
+አስፈላጊ ነገሮች፡
+- ጽሁፎችን መክፈት ወይም ከፋይል/እስትሪንግ ማንበብ
+- ተፈላጊውን ቃል በመፈለግ የተገኘበትን መስመር ማሳየት
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    // Array simulating the lines of a document in our database
+    string documentLines[4] = {
+        "C++ is a compiled language.",
+        "Pointers are powerful in C++.",
+        "Object Oriented Programming helps in designing complex software.",
+        "File I/O is crucial for data storage."
+    };
+
+    string keyword = "C++"; // Keyword we want to search for
+
+    cout << "Mini Search Engine\n";
+    cout << "አነስተኛ የፍለጋ ሞተር\n\n";
+    
+    cout << "Searching for keyword: '" << keyword << "'\n";
+    cout << "--------------------------------------\n";
+
+    bool found = false;
+
+    // Searching through the document lines
+    for (int i = 0; i < 4; i++) {
+        // A simple search using string::find. Note: this is case-sensitive.
+        if (documentLines[i].find(keyword) != string::npos) {
+            cout << "Found in Line " << (i + 1) << ": " << documentLines[i] << endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "No matching documents found for: " << keyword << endl;
+    }
+
+    return 0;
+}
+```
