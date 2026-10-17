@@ -3,7 +3,7 @@ import CookiesPageClient from './CookiesPageClient';
 
 export const metadata: Metadata = {
   title: 'Cookies',
-  description: 'How ACLP uses cookies and similar technologies.',
+  description: 'How Afro DevHub uses cookies and similar technologies.',
 };
 
 export default function CookiesPage() {
