@@ -3,10 +3,10 @@ export type FaqItem = { q: string; a: string; q_am: string; a_am: string };
 
 export const MARKETING_FAQ_ITEMS: FaqItem[] = [
   {
-    q: "Is it really free?",
-    a: "Yes. All lessons, the live compiler, and the AI tutor are completely free. Certificates are earned by completing levels. No payment ever required.",
-    q_am: "በእውነት ነፃ ነው?",
-    a_am: "አዎ። ሁሉም ትምህርቶች፣ ላይቭ ኮምፓይለር እና AI አስጠኚ ሙሉ በሙሉ ነፃ ናቸው። ሰርተፊኬቶች ደረጃዎችን በመጨረስ ይገኛሉ:: ክፍያ አያስፈልግም።",
+    q: "Is the course paid?",
+    a: "Yes. All lessons, the live compiler, and the AI tutor require premium access. Certificates are earned by completing levels.",
+    q_am: "ኮርሱ ክፍያ ይጠይቃል?",
+    a_am: "አዎ። ሁሉም ትምህርቶች፣ ላይቭ ኮምፓይለር እና AI አስጠኚ በክፍያ ብቻ ይገኛሉ። ሰርተፊኬቶች ደረጃዎችን በማጠናቀቅ ይሰጣሉ።",
   },
   {
     q: "Do I need prior programming experience?",
