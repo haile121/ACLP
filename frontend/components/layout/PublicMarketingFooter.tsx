@@ -89,14 +89,11 @@ export function PublicMarketingFooter() {
               className="h-9 w-auto object-contain"
             />
             <span className="text-sm font-bold text-gray-800 dark:text-gray-200">
-              ACLP{" "}
-              <span className="font-normal text-[11px] text-gray-500 ml-1 hidden sm:inline">
-                (Amharic C++ Learning Platform)
-              </span>
+              Afro DevHub
             </span>
           </div>
           <p className="text-xs text-gray-400 text-center sm:text-right">
-            © 2026 ACLP Learning Platform. All rights reserved.
+            © 2026 Afro DevHub Learning Platform. All rights reserved.
           </p>
         </div>
       </div>
