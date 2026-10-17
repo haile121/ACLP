@@ -85,7 +85,7 @@ function generatePDF(displayName: string, levelLabel: string, verificationCode: 
 
     // Subtitle
     doc.fillColor('#64748b').fontSize(16).font('Helvetica')
-      .text('ACLP Learning Platform', 0, 130, { align: 'center' });
+      .text('Afro DevHub Learning Platform', 0, 130, { align: 'center' });
 
     // Divider
     doc.moveTo(100, 165).lineTo(doc.page.width - 100, 165).stroke('#2563EB');
@@ -179,7 +179,7 @@ function generateTrackPDF(displayName: string, _track: TrackKind, verificationCo
       .text('Certificate of Completion', 0, 80, { align: 'center' });
 
     doc.fillColor('#64748b').fontSize(16).font('Helvetica')
-      .text('ACLP Learning Platform', 0, 130, { align: 'center' });
+      .text('Afro DevHub Learning Platform', 0, 130, { align: 'center' });
 
     doc.moveTo(100, 165).lineTo(doc.page.width - 100, 165).stroke(accent);
 
