@@ -7,28 +7,44 @@ export const COURSE_READING_COIN_REWARD = 4;
  * frontend/lib/courseCurriculum.ts (ALL_LESSON_IDS).
  */
 export const COURSE_READING_LESSON_IDS: readonly string[] = [
-  'ch1-p1',
-  'ch1-p2',
-  'ch1-p3',
-  'ch1-p4',
-  'ch2-p1',
-  'ch2-p2',
-  'ch2-p3',
-  'ch2-p4',
-  'ch3-p1',
-  'ch3-p2',
-  'ch3-p3',
-  'ch3-p4',
-  'ch4-p1',
-  'ch4-p2',
-  'ch4-p3',
-  'ch4-p4',
-  'ch4-p5',
-  'ch4-p6',
-  'ch5-p1',
-  'ch5-p2',
-  'ch5-p3',
-  'ch5-p4',
+  "ch1-p1",
+  "ch1-p2",
+  "ch1-p3",
+  "ch1-p4",
+  "ch2-p1",
+  "ch2-p2",
+  "ch2-p3",
+  "ch2-p4",
+  "ch3-p1",
+  "ch3-p2",
+  "ch3-p3",
+  "ch3-p4",
+  "ch4-p1",
+  "ch4-p2",
+  "ch4-p3",
+  "ch4-p4",
+  "ch4-p5",
+  "ch4-p6",
+  "ch5-p1",
+  "ch5-p2",
+  "ch5-p3",
+  "ch5-p4",
+  "ch6-p1",
+  "ch6-p2",
+  "ch6-p3",
+  "ch7-p1",
+  "ch7-p2",
+  "ch7-p3",
+  "ch7-p4",
+  "ch7-p5",
+  "ch8-p1",
+  "ch8-p2",
+  "ch8-p3",
+  "ch8-p4",
+  "ch9-p1",
+  "ch9-p2",
+  "ch9-p3",
+  "ch9-p4",
 ];
 
 const ALLOWED = new Set(COURSE_READING_LESSON_IDS);
@@ -36,12 +52,12 @@ const ORDER = new Map(COURSE_READING_LESSON_IDS.map((id, i) => [id, i]));
 
 /** Legacy ids from an older curriculum split — normalize into current lesson ids. */
 const LEGACY_LESSON_ID_MAP: Record<string, string> = {
-  'web-p1': 'ch1-p1',
-  'web-p2': 'ch1-p2',
-  'web-p3': 'ch1-p3',
-  'web-p4': 'ch1-p4',
-  'web-p5': 'ch2-p1',
-  'web-p6': 'ch2-p2',
+  "web-p1": "ch1-p1",
+  "web-p2": "ch1-p2",
+  "web-p3": "ch1-p3",
+  "web-p4": "ch1-p4",
+  "web-p5": "ch2-p1",
+  "web-p6": "ch2-p2",
 };
 
 export function normalizeLessonId(id: string): string {
@@ -55,6 +71,6 @@ export function isAllowedLessonId(id: string): boolean {
 export function sortLessonIds(ids: string[]): string[] {
   const normalized = ids.map(normalizeLessonId);
   return [...new Set(normalized.filter((id) => ALLOWED.has(id)))].sort(
-    (a, b) => (ORDER.get(a) ?? 0) - (ORDER.get(b) ?? 0)
+    (a, b) => (ORDER.get(a) ?? 0) - (ORDER.get(b) ?? 0),
   );
 }
