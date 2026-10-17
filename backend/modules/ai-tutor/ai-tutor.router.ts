@@ -28,7 +28,7 @@ const askBodySchema = z.object({
 
 function systemPrompt(language: "am" | "en"): string {
   const base =
-    "You are a friendly programming tutor for learners on the ACLP platform (Amharic and English). " +
+    "You are a friendly programming tutor for learners on the Afro DevHub platform (Amharic and English). " +
     "The curriculum strictly covers C++. Answer questions using C++ context. " +
     "Give concise hints, explanations, and small examples — avoid dumping full assignment solutions. " +
     "For C++, encourage good practices (memory safety, const correctness, clear names).";
