@@ -102,7 +102,7 @@ export default function CheckoutPage() {
             </div>
             <div className="text-right">
               <p className="font-semibold text-gray-900 dark:text-white">
-                1000 ETB
+                999.9 ETB
               </p>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function CheckoutPage() {
               Total
             </p>
             <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
-              1000 ETB
+              999.9 ETB
             </p>
           </div>
 
