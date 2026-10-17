@@ -9,7 +9,7 @@ const sections: { title: string; paragraphs?: string[]; bullets?: string[] }[] =
   {
     title: 'Who we are',
     paragraphs: [
-      'ACLP (“we”, “us”) operates the learning platform available at this website and related services. This policy explains what we collect, why we collect it, and the choices you have.',
+      'Afro DevHub (“we”, “us”) operates the learning platform available at this website and related services. This policy explains what we collect, why we collect it, and the choices you have.',
     ],
   },
   {
