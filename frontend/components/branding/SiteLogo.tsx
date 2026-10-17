@@ -12,7 +12,7 @@ type SiteLogoProps = {
   href?: string;
   className?: string;
   imgClassName?: string;
-  /** Show “ACLP” next to the mark (hide if the image is already a full wordmark). */
+  /** Show “Afro DevHub” next to the mark (hide if the image is already a full wordmark). */
   showWordmark?: boolean;
 };
 
@@ -34,7 +34,7 @@ export function SiteLogo({
     >
       <Image
         src={SITE_LOGO_PATH}
-        alt="ACLP"
+        alt="Afro DevHub"
         width={LOGO_PX}
         height={LOGO_PX}
         className={cn(
@@ -44,10 +44,7 @@ export function SiteLogo({
         priority
       />
       <span className="text-sm hidden sm:inline tracking-tight transition-colors group-hover:text-accent dark:group-hover:text-blue-400">
-        ACLP{" "}
-        <span className="text-[11px] text-gray-500 font-normal hidden lg:inline ml-1">
-          (Amharic C++ Learning Platform)
-        </span>
+        Afro DevHub
       </span>
     </Link>
   );
