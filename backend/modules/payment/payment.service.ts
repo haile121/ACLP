@@ -15,7 +15,7 @@ export async function initializePayment(
   if (!secretKey) throw new Error("CHAPA_SECRET_KEY not set in env");
 
   const payload = {
-    amount: "1000",
+    amount: "999.9",
     currency: "ETB",
     email,
     first_name: firstName,
