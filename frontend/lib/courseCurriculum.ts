@@ -301,6 +301,17 @@ export const CHAPTER_4 = {
         "Worked examples (e.g. factorial, e approximation, isEven) with full code.",
       estMinutes: 25,
     },
+    {
+      id: "ch4-project",
+      chapterNumber: 4,
+      part: 7,
+      contentDir: "chapter4",
+      titleEn: "Beginner Project: CLI Calculator",
+      titleAm: "የጀማሪ ፕሮጀክት: የኮማንድ ላይን ካልኩሌተር",
+      blurbEn:
+        "A command-line calculator that handles basic arithmetic operations with error handling.",
+      estMinutes: 60,
+    },
   ] satisfies CourseLessonMeta[],
 } as const satisfies ChapterInfo;
 
@@ -478,6 +489,17 @@ export const CHAPTER_7 = {
         "Storing addresses of other pointers, and dynamic memory allocation with new and delete operators.",
       estMinutes: 40,
     },
+    {
+      id: "ch7-project",
+      chapterNumber: 7,
+      part: 6,
+      contentDir: "chapter7",
+      titleEn: "Intermediate Project: Bank Account System",
+      titleAm: "የመካከለኛ ፕሮጀክት: የባንክ አካውንት ሲስተም",
+      blurbEn:
+        "OOP-based bank system with deposit, withdraw, and balance tracking using structures/classes.",
+      estMinutes: 90,
+    },
   ] satisfies CourseLessonMeta[],
 } as const satisfies ChapterInfo;
 
@@ -595,6 +617,17 @@ export const CHAPTER_9 = {
       blurbEn:
         "Managing reach to the end of file (EOF), and reading stored file contents using extraction operators (>>) or get().",
       estMinutes: 35,
+    },
+    {
+      id: "ch9-project",
+      chapterNumber: 9,
+      part: 5,
+      contentDir: "chapter9",
+      titleEn: "Advanced Project: Search Engine (Mini)",
+      titleAm: "ከፍተኛ ፕሮጀክት: አነስተኛ መፈለጊያ",
+      blurbEn:
+        "Index a set of text files and search them by keyword using file I/O operations.",
+      estMinutes: 90,
     },
   ] satisfies CourseLessonMeta[],
 } as const satisfies ChapterInfo;
