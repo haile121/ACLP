@@ -1,27 +1,36 @@
-import mysql from 'mysql2/promise';
+import mysql from "mysql2/promise";
 
 let pool: mysql.Pool | null = null;
 
 export function getPool(): mysql.Pool {
   if (!pool) {
+    const host = process.env.DB_HOST ?? "127.0.0.1";
+    const isLocal = host === "127.0.0.1" || host === "localhost";
+    const useSSL = process.env.DB_SSL === "true" || !isLocal;
+
     pool = mysql.createPool({
-      host: process.env.DB_HOST ?? '127.0.0.1',
+      host,
       port: Number(process.env.DB_PORT ?? 3306),
-      user: process.env.DB_USER ?? 'root',
-      password: process.env.DB_PASSWORD ?? '',
-      database: process.env.DB_NAME ?? 'amharic_cpp_platform',
-      charset: 'utf8mb4',
+      user: process.env.DB_USER ?? "root",
+      password: process.env.DB_PASSWORD ?? "",
+      database: process.env.DB_NAME ?? "amharic_cpp_platform",
+      charset: "utf8mb4",
       waitForConnections: true,
       connectionLimit: 10,
       /** Return DECIMAL as JS numbers so certificate / final-score queries parse reliably. */
       decimalNumbers: true,
+      // TiDB Cloud (and most cloud MySQL providers) require TLS.
+      // Disabled automatically for local 127.0.0.1 connections.
+      ssl: useSSL ? { rejectUnauthorized: true } : undefined,
     });
   }
   return pool;
 }
 
 /** Run queries atomically (e.g. replace progress without partial deletes). */
-export async function withTransaction<T>(fn: (conn: mysql.PoolConnection) => Promise<T>): Promise<T> {
+export async function withTransaction<T>(
+  fn: (conn: mysql.PoolConnection) => Promise<T>,
+): Promise<T> {
   const conn = await getPool().getConnection();
   try {
     await conn.beginTransaction();
@@ -36,20 +45,23 @@ export async function withTransaction<T>(fn: (conn: mysql.PoolConnection) => Pro
   }
 }
 
-export async function query<T = unknown>(sql: string, params: unknown[] = []): Promise<T> {
+export async function query<T = unknown>(
+  sql: string,
+  params: unknown[] = [],
+): Promise<T> {
   try {
     const [rows] = await getPool().query(sql, params);
     return rows as T;
   } catch (error: any) {
     // Keep the backend usable even without DB during local setup.
     if (
-      error?.code === 'ECONNREFUSED' ||
-      error?.code === 'ER_ACCESS_DENIED_ERROR' ||
-      error?.code === 'ER_BAD_DB_ERROR' ||
-      error?.code === 'ER_HOST_NOT_PRIVILEGED' ||
-      error?.code === 'ENOTFOUND'
+      error?.code === "ECONNREFUSED" ||
+      error?.code === "ER_ACCESS_DENIED_ERROR" ||
+      error?.code === "ER_BAD_DB_ERROR" ||
+      error?.code === "ER_HOST_NOT_PRIVILEGED" ||
+      error?.code === "ENOTFOUND"
     ) {
-      console.warn('[db] connection not available; returning empty result');
+      console.warn("[db] connection not available; returning empty result");
       return [] as T;
     }
     throw error;
