@@ -78,8 +78,8 @@ export default function FaqPageClient() {
             </h1>
             <p className="mt-5 text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
               {am
-                ? "ስለ ትምህርት፣ አካውንቶች እና ACLP እንዴት እንደሚሰራ የሚነሱ ጥያቄዎች እና መልሶች።"
-                : "Answers to common questions about learning, accounts, and how ACLP works."}
+                ? "ስለ ትምህርት፣ አካውንቶች እና Afro DevHub እንዴት እንደሚሰራ የሚነሱ ጥያቄዎች እና መልሶች።"
+                : "Answers to common questions about learning, accounts, and how Afro DevHub works."}
             </p>
           </motion.div>
 
