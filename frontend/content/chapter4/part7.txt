@@ -1,0 +1,56 @@
+Project: Calculator
+
+In this project, you will build a simple calculator that handles basic arithmetic operations (+, -, *, /) with error handling for division by zero.
+
+በዚህ ፕሮጀክት ውስጥ መሰረታዊ የሂሳብ ስራዎችን (+፣ -፣ *፣ /) የሚሰራ እና ለዜሮ ማካፈል ሲሞከር ስህተት መሆኑን የሚነግር ካልኩሌተር እንሰራለን።
+
+Requirements:
+- Given an operator and two numbers
+- Perform the requested operation
+- Handle cases where division by 0 is attempted
+
+አስፈላጊ ነገሮች፡
+- ከተሰጠ ኦፕሬተር እና ሁለት ቁጥሮች ተነስተህ ውጤቱን ማሳየት
+- የተጠየቀውን የሂሳብ ስራ መስራት
+- በ 0 ለማካፈል ሲሞክር ስህተት መሆኑን ማሳወቅ
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    char op = '*';
+    double num1 = 12.0;
+    double num2 = 4.0;
+
+    cout << "Welcome to the C++ Calculator!\n";
+    cout << "ወደ C++ ካልኩሌተርዎ እንኳን በደህና መጡ!\n\n";
+    
+    cout << "Calculating: " << num1 << " " << op << " " << num2 << "\n";
+
+    switch(op) {
+        case '+':
+            cout << "Result: " << num1 + num2 << endl;
+            break;
+        case '-':
+            cout << "Result: " << num1 - num2 << endl;
+            break;
+        case '*':
+            cout << "Result: " << num1 * num2 << endl;
+            break;
+        case '/':
+            if (num2 == 0) {
+                cout << "Error: Division by zero is not allowed.\n";
+            } else {
+                cout << "Result: " << num1 / num2 << endl;
+            }
+            break;
+        default:
+            cout << "Error: Invalid operator.\n";
+            break;
+    }
+
+    cout << "\nGoodbye!\n";
+    return 0;
+}
+```
