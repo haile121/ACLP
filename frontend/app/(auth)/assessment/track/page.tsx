@@ -44,7 +44,7 @@ export default function AssessmentTrackPage() {
             C++ is the focus here
           </h1>
           <p className="mt-3 text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-lg mx-auto leading-relaxed">
-            ACLP is a C++ learning platform: bilingual readings, a cloud compiler, quizzes, and certificates—all around
+            Afro DevHub is a C++ learning platform: bilingual readings, a cloud compiler, quizzes, and certificates—all around
             one curriculum. Continue to the short placement test so we can unlock lessons at the right level for you.
           </p>
         </div>
