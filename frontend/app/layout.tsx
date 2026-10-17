@@ -22,7 +22,7 @@ const geist = Geist({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "ACLP - Amharic C++ Learning Platform",
+  title: "Afro DevHub - Afro DevHub Platform",
   description: "Learn C++ in Amharic and English",
   icons: {
     icon: SITE_LOGO_PATH,
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     shortcut: SITE_LOGO_PATH,
   },
   openGraph: {
-    title: "ACLP - Amharic C++ Learning Platform",
+    title: "Afro DevHub - Afro DevHub Platform",
     description:
       "Learn C++, C++ in Amharic and English",
-    images: [{ url: SITE_LOGO_PATH, alt: "ACLP" }],
+    images: [{ url: SITE_LOGO_PATH, alt: "Afro DevHub" }],
   },
   twitter: {
     card: "summary",
-    title: "ACLP - Amharic C++ Learning Platform",
+    title: "Afro DevHub - Afro DevHub Platform",
     description:
       "Learn C++, C++ in Amharic and English",
     images: [SITE_LOGO_PATH],
