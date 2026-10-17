@@ -49,8 +49,8 @@ const values = [
     icon: Heart,
     title: { en: "Access for everyone", am: "ለሁሉም ተደራሽ" },
     body: {
-      en: "Core lessons, the compiler, and the AI tutor stay free. No paywalls on the path to your first real program.",
-      am: "ዋና ትምህርቶች፣ ኮምፓይለሩ እና የጀሚናይ AI አስጠኚ ምንጊዜም ነፃ ሆነው ይቆያሉ።",
+      en: "Core lessons, the compiler, and the AI tutor are unlocked for life. Premium access to your first real program.",
+      am: "ዋና ትምህርቶች፣ ኮምፓይለሩ እና የጀሚናይ AI አስጠኚ በፕሪሚየም ይገኛሉ።",
     },
   },
   {
@@ -77,7 +77,7 @@ export default function AboutPageClient() {
           <div className="max-w-3xl">
             <FadeUp>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] backdrop-blur-sm text-xs font-medium text-gray-600 dark:text-gray-400 mb-8">
-                {am ? "ስለ ACLP" : "About ACLP"}
+                {am ? "ስለ Afro DevHub" : "About Afro DevHub"}
               </div>
             </FadeUp>
             <FadeUp delay={0.05}>
@@ -120,8 +120,8 @@ export default function AboutPageClient() {
               <div className="lg:col-span-7 space-y-5 text-gray-600 dark:text-gray-400 leading-relaxed text-[15px] sm:text-base">
                 <p>
                   {am
-                    ? "ብዙ መድረኮች እንግሊዘኛን እንደ መጀመሪያ ቋንቋ ያስባሉ። እኛ ACLPን የገነባነው ያ እሳቤ በማሊዮን የሚቆጠሩ ተማሪዎችን ወደ ኋላ ስለሚያስቀር ነው - በተሰጥኦ እጦት ሳይሆን በመግባቢያ ቋንቋ ምክንያት።"
-                    : "Most platforms assume you think in English first. We built ACLP because that assumption leaves millions of learners behind—not for lack of talent, but for lack of a bridge."}
+                    ? "ብዙ መድረኮች እንግሊዘኛን እንደ መጀመሪያ ቋንቋ ያስባሉ። እኛ Afro DevHubን የገነባነው ያ እሳቤ በማሊዮን የሚቆጠሩ ተማሪዎችን ወደ ኋላ ስለሚያስቀር ነው - በተሰጥኦ እጦት ሳይሆን በመግባቢያ ቋንቋ ምክንያት።"
+                    : "Most platforms assume you think in English first. We built Afro DevHub because that assumption leaves millions of learners behind—not for lack of talent, but for lack of a bridge."}
                 </p>
                 <p>
                   {am
@@ -267,7 +267,7 @@ export default function AboutPageClient() {
                   href="/sign-up"
                   className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-500 transition-all shadow-md shadow-blue-500/15"
                 >
-                  {am ? "ነፃ አካውንት ይፍጠሩ" : "Create free account"}
+                  {am ? "አካውንት ይፍጠሩ" : "Create an account"}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
