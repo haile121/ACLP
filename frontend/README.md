@@ -1,4 +1,4 @@
-# ACLP — Frontend
+# Afro DevHub — Frontend
 
 Next.js app for the marketing site, learner dashboard, lessons, compiler UI, and admin tools.
 
