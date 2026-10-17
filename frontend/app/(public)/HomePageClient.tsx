@@ -143,19 +143,16 @@ const codeLines = [
   { tokens: [{ t: "}", c: "text-gray-600 dark:text-gray-300" }] },
 ];
 
-/** Marketing curriculum chips — English + Amharic (aligned with course chapters). */
 const learningPath = [
   {
     level: { en: "Beginner", am: "ጀማሪ" },
     color: "bg-emerald-500",
     icon: Sprout,
     cpp: [
-      { en: "Variables & types", am: "ተለዋዋጮች እና ዓይነቶች" },
-      { en: "Input / output", am: "ግቤት እና መውጫ (cin/cout)" },
-      { en: "Conditionals", am: "ምርጫ እና ኮንዲሽን" },
-      { en: "Loops", am: "ዙረቶች" },
+      { en: "Introduction & foundations", am: "መግቢያ እና መሠረቶች" },
+      { en: "Basics of C++", am: "የ C++ መሰረቶች" },
+      { en: "Program control constructs", am: "የፕሮግራም መቆጣጠሪያ መዋቅሮች" },
       { en: "Functions", am: "ተግባራት" },
-      { en: "Debugging & compiler errors", am: "Debugging እና የኮምፓይለር መልዕክቶች" },
     ],
   },
   {
@@ -163,12 +160,9 @@ const learningPath = [
     color: "bg-blue-500",
     icon: Zap,
     cpp: [
-      { en: "Arrays & strings", am: "አረይ እና ሕብረቁምፊዎች" },
+      { en: "Arrays", am: "አሬዮች" },
+      { en: "Strings", am: "ስትሪንጎች" },
       { en: "Pointers", am: "ፖይንተሮች" },
-      { en: "Structs", am: "struct ስብስቦች" },
-      { en: "File I/O", am: "የፋይል ግቤት / መውጫ" },
-      { en: "OOP basics", am: "የነገር ተኮር ፕሮግራሚንግ መሰረቶች" },
-      { en: "Recursion & problem solving", am: "Recursion እና ችግር መፍታት" },
     ],
   },
   {
@@ -176,15 +170,8 @@ const learningPath = [
     color: "bg-teal-600",
     icon: Flame,
     cpp: [
-      { en: "Templates", am: "ቴምፕሌቶች (Templates)" },
-      { en: "STL", am: "STL (መደበኛ ቤተ-መጽሐፍት)" },
-      { en: "Memory mgmt", am: "ማህደር አስተዳደር" },
-      { en: "Algorithms", am: "አልጎሪዝሞች" },
-      { en: "Design patterns", am: "ዲዛይን ፓተርኖች" },
-      {
-        en: "Move semantics & smart pointers",
-        am: "Move semantics እና smart pointers",
-      },
+      { en: "Structures", am: "ስትራክቸሮች" },
+      { en: "File Operations (File I/O)", am: "የፋይል ስራዎች" },
     ],
   },
 ] as const;
@@ -399,7 +386,7 @@ const marqueeItems = [
   { en: "🌱 Beginner Friendly", am: "🌱 ለጀማሪዎች ምቹ" },
   { en: "🔬 Advanced Topics", am: "🔬 ከፍተኛ አርእስቶች" },
   { en: "📱 Works on Mobile", am: "📱 በሞባይል ላይ ይሰራል" },
-  { en: "🆓 Free Forever", am: "🆓 ለዘለአለም ነፃ" },
+  { en: "💎 Premium Access", am: "💎 ፕሪሚየም ተደራሽነት" },
   { en: "⚡ Instant Feedback", am: "⚡ ፈጣን ምላሽ" },
 ];
 
@@ -1140,7 +1127,7 @@ export default function LandingPage() {
             <StatCard
               value={100}
               suffix="%"
-              label={curriculumLocale === "am" ? "ለመጀመር ነጻ" : "Free to start"}
+              label={curriculumLocale === "am" ? "አሁን ይጀምሩ" : "Start now"}
               start={statsInView}
             />
           </div>
@@ -1691,9 +1678,13 @@ export default function LandingPage() {
         <section className="py-28 px-6 sm:px-10 lg:px-16 bg-gray-50 dark:bg-white/[0.015] border-y border-gray-100 dark:border-white/5">
           <div className="max-w-screen-xl mx-auto">
             <div className="text-center mb-16">
-              <SectionLabel>Testimonials</SectionLabel>
+              <SectionLabel>
+                {curriculumLocale === "am" ? "ምስክርነቶች" : "Testimonials"}
+              </SectionLabel>
               <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
-                Real students. Real results.
+                {curriculumLocale === "am"
+                  ? "እውነተኛ ተማሪዎች። እውነተኛ ውጤቶች።"
+                  : "Real students. Real results."}
               </h2>
             </div>
 
@@ -1777,16 +1768,33 @@ export default function LandingPage() {
               </div>
               <div className="relative">
                 <p className="text-blue-600 dark:text-blue-400 text-sm font-semibold uppercase tracking-widest mb-6">
-                  The numbers speak
+                  {curriculumLocale === "am"
+                    ? "ቁጥሮቹ ይመሰክራሉ"
+                    : "The numbers speak"}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-0 sm:divide-x divide-gray-200 dark:divide-white/8">
                   {[
-                    { num: "500+", label: "Students learning right now" },
+                    {
+                      num: "500+",
+                      label:
+                        curriculumLocale === "am"
+                          ? "ተማሪዎች አሁን እየተማሩ ነው"
+                          : "Students learning right now",
+                    },
                     {
                       num: "3",
-                      label: "Placement levels (Beginner → Advanced)",
+                      label:
+                        curriculumLocale === "am"
+                          ? "የምደባ ደረጃዎች (ከጀማሪ → ከፍተኛ)"
+                          : "Placement levels (Beginner → Advanced)",
                     },
-                    { num: "100%", label: "Free, no hidden costs" },
+                    {
+                      num: "100%",
+                      label:
+                        curriculumLocale === "am"
+                          ? "ፕሪሚየም የትምህርት ልምድ"
+                          : "Premium learning experience",
+                    },
                   ].map((s) => (
                     <div key={s.label} className="px-8">
                       <motion.p
@@ -1813,24 +1821,32 @@ export default function LandingPage() {
         <section className="py-28 px-6 sm:px-10 lg:px-16">
           <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-16">
             <div className="lg:w-80 flex-shrink-0">
-              <SectionLabel>FAQ</SectionLabel>
+              <SectionLabel>
+                {curriculumLocale === "am" ? "ጥያቄዎች" : "FAQ"}
+              </SectionLabel>
               <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
-                Questions? We have answers.
+                {curriculumLocale === "am"
+                  ? "ጥያቄዎች አልዎት? መልስ አለን።"
+                  : "Questions? We have answers."}
               </h2>
               <p className="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                Still not sure? Reach out. We're happy to help.
+                {curriculumLocale === "am"
+                  ? "እርግጠኛ አልሆኑም? ያነጋግሩን። በተደስታ እንረዳዎታለን።"
+                  : "Still not sure? Reach out. We're happy to help."}
               </p>
               <Link
                 href="/faq"
                 className="mt-4 inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:gap-3 transition-all duration-200"
               >
-                View all FAQs →
+                {curriculumLocale === "am"
+                  ? "ሁሉንም ጥያቄዎች ይመልከቱ →"
+                  : "View all FAQs →"}
               </Link>
               <Link
                 href="/sign-up"
                 className="mt-4 inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:gap-3 transition-all duration-200"
               >
-                Get started free →
+                {curriculumLocale === "am" ? "አሁን ይጀምሩ →" : "Get started →"}
               </Link>
             </div>
             <div className="flex-1 rounded-2xl border border-gray-200 dark:border-white/8 bg-white dark:bg-white/[0.02] px-6 divide-y divide-gray-100 dark:divide-white/5">
@@ -1959,14 +1975,18 @@ export default function LandingPage() {
 
               {/* Right: copy */}
               <div className="flex-1 max-w-lg">
-                <SectionLabel>Gamification</SectionLabel>
+                <SectionLabel>
+                  {curriculumLocale === "am" ? "ጨዋታ / ሽልማቶች" : "Gamification"}
+                </SectionLabel>
                 <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
-                  Learning that keeps you coming back
+                  {curriculumLocale === "am"
+                    ? "እንዲቀጥሉ የሚያበረታታ ትምህርት"
+                    : "Learning that keeps you coming back"}
                 </h2>
                 <p className="mt-5 text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Every lesson earns XP. Every quiz earns coins. Maintain your
-                  streak and climb the leaderboard. The platform is designed to
-                  make consistent learning feel rewarding, not like a chore.
+                  {curriculumLocale === "am"
+                    ? "እያንዳንዱ ትምህርት XP ያስገኝልዎታል። ማሰልጠኛዎች ኮይኖችን ይሰጡዎታል። ያለማቋረጥ በመማር መሪዎች ሰሌዳ ላይ ይውጡ።"
+                    : "Every lesson earns XP. Every quiz earns coins. Maintain your streak and climb the leaderboard. The platform is designed to make consistent learning feel rewarding, not like a chore."}
                 </p>
                 <div className="mt-8 space-y-4">
                   {[
@@ -2012,20 +2032,30 @@ export default function LandingPage() {
             <div className="flex flex-col lg:flex-row gap-16 items-center">
               {/* Left: copy */}
               <div className="flex-1 max-w-lg">
-                <SectionLabel>Certificates</SectionLabel>
+                <SectionLabel>
+                  {curriculumLocale === "am" ? "ሰርተፊኬቶች" : "Certificates"}
+                </SectionLabel>
                 <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
-                  Proof of what you've learned
+                  {curriculumLocale === "am"
+                    ? "የተማሩበትን የሚያረጋግጥ"
+                    : "Proof of what you've learned"}
                 </h2>
                 <p className="mt-5 text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Complete a level and earn a PDF certificate with your name,
-                  level, and a unique verification ID. Share it on LinkedIn,
-                  send it to employers, or just keep it for yourself.
+                  {curriculumLocale === "am"
+                    ? "አንድ ደረጃ ሲያጠናቅቁ ስምዎ፣ ደረጃዎ እና መለያ ያለው የPDF ሰርተፊኬት ያገኛሉ። በሊንክድኢን ያጋሩ፣ ወይም ለእጩነት ይጠቀሙ።"
+                    : "Complete a level and earn a PDF certificate with your name, level, and a unique verification ID. Share it on LinkedIn, send it to employers, or just keep it for yourself."}
                 </p>
                 <div className="mt-8 space-y-3">
                   {[
-                    "Unique verification URL. Anyone can confirm it's real",
-                    "PDF download, ready to attach to any application",
-                    "Separate certificate for each level completed",
+                    curriculumLocale === "am"
+                      ? "ልዩ መለያ ቁጥር። ማንም ሰው እውነተኛነቱን ማረጋገጥ ይችላል"
+                      : "Unique verification URL. Anyone can confirm it's real",
+                    curriculumLocale === "am"
+                      ? "ለPDF ማውረድ የሚዘጋጅ"
+                      : "PDF download, ready to attach to any application",
+                    curriculumLocale === "am"
+                      ? "ለእያንዳንዱ ደረጃ የተለየ ሰርተፊኬት"
+                      : "Separate certificate for each level completed",
                   ].map((point) => (
                     <div key={point} className="flex items-start gap-3">
                       <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
@@ -2039,7 +2069,9 @@ export default function LandingPage() {
                   href="/sign-up"
                   className="mt-8 inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:gap-3 transition-all duration-200"
                 >
-                  Start earning your certificate →
+                  {curriculumLocale === "am"
+                    ? "ሰርተፊኬትዎን ማግኘት ይጀምሩ →"
+                    : "Start earning your certificate →"}
                 </Link>
               </div>
 
@@ -2060,7 +2092,7 @@ export default function LandingPage() {
                         />
                         <div>
                           <p className="text-white font-semibold text-sm leading-snug">
-                            ACLP Learning Platform
+                            Afro DevHub Learning Platform
                           </p>
                         </div>
                       </div>
@@ -2077,7 +2109,7 @@ export default function LandingPage() {
                         This certifies that
                       </p>
                       <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                        ACLP (example)
+                        Afro DevHub (example)
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
                         has successfully completed the
@@ -2123,28 +2155,35 @@ export default function LandingPage() {
               <div className="relative flex flex-col md:flex-row items-center justify-between gap-10 px-10 sm:px-16 py-16">
                 <div className="text-center md:text-left">
                   <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
-                    Start learning today.
+                    {curriculumLocale === "am"
+                      ? "ትምህርትዎን ዛሬ ይጀምሩ።"
+                      : "Start learning today."}
                   </h2>
                   <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-md">
-                    Free forever. No credit card. No setup. Just open your
-                    browser and write your first program in Amharic.
+                    {curriculumLocale === "am"
+                      ? "ፕሪሚየም ትምህርት። ደህንነቱ የተጠበቀ ክፍያ። ምንም ማስተካከያ አያስፈልግም። በቀላሉ ይክፈቱና ኮድ ይፃፉ።"
+                      : "Premium learning. Secure payment. No setup. Just open your browser and write your first program in Amharic."}
                   </p>
                   <div className="mt-5 flex flex-wrap gap-4 justify-center md:justify-start text-sm text-gray-500 dark:text-gray-400">
                     <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4 text-green-500" />{" "}
-                      Bilingual lessons
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-green-500" /> Live
-                      compiler
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-green-500" /> AI
-                      tutor
+                      {curriculumLocale === "am"
+                        ? "በሁለት ቋንቋ"
+                        : "Bilingual lessons"}
                     </span>
                     <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4 text-green-500" />{" "}
-                      Certificates
+                      {curriculumLocale === "am"
+                        ? "ላይቭ ኮምፓይለር"
+                        : "Live compiler"}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />{" "}
+                      {curriculumLocale === "am" ? "AI አስጠኚ" : "AI tutor"}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />{" "}
+                      {curriculumLocale === "am" ? "ሰርተፊኬቶች" : "Certificates"}
                     </span>
                   </div>
                 </div>
@@ -2154,7 +2193,9 @@ export default function LandingPage() {
                       href="/dashboard"
                       className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-blue-600 text-white font-bold text-base hover:bg-blue-500 transition-all duration-200 shadow-md shadow-blue-500/15 hover:-translate-y-0.5 whitespace-nowrap"
                     >
-                      Go to Dashboard →
+                      {curriculumLocale === "am"
+                        ? "ወደ ዳሽቦርድ ይሂዱ →"
+                        : "Go to Dashboard →"}
                     </Link>
                   ) : (
                     <>
@@ -2162,13 +2203,17 @@ export default function LandingPage() {
                         href="/sign-up"
                         className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-blue-600 text-white font-bold text-base hover:bg-blue-500 transition-all duration-200 shadow-md shadow-blue-500/15 hover:-translate-y-0.5 whitespace-nowrap"
                       >
-                        Create free account →
+                        {curriculumLocale === "am"
+                          ? "አካውንት ይፍጠሩ →"
+                          : "Create account →"}
                       </Link>
                       <Link
                         href="/sign-in"
                         className="inline-flex items-center justify-center px-8 py-4 rounded-xl border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 font-semibold text-base hover:bg-gray-50 dark:hover:bg-white/5 transition-colors whitespace-nowrap text-center"
                       >
-                        Already have an account? Sign in
+                        {curriculumLocale === "am"
+                          ? "ባለ አካውንት ነዎት? እዚህ ይግቡ"
+                          : "Already have an account? Sign in"}
                       </Link>
                     </>
                   )}
