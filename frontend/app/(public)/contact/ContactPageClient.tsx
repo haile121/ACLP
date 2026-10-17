@@ -42,7 +42,7 @@ export default function ContactPageClient() {
 
   const openMailto = () => {
     const subject = encodeURIComponent(
-      `ACLP — message from ${name || (am ? "ጎብኚ" : "visitor")}`,
+      `Afro DevHub — message from ${name || (am ? "ጎብኚ" : "visitor")}`,
     );
     const body = encodeURIComponent(
       `${message}\n\n---\n${am ? "ስም" : "Name"}: ${name || "(not provided)"}\n${am ? "የመልስ ኢሜይል" : "Reply-to"}: ${email || "(not provided)"}`,
