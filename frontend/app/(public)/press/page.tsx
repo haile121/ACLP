@@ -3,7 +3,7 @@ import PressPageClient from './PressPageClient';
 
 export const metadata: Metadata = {
   title: 'Press',
-  description: 'Press and media resources for ACLP.',
+  description: 'Press and media resources for Afro DevHub.',
 };
 
 export default function PressPage() {
