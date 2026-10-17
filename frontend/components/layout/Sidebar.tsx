@@ -60,7 +60,6 @@ const adminPanelLink = {
 
 const adminNavItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Lessons", href: "/admin/lessons", icon: BookOpen },
   { label: "Track resources", href: "/admin/track-resources", icon: Video },
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Moderation", href: "/admin/moderation", icon: ShieldAlert },
