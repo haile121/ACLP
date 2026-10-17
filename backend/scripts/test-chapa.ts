@@ -19,7 +19,7 @@ async function main() {
     callback_url: "http://localhost:4000/api/payment/chapa/verify?tx_ref=test",
     return_url: "http://localhost:4000/api/payment/chapa/verify?tx_ref=test",
     customization: {
-      title: "Unlock ACLP Course",
+      title: "Unlock Afro DevHub Course",
       description: "Pay to unlock full access to the course chapters",
     },
   };
