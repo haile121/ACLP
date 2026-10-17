@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
-import PricingPageClient from './PricingPageClient';
+import type { Metadata } from "next";
+import PricingPageClient from "./PricingPageClient";
 
 export const metadata: Metadata = {
-  title: 'Pricing',
-  description: 'ACLP is free forever—full lessons, compiler, AI tutor, and certificates.',
+  title: "Pricing",
+  description:
+    "Afro DevHub offers premium access to full lessons, compiler, AI tutor, and certificates.",
 };
 
 export default function PricingPage() {
