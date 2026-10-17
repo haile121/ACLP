@@ -1,4 +1,4 @@
-# ACLP
+# Afro DevHub
 
 Bilingual (Amharic / English) learning platform for **C++** structured reading lessons, placement tests, chapter quizzes, module finals, verified certificates, a live compiler, gamification (XP, streaks, coins), and an AI tutor.
 
