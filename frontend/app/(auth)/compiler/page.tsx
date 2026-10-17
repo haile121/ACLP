@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { compilerApi, type CompilerResult } from '@/lib/api';
-import { useDialog } from '@/components/ui/DialogProvider';
-import { Button } from '@/components/ui/Button';
-import { Spinner } from '@/components/ui/Spinner';
+import { useState } from "react";
+import { compilerApi, type CompilerResult } from "@/lib/api";
+import { useDialog } from "@/components/ui/DialogProvider";
+import { Button } from "@/components/ui/Button";
+import { Spinner } from "@/components/ui/Spinner";
 
 const SNIPPET = `#include <iostream>
 using namespace std;
@@ -25,10 +25,14 @@ export default function CompilerPage() {
     setRunning(true);
     setResult(null);
     try {
-      const res = await compilerApi.run(code, 'cpp');
+      const res = await compilerApi.run(code, "cpp");
       setResult(res.data);
     } catch {
-      show({ variant: 'error', title: 'Compiler Error', message: 'Failed to reach the compiler service.' });
+      show({
+        variant: "error",
+        title: "Compiler Error",
+        message: "Failed to reach the compiler service.",
+      });
     } finally {
       setRunning(false);
     }
@@ -40,8 +44,12 @@ export default function CompilerPage() {
     <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col gap-4 h-[calc(100vh-4rem)]">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">C++ compiler</h1>
-          <span className="text-sm text-gray-600 dark:text-gray-400">GCC in the cloud</span>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            C++ compiler
+          </h1>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            GCC in the cloud
+          </span>
         </div>
         <Button onClick={handleRun} disabled={running} size="sm">
           {running ? (
@@ -50,7 +58,7 @@ export default function CompilerPage() {
               &nbsp;Running…
             </>
           ) : (
-            '▶ Run'
+            "▶ Run"
           )}
         </Button>
       </div>
@@ -76,23 +84,31 @@ export default function CompilerPage() {
             <div
               className={`flex-1 font-mono text-sm rounded-xl border p-4 overflow-auto whitespace-pre-wrap min-h-[120px] ${
                 result?.timedOut
-                  ? 'border-yellow-500 bg-yellow-950 text-yellow-300'
+                  ? "border-yellow-500 bg-yellow-950 text-yellow-300"
                   : hasError
-                    ? 'border-red-500 bg-red-950 text-red-300'
-                    : 'border-gray-700 bg-gray-950 text-gray-200'
+                    ? "border-red-500 bg-red-950 text-red-300"
+                    : "border-gray-700 bg-gray-950 text-gray-200"
               }`}
             >
               {!result && !running && (
-                <span className="text-gray-600">Run your code to see output here.</span>
+                <span className="text-gray-600">
+                  Run your code to see output here.
+                </span>
               )}
               {running && <span className="text-gray-500">Running…</span>}
               {result?.timedOut && (
-                <span className="text-yellow-400">⏱ Execution timed out (10s limit exceeded)</span>
+                <span className="text-yellow-400">
+                  ⏱ Execution timed out (10s limit exceeded)
+                </span>
               )}
               {result && !result.timedOut && (
                 <>
-                  {result.stdout && <span className="text-gray-200">{result.stdout}</span>}
-                  {result.stderr && <span className="text-red-400">{result.stderr}</span>}
+                  {result.stdout && (
+                    <span className="text-gray-200">{result.stdout}</span>
+                  )}
+                  {result.stderr && (
+                    <span className="text-red-400">{result.stderr}</span>
+                  )}
                   {!result.stdout && !result.stderr && (
                     <span className="text-gray-500">(no output)</span>
                   )}
@@ -101,8 +117,12 @@ export default function CompilerPage() {
             </div>
             {result && !result.timedOut && (
               <p className="text-xs text-gray-500 mt-1">
-                Exit code:{' '}
-                <span className={result.exitCode === 0 ? 'text-green-400' : 'text-red-400'}>
+                Exit code:{" "}
+                <span
+                  className={
+                    result.exitCode === 0 ? "text-green-400" : "text-red-400"
+                  }
+                >
                   {result.exitCode}
                 </span>
               </p>
