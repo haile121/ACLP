@@ -25,6 +25,6 @@ export default function LessonsPage() {
 }
 
 export const metadata = {
-  title: 'Lessons | ACLP',
+  title: 'Lessons | Afro DevHub',
   description: CHAPTER_1.descriptionEn,
 };
