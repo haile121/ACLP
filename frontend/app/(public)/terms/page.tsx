@@ -3,7 +3,7 @@ import TermsPageClient from './TermsPageClient';
 
 export const metadata: Metadata = {
   title: 'Terms',
-  description: 'Terms of service for using the ACLP learning platform.',
+  description: 'Terms of service for using the Afro DevHub learning platform.',
 };
 
 export default function TermsPage() {
