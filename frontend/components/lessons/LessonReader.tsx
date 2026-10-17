@@ -13,6 +13,8 @@ import {
   ChevronRight,
   Lock,
   Sparkles,
+  Copy,
+  Terminal,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { CollapsibleSection } from "@/components/ui/CollapsibleSection";
@@ -45,6 +47,75 @@ const notoEthiopic = Noto_Sans_Ethiopic({
 function estimateReadMinutes(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
+}
+
+function CustomBodyRenderer({ body }: { body: string }) {
+  const parts = body.split("```");
+
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (index % 2 === 0) {
+          // Plain text
+          return <span key={index}>{part}</span>;
+        } else {
+          // Code block
+          // Remove the first line (e.g. "cpp")
+          const newlineIdx = part.indexOf("\n");
+          const language = part.slice(0, newlineIdx).trim();
+          const code = part.slice(newlineIdx + 1).replace(/\n$/, "");
+
+          return <CodeBlock key={index} code={code} language={language} />;
+        }
+      })}
+    </>
+  );
+}
+
+function CodeBlock({ code, language }: { code: string; language: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="my-6 rounded-xl overflow-hidden bg-gray-900 border border-gray-800 ring-1 ring-white/10 shadow-lg">
+      <div className="flex items-center justify-between px-4 py-2 bg-gray-950 border-b border-gray-800">
+        <span className="text-xs font-semibold text-gray-400 font-mono tracking-wider uppercase">
+          {language || "CODE"}
+        </span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleCopy}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-300 hover:text-white bg-gray-800 hover:bg-gray-700 rounded-md transition-colors"
+            title="Copy Code"
+          >
+            {copied ? (
+              <Check className="h-3.5 w-3.5 text-emerald-400" />
+            ) : (
+              <Copy className="h-3.5 w-3.5" />
+            )}
+            {copied ? "Copied!" : "Copy"}
+          </button>
+          <Link
+            href="/compiler"
+            target="_blank"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-blue-300 hover:text-blue-200 bg-blue-900/40 hover:bg-blue-900/60 rounded-md transition-colors"
+            title="Open in Compiler"
+          >
+            <Terminal className="h-3.5 w-3.5" />
+            Run
+          </Link>
+        </div>
+      </div>
+      <div className="p-4 overflow-x-auto text-[14px] sm:text-[15px] leading-relaxed font-mono text-gray-300 bg-[#0c1220]">
+        <code>{code}</code>
+      </div>
+    </div>
+  );
 }
 
 interface LessonReaderProps {
@@ -341,11 +412,11 @@ export function LessonReader({ lessonId, meta, body }: LessonReaderProps) {
                   className={cn(
                     "whitespace-pre-wrap text-[16px] sm:text-[17px] leading-[1.75] sm:leading-[1.8]",
                     "text-gray-800 dark:text-gray-200 break-words selection:bg-blue-200/80 dark:selection:bg-blue-900/50",
-                    "max-w-[65ch]",
+                    "max-w-[65ch] w-full block",
                     notoEthiopic.className,
                   )}
                 >
-                  {body}
+                  <CustomBodyRenderer body={body} />
                 </div>
               </div>
             </article>
