@@ -1,0 +1,71 @@
+Project: Bank Account System
+
+OOP-based bank system with deposit, withdraw, and balance tracking using structures/classes.
+
+በዚህ ፕሮጀክት ውስጥ የባንክ አካውንት ሲስተምን እንሰራለን። ገንዘብ ማስገባት፣ ማውጣት እና ቀሪ ሂሳብን መከታተል ያስችላል።
+
+Requirements:
+- Create an Account structure/class to hold account data
+- Implement functions/methods for deposit and withdraw
+- Ensure balance doesn't go below 0 during withdraw
+- Display balance dynamically
+
+አስፈላጊ ነገሮች፡
+- የአካውንት መረጃዎችን የሚይዝ Account ስትራክቸር (Structure) ፍጠር
+- ገንዘብ ለማስገባት እና ለማውጣት የሚያስችሉ የገንዘብ ዝውውር ተግባራት (Functions) ፃፍ
+- ገንዘብ ሲወጣ ቀሪ ሂሳብ ከ 0 በታች እንዳይሆን ተቆጣጠር
+- ቀሪ ሂሳብን አሳይ
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct BankAccount {
+    string accountHolder;
+    double balance;
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            cout << "Deposited: $" << amount << "\n";
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            cout << "Withdrew: $" << amount << "\n";
+        } else {
+            cout << "Failed to withdraw $" << amount << " - Insufficient funds!\n";
+        }
+    }
+
+    void showBalance() {
+        cout << "Current Balance for " << accountHolder << ": $" << balance << "\n";
+    }
+};
+
+int main() {
+    BankAccount myAccount;
+    myAccount.accountHolder = "Abebe";
+    myAccount.balance = 50.0; // Initial balance
+
+    cout << "Welcome to the Bank System\n";
+    cout << "ወደ ባንክ ሲስተም እንኳን በደህና መጡ\n\n";
+
+    myAccount.showBalance();
+    
+    // Demonstrate usage
+    myAccount.deposit(120.0);
+    myAccount.withdraw(30.0);
+    
+    // Attempting to withdraw more than available
+    myAccount.withdraw(200.0);
+    
+    myAccount.showBalance();
+
+    cout << "\nThank you for banking with us!\n";
+    return 0;
+}
+```
