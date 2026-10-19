@@ -61,15 +61,27 @@ const app = express();
 const PORT = process.env.PORT ?? 4000;
 
 app.use(helmet());
+const configuredFrontendUrl = process.env.FRONTEND_URL?.trim().replace(/\/+$/, '');
 const allowedCorsOrigins = new Set([
-  process.env.FRONTEND_URL ?? "http://localhost:3000",
+  ...(configuredFrontendUrl ? [configuredFrontendUrl] : []),
   "http://localhost:3000",
   "http://127.0.0.1:3000",
 ]);
+
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowedCorsOrigins.has(origin)) return cb(null, true);
+      if (!origin) return cb(null, true);
+      if (allowedCorsOrigins.has(origin)) return cb(null, true);
+      // Automatically permit any Vercel deployment (e.g. *.vercel.app)
+      try {
+        const url = new URL(origin);
+        if (url.hostname.endsWith('.vercel.app')) {
+          return cb(null, true);
+        }
+      } catch {
+        // invalid URL
+      }
       return cb(null, false);
     },
     credentials: true,

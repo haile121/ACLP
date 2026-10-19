@@ -54,9 +54,12 @@ export default function SignInPage() {
         router.push('/dashboard');
       }
     } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: string } }; message?: string };
       const message =
-        (err as { response?: { data?: { error?: string } } })?.response?.data?.error ??
-        'Invalid email or password.';
+        axiosErr?.response?.data?.error ??
+        (axiosErr?.message === 'Network Error'
+          ? 'Unable to connect to backend server. Please check CORS / FRONTEND_URL configuration.'
+          : axiosErr?.message ?? 'Invalid email or password.');
       show({ variant: 'error', title: 'Sign in failed', message });
     } finally {
       setLoading(false);
