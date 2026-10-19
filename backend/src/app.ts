@@ -90,6 +90,14 @@ app.use(
 app.use(express.json());
 app.use(cookieParser() as any);
 
+// Normalize duplicate /api/api prefixes if frontend baseURL includes an extra /api
+app.use((req, _res, next) => {
+  if (req.url.startsWith("/api/api/")) {
+    req.url = req.url.replace(/^\/api\/api\//, "/api/");
+  }
+  next();
+});
+
 // Serve certificate PDFs statically
 app.use("/certificates", express.static("public/certificates"));
 

@@ -23,8 +23,15 @@ export interface AssessmentResult {
   breakdown?: { beginner: number; intermediate: number; advanced: number };
 }
 
+export const getApiBaseUrl = (): string => {
+  return (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000")
+    .trim()
+    .replace(/\/+$/, "")
+    .replace(/\/api$/, "");
+};
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
+  baseURL: getApiBaseUrl(),
   withCredentials: true,
 });
 
@@ -242,9 +249,7 @@ export const courseTrackQuizzesApi = {
 /** Backend serves PDFs and static files under the API origin (e.g. /certificates/...). */
 export function backendPublicUrl(path: string): string {
   if (path.startsWith("http")) return path;
-  const base = (
-    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"
-  ).replace(/\/$/, "");
+  const base = getApiBaseUrl();
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 

@@ -35,7 +35,10 @@ class ChatWebSocket {
     this.intentionalClose = false;
     this.lastToken = token;
 
-    const wsUrl = (process.env.NEXT_PUBLIC_WS_URL ?? 'ws://localhost:4000') + `/ws/chat?token=${token}`;
+    const baseWs = (process.env.NEXT_PUBLIC_WS_URL ?? 'ws://localhost:4000')
+      .trim()
+      .replace(/\/+$/, '');
+    const wsUrl = `${baseWs}/ws/chat?token=${token}`;
     this.ws = new WebSocket(wsUrl);
 
     this.ws.onmessage = (event) => {
